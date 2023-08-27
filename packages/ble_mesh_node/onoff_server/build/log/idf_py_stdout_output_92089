@@ -1,0 +1,3 @@
+-- IDF_TARGET is not set, guessed 'esp32' from sdkconfig '/home/jayanta/esp/esp-idf/vendor/packages/ble_mesh_node/onoff_server/sdkconfig'
+-- Found Git: /usr/bin/git (found version "2.39.2") 
+-- Configuring incomplete, errors occurred!

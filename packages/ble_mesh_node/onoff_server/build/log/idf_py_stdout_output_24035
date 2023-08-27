@@ -1,0 +1,58 @@
+[0/1] Re-running CMake...
+-- Building ESP-IDF components for target esp32
+-- Project sdkconfig file /home/jayanta/esp/esp-idf/vendor/packages/ble_mesh_node/onoff_server/sdkconfig
+Loading defaults file /home/jayanta/esp/esp-idf/vendor/packages/ble_mesh_node/onoff_server/sdkconfig.defaults...
+-- Compiler supported targets: xtensa-esp32-elf
+-- App "onoff_server" version: v5.2-dev-2383-g82cceabc6e
+-- Adding linker script /home/jayanta/esp/esp-idf/vendor/packages/ble_mesh_node/onoff_server/build/esp-idf/esp_system/ld/memory.ld
+-- Adding linker script /home/jayanta/esp/esp-idf/components/esp_system/ld/esp32/sections.ld.in
+-- Adding linker script /home/jayanta/esp/esp-idf/components/esp_rom/esp32/ld/esp32.rom.ld
+-- Adding linker script /home/jayanta/esp/esp-idf/components/esp_rom/esp32/ld/esp32.rom.api.ld
+-- Adding linker script /home/jayanta/esp/esp-idf/components/esp_rom/esp32/ld/esp32.rom.libgcc.ld
+-- Adding linker script /home/jayanta/esp/esp-idf/components/esp_rom/esp32/ld/esp32.rom.newlib-data.ld
+-- Adding linker script /home/jayanta/esp/esp-idf/components/esp_rom/esp32/ld/esp32.rom.syscalls.ld
+-- Adding linker script /home/jayanta/esp/esp-idf/components/esp_rom/esp32/ld/esp32.rom.newlib-funcs.ld
+-- Adding linker script /home/jayanta/esp/esp-idf/components/soc/esp32/ld/esp32.peripherals.ld
+-- Components: app_trace app_update bootloader bootloader_support bt cmock console cxx driver efuse esp-tls esp_adc esp_app_format esp_bootloader_format esp_coex esp_common esp_eth esp_event esp_gdbstub esp_hid esp_http_client esp_http_server esp_https_ota esp_https_server esp_hw_support esp_lcd esp_local_ctrl esp_mm esp_netif esp_netif_stack esp_partition esp_phy esp_pm esp_psram esp_ringbuf esp_rom esp_system esp_timer esp_wifi espcoredump esptool_py example_init fatfs freertos hal heap http_parser idf_test ieee802154 json log lwip main mbedtls mqtt newlib nvs_flash nvs_sec_provider openthread partition_table perfmon protobuf-c protocomm pthread sdmmc soc spi_flash spiffs ssd1306 tcp_transport ulp unity usb vfs wear_levelling wifi_provisioning wpa_supplicant xtensa
+-- Component paths: /home/jayanta/esp/esp-idf/components/app_trace /home/jayanta/esp/esp-idf/components/app_update /home/jayanta/esp/esp-idf/components/bootloader /home/jayanta/esp/esp-idf/components/bootloader_support /home/jayanta/esp/esp-idf/components/bt /home/jayanta/esp/esp-idf/components/cmock /home/jayanta/esp/esp-idf/components/console /home/jayanta/esp/esp-idf/components/cxx /home/jayanta/esp/esp-idf/components/driver /home/jayanta/esp/esp-idf/components/efuse /home/jayanta/esp/esp-idf/components/esp-tls /home/jayanta/esp/esp-idf/components/esp_adc /home/jayanta/esp/esp-idf/components/esp_app_format /home/jayanta/esp/esp-idf/components/esp_bootloader_format /home/jayanta/esp/esp-idf/components/esp_coex /home/jayanta/esp/esp-idf/components/esp_common /home/jayanta/esp/esp-idf/components/esp_eth /home/jayanta/esp/esp-idf/components/esp_event /home/jayanta/esp/esp-idf/components/esp_gdbstub /home/jayanta/esp/esp-idf/components/esp_hid /home/jayanta/esp/esp-idf/components/esp_http_client /home/jayanta/esp/esp-idf/components/esp_http_server /home/jayanta/esp/esp-idf/components/esp_https_ota /home/jayanta/esp/esp-idf/components/esp_https_server /home/jayanta/esp/esp-idf/components/esp_hw_support /home/jayanta/esp/esp-idf/components/esp_lcd /home/jayanta/esp/esp-idf/components/esp_local_ctrl /home/jayanta/esp/esp-idf/components/esp_mm /home/jayanta/esp/esp-idf/components/esp_netif /home/jayanta/esp/esp-idf/components/esp_netif_stack /home/jayanta/esp/esp-idf/components/esp_partition /home/jayanta/esp/esp-idf/components/esp_phy /home/jayanta/esp/esp-idf/components/esp_pm /home/jayanta/esp/esp-idf/components/esp_psram /home/jayanta/esp/esp-idf/components/esp_ringbuf /home/jayanta/esp/esp-idf/components/esp_rom /home/jayanta/esp/esp-idf/components/esp_system /home/jayanta/esp/esp-idf/components/esp_timer /home/jayanta/esp/esp-idf/components/esp_wifi /home/jayanta/esp/esp-idf/components/espcoredump /home/jayanta/esp/esp-idf/components/esptool_py /home/jayanta/esp/esp-idf/vendor/packages/ble_mesh_node/onoff_server/components/example_init /home/jayanta/esp/esp-idf/components/fatfs /home/jayanta/esp/esp-idf/components/freertos /home/jayanta/esp/esp-idf/components/hal /home/jayanta/esp/esp-idf/components/heap /home/jayanta/esp/esp-idf/components/http_parser /home/jayanta/esp/esp-idf/components/idf_test /home/jayanta/esp/esp-idf/components/ieee802154 /home/jayanta/esp/esp-idf/components/json /home/jayanta/esp/esp-idf/components/log /home/jayanta/esp/esp-idf/components/lwip /home/jayanta/esp/esp-idf/vendor/packages/ble_mesh_node/onoff_server/main /home/jayanta/esp/esp-idf/components/mbedtls /home/jayanta/esp/esp-idf/components/mqtt /home/jayanta/esp/esp-idf/components/newlib /home/jayanta/esp/esp-idf/components/nvs_flash /home/jayanta/esp/esp-idf/components/nvs_sec_provider /home/jayanta/esp/esp-idf/components/openthread /home/jayanta/esp/esp-idf/components/partition_table /home/jayanta/esp/esp-idf/components/perfmon /home/jayanta/esp/esp-idf/components/protobuf-c /home/jayanta/esp/esp-idf/components/protocomm /home/jayanta/esp/esp-idf/components/pthread /home/jayanta/esp/esp-idf/components/sdmmc /home/jayanta/esp/esp-idf/components/soc /home/jayanta/esp/esp-idf/components/spi_flash /home/jayanta/esp/esp-idf/components/spiffs /home/jayanta/esp/esp-idf/vendor/packages/ble_mesh_node/onoff_server/components/ssd1306 /home/jayanta/esp/esp-idf/components/tcp_transport /home/jayanta/esp/esp-idf/components/ulp /home/jayanta/esp/esp-idf/components/unity /home/jayanta/esp/esp-idf/components/usb /home/jayanta/esp/esp-idf/components/vfs /home/jayanta/esp/esp-idf/components/wear_levelling /home/jayanta/esp/esp-idf/components/wifi_provisioning /home/jayanta/esp/esp-idf/components/wpa_supplicant /home/jayanta/esp/esp-idf/components/xtensa
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/jayanta/esp/esp-idf/vendor/packages/ble_mesh_node/onoff_server/build
+[1/18] Building C object esp-idf/main/CMakeFiles/__idf_main.dir/board.c.obj
+[2/18] Performing build step for 'bootloader'
+[1/1] cd /home/jayanta/esp/esp-idf/vendor/packages/ble_mesh_node/onoff_server/build/bootloader/esp-idf/esptool_py && /home/jayanta/.espressif/python_env/idf5.2_py3.11_env/bin/python /home/jayanta/esp/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x1000 /home/jayanta/esp/esp-idf/vendor/packages/ble_mesh_node/onoff_server/build/bootloader/bootloader.bin
+Bootloader binary size 0x6910 bytes. 0x6f0 bytes (6%) free.
+[3/18] No install step for 'bootloader'
+[4/18] Building C object esp-idf/ssd1306/CMakeFiles/__idf_ssd1306.dir/ssd1306_i2c.c.obj
+[5/18] Completed 'bootloader'
+[6/18] Building C object esp-idf/example_init/CMakeFiles/__idf_example_init.dir/ble_mesh_example_init.c.obj
+[7/18] Building C object esp-idf/main/CMakeFiles/__idf_main.dir/oled/src/oled_util.c.obj
+[8/18] Building C object esp-idf/ssd1306/CMakeFiles/__idf_ssd1306.dir/ssd1306_spi.c.obj
+[9/18] Linking C static library esp-idf/example_init/libexample_init.a
+[10/18] Building C object esp-idf/main/CMakeFiles/__idf_main.dir/main.c.obj
+/home/jayanta/esp/esp-idf/vendor/packages/ble_mesh_node/onoff_server/main/main.c: In function 'app_main':
+/home/jayanta/esp/esp-idf/vendor/packages/ble_mesh_node/onoff_server/main/main.c:371:47: warning: passing argument 3 of 'pthread_create' from incompatible pointer type [-Wincompatible-pointer-types]
+  371 |         pthread_create(&oled_bt_thread, NULL, init_animation, NULL);
+      |                                               ^~~~~~~~~~~~~~
+      |                                               |
+      |                                               void (*)()
+In file included from /home/jayanta/esp/esp-idf/components/newlib/platform_include/pthread.h:13,
+                 from /home/jayanta/esp/esp-idf/vendor/packages/ble_mesh_node/onoff_server/main/oled/include/oled_util.h:13,
+                 from /home/jayanta/esp/esp-idf/vendor/packages/ble_mesh_node/onoff_server/main/main.c:26:
+/home/jayanta/.espressif/tools/xtensa-esp32-elf/esp-12.2.0_20230208/xtensa-esp32-elf/xtensa-esp32-elf/sys-include/pthread.h:243:33: note: expected 'void * (*)(void *)' but argument is of type 'void (*)()'
+  243 |                         void *(*__start_routine)(void *), void *__arg);
+      |                         ~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+[11/18] Building C object esp-idf/ssd1306/CMakeFiles/__idf_ssd1306.dir/ssd1306.c.obj
+[12/18] Linking C static library esp-idf/ssd1306/libssd1306.a
+[13/18] Linking C static library esp-idf/main/libmain.a
+[14/18] Generating ld/sections.ld
+[15/18] Building C object CMakeFiles/onoff_server.elf.dir/project_elf_src_esp32.c.obj
+[16/18] Linking CXX executable onoff_server.elf
+[17/18] Generating binary image from built executable
+esptool.py v4.7.dev1
+Creating esp32 image...
+Merged 26 ELF sections
+Successfully created esp32 image.
+Generated /home/jayanta/esp/esp-idf/vendor/packages/ble_mesh_node/onoff_server/build/onoff_server.bin
+[18/18] cd /home/jayanta/esp/esp-idf/vendor/packages/ble_mesh_node/onoff_server/build/esp-idf/esptool_py && /home/jayanta/.espressif/python_env/idf5.2_py3.11_env/bin/python /home/jayanta/esp/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 partition --type app /home/jayanta/esp/esp-idf/vendor/packages/ble_mesh_node/onoff_server/build/partition_table/partition-table.bin /home/jayanta/esp/esp-idf/vendor/packages/ble_mesh_node/onoff_server/build/onoff_server.bin
+onoff_server.bin binary size 0xf3110 bytes. Smallest app partition is 0x100000 bytes. 0xcef0 bytes (5%) free.

@@ -1,0 +1,41 @@
+CMake Error at /home/jayanta/esp/esp-idf/tools/cmake/component.cmake:224 (message):
+  CMake Warning (dev) at build_properties.temp.cmake:8:
+
+    Syntax Warning in cmake code at column 106
+
+  
+
+    Argument not separated from preceding token by whitespace.
+
+  Call Stack (most recent call first):
+
+    /home/jayanta/esp/esp-idf/tools/cmake/scripts/component_get_requirements.cmake:3 (include)
+
+  This warning is for project developers.  Use -Wno-dev to suppress it.
+
+  
+
+  CMake Error at /usr/share/cmake-3.25/Modules/ExternalProject.cmake:1256
+  (define_property):
+
+    define_property command is not scriptable
+
+  Call Stack (most recent call first):
+
+    /home/jayanta/esp/esp-idf/tools/cmake/kconfig.cmake:1 (include)
+    /home/jayanta/esp/esp-idf/tools/cmake/idf.cmake:43 (include)
+    /home/jayanta/esp/esp-idf/tools/cmake/project.cmake:29 (include)
+    /home/jayanta/esp/esp-idf/vendor/components/esp8266-oled-ssd1306/CMakeLists.txt:6 (include)
+    /home/jayanta/esp/esp-idf/tools/cmake/scripts/component_get_requirements.cmake:106 (include)
+    /home/jayanta/esp/esp-idf/tools/cmake/scripts/component_get_requirements.cmake:124 (__component_get_requirements)
+
+  
+
+  
+
+Call Stack (most recent call first):
+  /home/jayanta/esp/esp-idf/tools/cmake/build.cmake:578 (__component_get_requirements)
+  /home/jayanta/esp/esp-idf/tools/cmake/project.cmake:548 (idf_build_process)
+  CMakeLists.txt:8 (project)
+
+
