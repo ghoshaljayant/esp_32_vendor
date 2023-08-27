@@ -1,8 +1,0 @@
-CMake Error at /home/jayanta/esp/esp-idf/tools/cmake/project.cmake:350 (message):
-  Directory specified in EXTRA_COMPONENT_DIRS doesn't exist:
-  /home/jayanta/esp/esp-idf/vendor/packages/components
-Call Stack (most recent call first):
-  /home/jayanta/esp/esp-idf/tools/cmake/project.cmake:434 (__project_init)
-  CMakeLists.txt:8 (project)
-
-
