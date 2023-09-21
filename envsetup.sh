@@ -5,6 +5,8 @@ export VENDOR_PACKAGE="$VENDOR_HOME"/packages
 export EROOT="$(dirname "$VENDOR_HOME")"
 export ESP_IDF_HOME="$EROOT"/esp-idf
 
+[[ ! -d $ESP_IDF_HOME ]] && cd $EROOT && git clone https://github.com/espressif/esp-idf.git
+
 
 
 echo -e "EROOT\t\t:\t$EROOT"
