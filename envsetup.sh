@@ -7,7 +7,7 @@ export ESP_IDF_HOME="$EROOT"/esp-idf
 
 [[ ! -d $ESP_IDF_HOME ]] && cd $EROOT && git clone https://github.com/espressif/esp-idf.git 
 
-source $ESP_IDF_HOME/install.sh
+bash $ESP_IDF_HOME/install.sh
 
 
 
