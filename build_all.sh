@@ -6,7 +6,6 @@ source "$MY_PATH"/export.sh
 # check if ${VENODR_PACKAGE} path exists
 [[ ! -d $VENDOR_PACKAGE ]] && "ERROR: Please run esp_32_vendor/export.sh"
 
-
 # list all pacakges under ${VENODR_PACKAGE}
 package_array=()
 package_array_string=$(ls $VENDOR_PACKAGE)
@@ -22,6 +21,9 @@ echo ${package_path_array[@]}
 for package_path in "${package_path_array[@]}"
 do
   echo $package_path
+  if [ "$1" = "-fullclean" ];then
+    idf.py fullclean --project-dir $package_path
+  fi
   idf.py build --project-dir $package_path
 done
 
