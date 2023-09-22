@@ -15,6 +15,8 @@ export ESP_IDF_HOME="$EROOT"/esp-idf
 
 export IDF_BUILD_TARGET="esp32"
 
+export DEVICE_PORT="/dev/ttyACM0"
+
 
 alias eroot="cd $EROOT"
 alias build.sh="source $VENDOR_HOME/build.sh"
