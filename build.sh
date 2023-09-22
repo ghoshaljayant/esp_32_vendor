@@ -7,10 +7,9 @@ if [ "$1" = "-h" ];then
 fi
 
 MY_PATH=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-source "$MY_PATH"/envsetup.sh
 # check if ${VENODR_PACKAGE} is exported
 # check if ${VENODR_PACKAGE} path exists
-[[ ! -d $VENDOR_PACKAGE ]] && "ERROR: Please run esp_32_vendor/envsetup.sh"
+[[ ! -d $VENDOR_PACKAGE ]] && "ERROR: Please run esp_32_vendor/envsetup.sh" && return -1
 
 # list all pacakges under ${VENODR_PACKAGE}
 package_array=()
