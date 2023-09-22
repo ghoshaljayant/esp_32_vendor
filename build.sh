@@ -37,10 +37,15 @@ for package_path in "${package_path_array[@]}"
 do
 
   if [ "$requested_package_path" = "$package_path" ];then
-    echo $package_path
+
+    echo ">> executing: idf.py set-target $IDF_BUILD_TARGET --project-dir $package_path"
+    cd $package_path && idf.py set-target $IDF_BUILD_TARGET && cd -
     if [ "$2" = "--clean" ];then
+        echo ">> executing: idf.py fullclean --project-dir $package_path"
         idf.py fullclean --project-dir $package_path
     fi
+    echo ">> executing: idf.py build --project-dir $package_path"
     idf.py build --project-dir $package_path
+    
   fi
 done

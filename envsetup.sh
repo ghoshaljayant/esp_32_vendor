@@ -5,12 +5,16 @@ export VENDOR_PACKAGE="$VENDOR_HOME"/packages
 export EROOT="$(dirname "$VENDOR_HOME")"
 export ESP_IDF_HOME="$EROOT"/esp-idf
 
+export IDF_BUILD_TARGET="esp32"
+
+
 alias build.sh="source $VENDOR_HOME/build.sh"
 alias build_all.sh="source $VENDOR_HOME/build_all.sh"
 [[ ! -d $ESP_IDF_HOME ]] && cd $EROOT && git clone https://github.com/espressif/esp-idf.git && bash $ESP_IDF_HOME/install.sh
 
 echo "Running $ESP_IDF_HOME/export.sh ..."
 source $ESP_IDF_HOME/export.sh
+idf.py set-target esp32
 
 echo -e "EROOT\t\t:\t$EROOT"
 echo -e "ESP_IDF_HOME\t:\t$ESP_IDF_HOME"
