@@ -14,7 +14,6 @@ alias build_all.sh="source $VENDOR_HOME/build_all.sh"
 
 echo "Running $ESP_IDF_HOME/export.sh ..."
 source $ESP_IDF_HOME/export.sh
-idf.py set-target esp32
 
 echo -e "EROOT\t\t:\t$EROOT"
 echo -e "ESP_IDF_HOME\t:\t$ESP_IDF_HOME"

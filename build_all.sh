@@ -24,8 +24,12 @@ done
 # run idf.py build
 for package_path in "${package_path_array[@]}"
 do
-  echo ">> executing: idf.py set-target $IDF_BUILD_TARGET --project-dir $package_path"
-  cd $package_path && idf.py set-target $IDF_BUILD_TARGET && cd -
+
+  if [ -n "${IDF_BUILD_TARGET}" ];then
+    echo ">> executing: idf.py set-target $IDF_BUILD_TARGET --project-dir $package_path"
+    cd $package_path && idf.py set-target $IDF_BUILD_TARGET && cd -
+  fi
+
   if [ "$1" = "--clean" ];then
     echo ">> executing: idf.py fullclean --project-dir $package_path"
     idf.py fullclean --project-dir $package_path

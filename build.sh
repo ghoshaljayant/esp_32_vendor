@@ -38,8 +38,11 @@ do
 
   if [ "$requested_package_path" = "$package_path" ];then
 
-    echo ">> executing: idf.py set-target $IDF_BUILD_TARGET --project-dir $package_path"
-    cd $package_path && idf.py set-target $IDF_BUILD_TARGET && cd -
+    if [ -n "${IDF_BUILD_TARGET}" ];then
+      echo ">> executing: idf.py set-target $IDF_BUILD_TARGET --project-dir $package_path"
+      cd $package_path && idf.py set-target $IDF_BUILD_TARGET && cd -
+    fi
+
     if [ "$2" = "--clean" ];then
         echo ">> executing: idf.py fullclean --project-dir $package_path"
         idf.py fullclean --project-dir $package_path
