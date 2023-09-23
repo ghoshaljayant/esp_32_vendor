@@ -18,7 +18,7 @@
 #define OFF_OFF 404
 
 void oled_init(SSD1306_t* dev);
-void send_to_oled(char* text);
+// void send_to_oled(char* text);
 void set_animation(int reason);
 void init_animation();
 void center_align_wrap_text(char* text, char** lines);

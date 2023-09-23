@@ -105,9 +105,9 @@ void init_animation()
 				return;
 			default:
 				ssd1306_clear_screen(registered_oled_device, false);
-				vTaskDelay(1000 / portTICK_PERIOD_MS);
 				break;
 		}
+		vTaskDelay(1000 / portTICK_PERIOD_MS);
 	}
 }
 
@@ -167,15 +167,15 @@ return;
 }
 
 
-void send_to_oled(char* text)
-{
-#if OLED_ENABLE
-ESP_LOGI(TAG, "raw_text: %s", text);
-//ssd1306_clear_screen(registered_oled_device, false);
-//ssd1306_contrast(registered_oled_device, 0xff);
-#endif
-return;	
-}
+// void send_to_oled(char* text)
+// {
+// #if OLED_ENABLE
+// ESP_LOGI(TAG, "raw_text: %s", text);
+// //ssd1306_clear_screen(registered_oled_device, false);
+// //ssd1306_contrast(registered_oled_device, 0xff);
+// #endif
+// return;	
+// }
 
 void center_align_wrap_text(char* text, char** lines)
 {
