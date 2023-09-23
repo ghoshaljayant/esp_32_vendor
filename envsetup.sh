@@ -6,15 +6,12 @@ while [ -L "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symli
   SOURCE=$(readlink "$SOURCE")
   [[ $SOURCE != /* ]] && SOURCE=$DIR/$SOURCE # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
 done
+
 export VENDOR_HOME=$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )
-
 export VENDOR_PACKAGE="$VENDOR_HOME"/packages
-
 export EROOT="$(dirname "$VENDOR_HOME")"
 export ESP_IDF_HOME="$EROOT"/esp-idf
-
 export IDF_BUILD_TARGET="esp32"
-
 export DEVICE_PORT="/dev/ttyACM0"
 
 function set_alias()
