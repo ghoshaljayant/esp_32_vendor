@@ -22,6 +22,7 @@ alias eroot="cd $EROOT"
 alias build.sh="source $VENDOR_HOME/build.sh"
 alias build_all.sh="source $VENDOR_HOME/build_all.sh"
 alias flash.sh="source $VENDOR_HOME/flash.sh"
+alias push.sh="source $VENDOR_HOME/push.sh"
 
 [[ ! -d $ESP_IDF_HOME ]] && cd $EROOT && git clone https://github.com/espressif/esp-idf.git && bash $ESP_IDF_HOME/install.sh
 
