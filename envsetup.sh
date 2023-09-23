@@ -17,12 +17,11 @@ export IDF_BUILD_TARGET="esp32"
 
 export DEVICE_PORT="/dev/ttyACM0"
 
-
-alias eroot="cd $EROOT"
-alias build.sh="source $VENDOR_HOME/build.sh"
-alias build_all.sh="source $VENDOR_HOME/build_all.sh"
-alias flash.sh="source $VENDOR_HOME/flash.sh"
-alias push.sh="source $VENDOR_HOME/push.sh"
+function set_alias()
+{
+  alias "$1"="${@:2}"
+  echo -e "$(alias $1)"
+}
 
 [[ ! -d $ESP_IDF_HOME ]] && cd $EROOT && git clone https://github.com/espressif/esp-idf.git && bash $ESP_IDF_HOME/install.sh
 
@@ -33,3 +32,9 @@ echo -e "EROOT\t\t:\t$EROOT"
 echo -e "ESP_IDF_HOME\t:\t$ESP_IDF_HOME"
 echo -e "VENDOR_HOME\t:\t$VENDOR_HOME"
 echo -e "VENDOR_PACKAGE\t:\t$VENDOR_PACKAGE"
+
+set_alias eroot "cd $EROOT"
+set_alias build.sh "source $VENDOR_HOME/build.sh"
+set_alias build_all.sh "source $VENDOR_HOME/build_all.sh"
+set_alias flash.sh "source $VENDOR_HOME/flash.sh"
+set_alias push.sh "source $VENDOR_HOME/push.sh"
