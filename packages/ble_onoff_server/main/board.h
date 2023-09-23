@@ -31,6 +31,11 @@
 #define LED_BLUE GPIO_NUM_47
 #define IN1_YELLOW GPIO_NUM_16
 #define IN2_ORANGE GPIO_NUM_4
+
+#else
+#define LED_BLUE GPIO_NUM_2
+#define IN1_YELLOW GPIO_NUM_16
+#define IN2_ORANGE GPIO_NUM_4
 #endif
 
 #define GPIO_SET  1

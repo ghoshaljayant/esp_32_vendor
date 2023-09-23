@@ -1,5 +1,19 @@
 menu "Example Configuration"
 
+    choice PROJECT_TYPE
+        prompt "Project selection"
+        default EXTENDED_PROJECT
+        help
+            Select the option to choose the type of project. The default is EXTENDED
+
+        config EXAMPLE_PROJECT
+            bool "EXAMPLE"
+
+        config EXTENDED_PROJECT
+            bool "EXTENDED"
+    endchoice
+
+
     choice BLE_MESH_EXAMPLE_BOARD
         prompt "Board selection for BLE Mesh"
         default BLE_MESH_ESP_WROOM_32 if IDF_TARGET_ESP32

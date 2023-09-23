@@ -130,7 +130,6 @@ static void example_change_gpio_state(esp_ble_mesh_model_t *model,
     uint8_t elem_count = esp_ble_mesh_get_element_count();
     uint8_t i;
 
-    // TODO on/off from phone is UNICAST
     if (ESP_BLE_MESH_ADDR_IS_UNICAST(ctx->recv_dst)) {
         for (i = 0; i < elem_count; i++) {
             if (ctx->recv_dst == (primary_addr + i)) {
@@ -333,16 +332,21 @@ static esp_err_t ble_mesh_init(void)
     }
 
     ESP_LOGI(TAG, "BLE Mesh Node initialized");
-    send_to_oled("BLE mesh init success");
+
+    #if CONFIG_SSD1306_128x64
+        set_animation(100);
+    #endif //CONFIG_SSD1306_128x64
+
     gpio_operation(LED_BLUE, GPIO_SET);
-    set_animation(100);
     return err;
 }
 
 void app_main(void)
 {
-    oled_init(&oled_dev);
-    send_to_oled("Initializing...");
+    #if CONFIG_SSD1306_128x64
+        oled_init(&oled_dev);
+        send_to_oled("Initializing...");
+    #endif //CONFIG_SSD1306_128x64
     
     esp_err_t err;
 
@@ -370,6 +374,8 @@ void app_main(void)
     if (err) {
         ESP_LOGE(TAG, "Bluetooth mesh init failed (err %d)", err);
     }else{
+        #if CONFIG_SSD1306_128x64
         pthread_create(&oled_bt_thread, NULL, init_animation, NULL);
+        #endif //CONFIG_SSD1306_128x64
     }
 }

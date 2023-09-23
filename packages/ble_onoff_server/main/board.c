@@ -26,7 +26,7 @@ struct _GPIO_state gpio_state[3] = {
 
 void gpio_operation(uint8_t pin, uint8_t onoff)
 {
-    #if BOARD_ENABLE
+    #if CONFIG_EXTENDED_PROJECT
     for (int i = 0; i < sizeof(gpio_state); i++) {
         if (gpio_state[i].pin != pin) {
             continue;
@@ -43,7 +43,7 @@ void gpio_operation(uint8_t pin, uint8_t onoff)
     }
 
     ESP_LOGE(TAG, "PIN is not found!");
-    #endif
+    #endif // CONFIG_EXTENDED_PROJECT
 }
 
 int get_gpio_status(uint8_t pin)
@@ -59,14 +59,14 @@ int get_gpio_status(uint8_t pin)
 
 static void board_led_init(void)
 {
-    #if BOARD_ENABLE
+    #if CONFIG_EXTENDED_PROJECT
     for (int i = 0; i < 3; i++) {
         gpio_reset_pin(gpio_state[i].pin);
         gpio_set_direction(gpio_state[i].pin, GPIO_MODE_OUTPUT);
         gpio_set_level(gpio_state[i].pin, GPIO_UNSET);
         gpio_state[i].previous = GPIO_UNSET;
     }
-    #endif
+    #endif //CONFIG_EXTENDED_PROJECT
 }
 
 void board_init(void)
