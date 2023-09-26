@@ -71,16 +71,26 @@ do
   if [ "$requested_package_path" = "$package_path" ];then
 
     cd $package_path
-    if [ "$ESP_DEVICE_COUNT" = "1" ];then      
-      echo ">> executing: idf.py -p $DEVICE_PORT flash"
-      idf.py -p $DEVICE_PORT flash
+    if [ "$ESP_DEVICE_COUNT" = "1" ];then
+      if [ "$2" = "-m" ];then
+        echo ">> executing: idf.py -p $DEVICE_PORT flash monitor"
+        idf.py -p $DEVICE_PORT flash monitor
+      else
+        echo ">> executing: idf.py -p $DEVICE_PORT flash"
+        idf.py -p $DEVICE_PORT flash
+      fi
     else
 
       list_device_port_by_index
       read -p 'enter the choice: ' device_port_index
       device_port=$(get_device_port_by_index $device_port_index)
-      echo ">> executing: idf.py -p $device_port flash"
-      idf.py -p $device_port flash
+      if [ "$2" = "-m" ];then
+        echo ">> executing: idf.py -p $device_port flash monitor"
+        idf.py -p $device_port flash monitor
+      else
+        echo ">> executing: idf.py -p $device_port flash"
+        idf.py -p $device_port flash
+      fi
     fi
     cd -
   fi
