@@ -7,7 +7,8 @@ while [ -L "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symli
   [[ $SOURCE != /* ]] && SOURCE=$DIR/$SOURCE # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
 done
 
-export VENDOR_HOME=$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )
+MY_PATH=$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )
+export VENDOR_HOME="$( dirname $MY_PATH )"
 export VENDOR_PACKAGE="$VENDOR_HOME"/packages
 export EROOT="$(dirname "$VENDOR_HOME")"
 export ESP_IDF_HOME="$EROOT"/esp-idf
@@ -41,7 +42,7 @@ echo -e "VENDOR_HOME\t:\t$VENDOR_HOME"
 echo -e "VENDOR_PACKAGE\t:\t$VENDOR_PACKAGE"
 echo
 set_alias eroot "cd $EROOT"
-set_alias build.sh "source $VENDOR_HOME/build.sh"
-set_alias build_all.sh "source $VENDOR_HOME/build_all.sh"
-set_alias flash.sh "source $VENDOR_HOME/flash.sh"
-set_alias push.sh "source $VENDOR_HOME/push.sh"
+set_alias build.sh "source $VENDOR_HOME/scripts/build.sh"
+set_alias build_all.sh "source $VENDOR_HOME/scripts/build_all.sh"
+set_alias flash.sh "source $VENDOR_HOME/scripts/flash.sh"
+set_alias push.sh "source $VENDOR_HOME/scripts/push.sh"
