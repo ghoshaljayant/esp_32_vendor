@@ -20,7 +20,8 @@ if [ ! -f "$csv_file_path" ];then
   return -1
 fi
 
-return 0
+echo "Valid target name: $1"
+
 # check if any device is connected or not
 source $MY_PATH/tools.sh
 detect_device
@@ -30,24 +31,19 @@ if [ "$ESP_DEVICE_COUNT" = "0" ];then
 fi
 
 
+path_list=()
 index=0
 while IFS="," read -r path package_name
 do
-  echo "$package_name"
+  echo "$index) $package_name"
+  path_list+=($path)
   (( index++ ))   
 done < <(tail -n +2 $csv_file_path)
 
 read -p 'enter the choice: ' device_port_index
+device_port=$(get_device_port_by_index $device_port_index)
+echo "device port: $device_port"
 
-index=0
-path=""
-device_port=""
-while IFS="," read -r path package_name
-do
-  path=$(eval echo "$path")
-  device_port=$(get_device_port_by_index $device_port_index)
-  (( index++ ))   
-done < <(tail -n +2 $csv_file_path)
-
+path=$(eval echo "${path_list[$device_port_index]}")
 cd $path
 idf.py -p $device_port monitor
