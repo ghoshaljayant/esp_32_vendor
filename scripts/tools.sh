@@ -54,3 +54,8 @@ function get_device_port_by_index()
         done <<< "$device_port_list"
     fi
 }
+
+function lunch()
+{
+    ls $VENDOR_HOME/targets|grep -e ".csv"|cut -d "." -f 1
+}
