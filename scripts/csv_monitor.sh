@@ -29,13 +29,25 @@ if [ "$ESP_DEVICE_COUNT" = "0" ];then
   return -1
 fi
 
+
 index=0
 while IFS="," read -r path package_name
 do
-  path=$(eval echo "$path")
-  device_port=$(get_device_port_by_index $index)
-  cd $path
-  idf.py -p $device_port flash
-  cd -
+  echo "$package_name"
   (( index++ ))   
 done < <(tail -n +2 $csv_file_path)
+
+read -p 'enter the choice: ' device_port_index
+
+index=0
+path=""
+device_port=""
+while IFS="," read -r path package_name
+do
+  path=$(eval echo "$path")
+  device_port=$(get_device_port_by_index $device_port_index)
+  (( index++ ))   
+done < <(tail -n +2 $csv_file_path)
+
+cd $path
+idf.py -p $device_port monitor
