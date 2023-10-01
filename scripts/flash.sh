@@ -6,9 +6,8 @@ function print_help()
   echo
   echo "Usage:"
   echo
-  echo " - source flash.sh [package_name]"
+  echo " - source flash.sh [path][package_name][device_name]"
   echo " - source flash.sh -h"
-  echo " - source flash.sh -list"
   echo
 }
 
@@ -35,19 +34,6 @@ source $MY_PATH/tools.sh
 
 
 detect_device
-
-# list all pacakges under ${VENODR_PACKAGE}
-package_array=()
-package_array_string=$(ls $VENDOR_PACKAGE)
-package_array=($package_array_string)
-
-if [ "$1" = "-list" ];then
-    for package in "${package_array[@]}"
-    do
-        echo "$package"
-    done
-return 0
-fi
 
 package_path_array=()
 for package in "${package_array[@]}"
