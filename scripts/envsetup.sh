@@ -23,7 +23,8 @@ function set_alias()
 }
 
 GIT_URL="https://github.com/espressif/esp-idf.git"
-VERIFIED_BRANCH="2ac972e2c7a46c95d681a9b044d0683fdcafe66e"
+#VERIFIED_BRANCH="2ac972e2c7a46c95d681a9b044d0683fdcafe66e"
+VERIFIED_BRANCH="66bbe8c1567cab6b07654b7fab912713588e6ea3"
 
 [[ ! -d $ESP_IDF_HOME ]] && 
 cd $EROOT && 
@@ -33,8 +34,22 @@ git checkout -b $VERIFIED_BRANCH &&
 cd $EROOT &&
 bash $ESP_IDF_HOME/install.sh
 
+cd $ESP_IDF_HOME
+curr_rev=$(git reflog | head -n 1 | cut -d " " -f 1)
+exp_rev=$(git rev-parse --short $VERIFIED_BRANCH)
+
+if [ "$curr_rev" = "$exp_rev" ];then
+  echo "revision verified"
+else
+  cd $ESP_IDF_HOME && git checkout -b $VERIFIED_BRANCH && cd $VENDOR_HOME
+fi
+
+
+
+
 echo "Running $ESP_IDF_HOME/export.sh ..."
 source $ESP_IDF_HOME/export.sh
+source $VENDOR_HOME/scripts/tools.sh
 
 echo -e "EROOT\t\t:\t$EROOT"
 echo -e "ESP_IDF_HOME\t:\t$ESP_IDF_HOME"

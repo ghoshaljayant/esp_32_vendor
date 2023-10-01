@@ -20,7 +20,6 @@ if [ ! -f "$csv_file_path" ];then
   return -1
 fi
 
-return 0
 # check if any device is connected or not
 source $MY_PATH/tools.sh
 detect_device
@@ -35,7 +34,8 @@ do
   path=$(eval echo "$path")
   device_port=$(get_device_port_by_index $index)
   cd $path
-  idf.py -p $device_port flash
+  idf.py fullclean
+  idf.py -p $device_port -b 115200 flash
   cd -
   (( index++ ))   
 done < <(tail -n +2 $csv_file_path)

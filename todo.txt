@@ -1,0 +1,2 @@
+A serial exception error occurred: device reports readiness to read but returned no data (device disconnected or multiple access on port?)
+Note: This error originates from pySerial. It is likely not a problem with esptool, but with the hardware connection or drivers.
