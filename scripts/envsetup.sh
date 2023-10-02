@@ -1,5 +1,7 @@
 #!/bin/bash
 
+old_pwd=$(pwd)
+echo "$old_pwd"
 SOURCE=${BASH_SOURCE[0]}
 while [ -L "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
   DIR=$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )
@@ -63,3 +65,6 @@ set_alias flash.sh "source $VENDOR_HOME/scripts/flash.sh"
 set_alias push.sh "source $VENDOR_HOME/scripts/push.sh"
 set_alias monitor_target "source $VENDOR_HOME/scripts/csv_monitor.sh"
 set_alias flash_target "source $VENDOR_HOME/scripts/csv_flasher.sh"
+
+
+cd $old_pwd
