@@ -1,3 +1,4 @@
 path,package_name
 $ESP_IDF_HOME/examples/bluetooth/esp_ble_mesh/ble_mesh_node/onoff_server/,onoff_server
 $ESP_IDF_HOME/examples/bluetooth/esp_ble_mesh/ble_mesh_node/onoff_client/,onoff_client 
+$ESP_IDF_HOME/examples/bluetooth/esp_ble_mesh/ble_mesh_node/onoff_client/,onoff_client 
