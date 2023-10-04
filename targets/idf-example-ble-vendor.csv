@@ -1,4 +1,16 @@
 path,package_name
+$ESP_IDF_HOME/examples/bluetooth/esp_ble_mesh/ble_mesh_vendor_model/vendor_server/,vendor_server
 $ESP_IDF_HOME/examples/bluetooth/esp_ble_mesh/ble_mesh_vendor_model/vendor_client/,vendor_client
 $ESP_IDF_HOME/examples/bluetooth/esp_ble_mesh/ble_mesh_vendor_model/vendor_client/,vendor_client
-$ESP_IDF_HOME/examples/bluetooth/esp_ble_mesh/ble_mesh_vendor_model/vendor_server/,vendor_server 
+$ESP_IDF_HOME/examples/bluetooth/esp_ble_mesh/ble_mesh_vendor_model/vendor_client/,vendor_client
+$ESP_IDF_HOME/examples/bluetooth/esp_ble_mesh/ble_mesh_vendor_model/vendor_client/,vendor_client
+$ESP_IDF_HOME/examples/bluetooth/esp_ble_mesh/ble_mesh_vendor_model/vendor_client/,vendor_client
+$ESP_IDF_HOME/examples/bluetooth/esp_ble_mesh/ble_mesh_vendor_model/vendor_client/,vendor_client
+$ESP_IDF_HOME/examples/bluetooth/esp_ble_mesh/ble_mesh_vendor_model/vendor_client/,vendor_client
+$ESP_IDF_HOME/examples/bluetooth/esp_ble_mesh/ble_mesh_vendor_model/vendor_client/,vendor_client
+$ESP_IDF_HOME/examples/bluetooth/esp_ble_mesh/ble_mesh_vendor_model/vendor_client/,vendor_client
+$ESP_IDF_HOME/examples/bluetooth/esp_ble_mesh/ble_mesh_vendor_model/vendor_client/,vendor_client
+$ESP_IDF_HOME/examples/bluetooth/esp_ble_mesh/ble_mesh_vendor_model/vendor_client/,vendor_client
+$ESP_IDF_HOME/examples/bluetooth/esp_ble_mesh/ble_mesh_vendor_model/vendor_client/,vendor_client
+$ESP_IDF_HOME/examples/bluetooth/esp_ble_mesh/ble_mesh_vendor_model/vendor_client/,vendor_client
+$ESP_IDF_HOME/examples/bluetooth/esp_ble_mesh/ble_mesh_vendor_model/vendor_client/,vendor_client

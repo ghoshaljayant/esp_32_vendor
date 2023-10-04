@@ -5,7 +5,7 @@ result="FAIL"
 function detect_device()
 {
     export ESP_DEVICES="NULL"
-    device_port_list=$(ls /dev |grep ttyACM)
+    device_port_list=$(ls /dev |grep -E 'ttyACM|ttyUSB')
 
     device_index=0
     if [ "$device_port_list" != "" ];then
@@ -29,7 +29,7 @@ function detect_device()
 
 function list_device_port_by_index()
 {
-    device_port_list=$(ls /dev |grep ttyACM)
+    device_port_list=$(ls /dev |grep -E 'ttyACM|ttyUSB')
 
     device_index=0
     if [ "$device_port_list" != "" ];then
@@ -42,7 +42,7 @@ function list_device_port_by_index()
 
 function get_device_port_by_index()
 {
-    device_port_list=$(ls /dev |grep ttyACM)
+    device_port_list=$(ls /dev |grep -E 'ttyACM|ttyUSB')
     requested_index=$1
     device_index=0
     if [ "$device_port_list" != "" ];then
