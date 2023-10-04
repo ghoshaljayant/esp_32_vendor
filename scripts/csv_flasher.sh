@@ -37,5 +37,8 @@ do
   idf.py fullclean
   idf.py -p $device_port -b 115200 flash
   cd -
-  (( index++ ))   
+  (( index++ ))
+  if [ $index = $ESP_DEVICE_COUNT ];then
+    return 0
+  fi
 done < <(tail -n +2 $csv_file_path)

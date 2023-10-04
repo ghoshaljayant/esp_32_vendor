@@ -37,7 +37,10 @@ while IFS="," read -r path package_name
 do
   echo "$index) $package_name"
   path_list+=($path)
-  (( index++ ))   
+  (( index++ ))
+  if [ $index = $ESP_DEVICE_COUNT ];then
+    break
+  fi
 done < <(tail -n +2 $csv_file_path)
 
 read -p 'enter the choice: ' device_port_index
