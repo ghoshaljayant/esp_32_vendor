@@ -57,5 +57,16 @@ function get_device_port_by_index()
 
 function lunch()
 {
-    ls $VENDOR_HOME/targets|grep -e ".csv"|cut -d "." -f 1
+    target_array=()
+    target_string=$(ls $VENDOR_HOME/targets|grep -e ".csv"|cut -d "." -f 1)
+
+    IFS=$'\n' read -r -d '' -a target_array <<< "$target_string"
+
+    for key in "${!target_array[@]}"
+    do
+        echo "$key.) ${target_array[$key]}"
+    done
+
+    read selection
+    export ESP_TARGET="${target_array[$selection]}"
 }

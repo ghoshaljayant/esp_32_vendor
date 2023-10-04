@@ -13,14 +13,14 @@ while [ -L "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symli
 done
 export MY_PATH=$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )
 
-csv_file_path="$VENDOR_HOME/targets/$1.csv"
+csv_file_path="$VENDOR_HOME/targets/$ESP_TARGET.csv"
 
 if [ ! -f "$csv_file_path" ];then
-  echo "Invalid target name: $1"
+  echo "Invalid target name: $ESP_TARGET"
   return -1
 fi
 
-echo "Valid target name: $1"
+echo "Valid target name: $ESP_TARGET"
 
 # check if any device is connected or not
 source $MY_PATH/tools.sh
