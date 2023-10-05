@@ -1,5 +1,8 @@
 #!/bin/bash
 
+old_pwd=$(pwd)
+echo "$old_pwd"
+
 result="FAIL"
 
 RUN_VERIFICATION()
@@ -21,3 +24,5 @@ else
     echo "push failed"
 
 fi
+
+cd $old_pwd
