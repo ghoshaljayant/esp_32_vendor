@@ -1,5 +1,9 @@
 #! /bin/bash
 
+
+old_pwd=$(pwd)
+echo "$old_pwd"
+
 if [ "$1" = "-h" ];then
   echo "source csv_parser.sh target_name"
   return 0
@@ -50,3 +54,6 @@ echo "device port: $device_port"
 path=$(eval echo "${path_list[$device_port_index]}")
 cd $path
 idf.py -p $device_port monitor
+
+
+cd $old_pwd

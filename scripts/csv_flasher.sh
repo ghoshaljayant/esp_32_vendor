@@ -1,5 +1,9 @@
 #! /bin/bash
 
+
+old_pwd=$(pwd)
+echo "$old_pwd"
+
 if [ "$1" = "-h" ];then
   echo "source csv_parser.sh target_name"
   return 0
@@ -42,3 +46,5 @@ do
     return 0
   fi
 done < <(tail -n +2 $csv_file_path)
+
+cd $old_pwd
