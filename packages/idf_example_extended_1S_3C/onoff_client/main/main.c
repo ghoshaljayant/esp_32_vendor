@@ -24,7 +24,7 @@
 #include "ble_mesh_example_init.h"
 #include "ble_mesh_example_nvs.h"
 
-#define TAG "EXAMPLE"
+#define TAG "J_ONOFF_CLIENT"
 
 #define CID_ESP 0x02E5
 

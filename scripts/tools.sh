@@ -69,4 +69,7 @@ function lunch()
 
     read selection
     export ESP_TARGET="${target_array[$selection]}"
+    echo
+    echo "$ESP_TARGET"
+    echo
 }
