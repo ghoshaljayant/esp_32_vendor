@@ -53,7 +53,7 @@ echo "device port: $device_port"
 
 path=$(eval echo "${path_list[$device_port_index]}")
 cd $path
-idf.py -p $device_port monitor
+idf.py -p $device_port monitor --no-reset --timestamps
 
 
 cd $old_pwd

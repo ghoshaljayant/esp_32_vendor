@@ -27,6 +27,11 @@ function detect_device()
     export ESP_DEVICE_COUNT="$device_index"
 }
 
+function esp_devices()
+{
+    list_device_port_by_index
+}
+
 function list_device_port_by_index()
 {
     device_port_list=$(ls /dev |grep -E 'ttyACM|ttyUSB')

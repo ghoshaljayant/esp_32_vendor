@@ -43,8 +43,24 @@ do
   cd -
   (( index++ ))
   if [ $index = $ESP_DEVICE_COUNT ];then
-    return 0
+    break
+  fi
+done < <(tail -n +2 $csv_file_path)
+cd $old_pwd
+
+echo
+echo
+echo "Flashed :: $csv_file_path"
+index=0
+while IFS="," read -r path package_name
+do
+  path=$(eval echo "$path")
+  device_port=$(get_device_port_by_index $index)
+  echo "$device_port  ::  $package_name"
+  (( index++ ))
+  if [ $index = $ESP_DEVICE_COUNT ];then
+    break
   fi
 done < <(tail -n +2 $csv_file_path)
 
-cd $old_pwd
+echo
