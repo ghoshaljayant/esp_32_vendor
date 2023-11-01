@@ -26,7 +26,7 @@ function set_alias()
 
 GIT_URL="https://github.com/espressif/esp-idf.git"
 #VERIFIED_BRANCH="2ac972e2c7a46c95d681a9b044d0683fdcafe66e"
-VERIFIED_BRANCH="37303266f038e12016b5d336c313a7a672df9c7c"
+VERIFIED_BRANCH="1726ce888dfe08a7c94c9e213876fb91d40a7d57"
 RELEASE_BRANCH="v5.1.1"
 
 
