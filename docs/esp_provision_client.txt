@@ -1,0 +1,108 @@
+2023-11-16 21:52:00 I (0) cpu_start: App cpu up.
+2023-11-16 21:52:00 I (516) cpu_start: Pro cpu start user code
+2023-11-16 21:52:00 I (516) cpu_start: cpu freq: 160000000 Hz
+2023-11-16 21:52:00 I (516) cpu_start: Application information:
+2023-11-16 21:52:00 I (521) cpu_start: Project name:     ble_mesh_provisioner
+2023-11-16 21:52:00 I (527) cpu_start: App version:      v5.1.1-dirty
+2023-11-16 21:52:00 I (532) cpu_start: Compile time:     Nov 16 2023 21:49:10
+2023-11-16 21:52:00 I (538) cpu_start: ELF file SHA256:  66066e125fbc3e24...
+2023-11-16 21:52:00 I (544) cpu_start: ESP-IDF:          v5.1.1-dirty
+2023-11-16 21:52:00 I (550) cpu_start: Min chip rev:     v0.0
+2023-11-16 21:52:00 I (554) cpu_start: Max chip rev:     v3.99 
+2023-11-16 21:52:00 I (559) cpu_start: Chip rev:         v3.0
+2023-11-16 21:52:00 I (564) heap_init: Initializing. RAM available for dynamic allocation:
+2023-11-16 21:52:00 I (571) heap_init: At 3FFAFF10 len 000000F0 (0 KiB): DRAM
+2023-11-16 21:52:00 I (577) heap_init: At 3FFB6388 len 00001C78 (7 KiB): DRAM
+2023-11-16 21:52:00 I (583) heap_init: At 3FFB9A20 len 00004108 (16 KiB): DRAM
+2023-11-16 21:52:00 I (589) heap_init: At 3FFCA1E8 len 00015E18 (87 KiB): DRAM
+2023-11-16 21:52:00 I (596) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM
+2023-11-16 21:52:00 I (602) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM
+2023-11-16 21:52:00 I (608) heap_init: At 40098330 len 00007CD0 (31 KiB): IRAM
+2023-11-16 21:52:00 I (616) spi_flash: detected chip: generic
+2023-11-16 21:52:00 I (619) spi_flash: flash io: dio
+2023-11-16 21:52:00 W (623) spi_flash: Detected size(4096k) larger than the size in the binary image header(2048k). Using the size in the binary image header.
+2023-11-16 21:52:00 I (637) coexist: coex firmware version: 80b0d89
+2023-11-16 21:52:00 I (642) app_start: Starting scheduler on CPU0
+2023-11-16 21:52:00 I (647) app_start: Starting scheduler on CPU1
+2023-11-16 21:52:00 I (647) main_task: Started on CPU0
+2023-11-16 21:52:00 I (657) main_task: Calling app_main()
+2023-11-16 21:52:00 I (657) PROVISIONER_JAYANTA: Initializing...
+2023-11-16 21:52:00 I (677) BTDM_INIT: BT controller compile version [946b762]
+2023-11-16 21:52:00 I (677) BTDM_INIT: Bluetooth MAC: e8:31:cd:d6:fe:16
+2023-11-16 21:52:00 I (677) phy_init: phy_version 4670,719f9f6,Feb 18 2021,17:07:07
+2023-11-16 21:52:01 I (1197) PROVISIONER_JAYANTA: jayanta example_ble_mesh_provisioning_cb ESP_BLE_MESH_PROVISIONER_SET_DEV_UUID_MATCH_COMP_EVT, err_code 0
+2023-11-16 21:52:01 I (1207) PROVISIONER_JAYANTA: BLE Mesh Provisioner initialized
+2023-11-16 21:52:01 I (1207) main_task: Returned from app_main()
+2023-11-16 21:52:01 I (1217) PROVISIONER_JAYANTA: jayanta example_ble_mesh_provisioning_cb ESP_BLE_MESH_PROVISIONER_PROV_ENABLE_COMP_EVT, err_code 0
+2023-11-16 21:52:01 I (1217) PROVISIONER_JAYANTA: jayanta example_ble_mesh_provisioning_cb ESP_BLE_MESH_PROVISIONER_ADD_LOCAL_APP_KEY_COMP_EVT, err_code 0
+2023-11-16 21:52:01 I (1227) PROVISIONER_JAYANTA: jayanta example_ble_mesh_provisioning_cb ESP_BLE_MESH_PROVISIONER_BIND_APP_KEY_TO_MODEL_COMP_EVT, err_code 0
+2023-11-16 21:52:07 I (7667) PROVISIONER_JAYANTA: jayanta example_ble_mesh_provisioning_cb ESP_BLE_MESH_PROVISIONER_RECV_UNPROV_ADV_PKT_EVT
+2023-11-16 21:52:07 I (7677) PROVISIONER_JAYANTA: address: 0c8b957663b2, address type: 0, adv type: 3
+2023-11-16 21:52:07 I (7677) PROVISIONER_JAYANTA: device uuid: dddd0c8b957663b20000000000000000
+2023-11-16 21:52:07 I (7687) PROVISIONER_JAYANTA: oob info: 0, bearer: PB-ADV
+2023-11-16 21:52:07 I (7697) PROVISIONER_JAYANTA: jayanta recv_unprov_adv_pkt --> esp_ble_mesh_provisioner_add_unprov_dev
+2023-11-16 21:52:07 I (7707) PROVISIONER_JAYANTA: jayanta example_ble_mesh_provisioning_cb ESP_BLE_MESH_PROVISIONER_RECV_UNPROV_ADV_PKT_EVT
+2023-11-16 21:52:07 I (7717) PROVISIONER_JAYANTA: address: 0c8b957663b2, address type: 0, adv type: 3
+2023-11-16 21:52:07 I (7727) PROVISIONER_JAYANTA: device uuid: dddd0c8b957663b20000000000000000
+2023-11-16 21:52:07 I (7727) PROVISIONER_JAYANTA: oob info: 0, bearer: PB-ADV
+2023-11-16 21:52:08 I (7737) PROVISIONER_JAYANTA: jayanta recv_unprov_adv_pkt --> esp_ble_mesh_provisioner_add_unprov_dev
+2023-11-16 21:52:08 W (7757) BLE_MESH: Device in queue not support PB-GATT
+2023-11-16 21:52:08 I (7757) PROVISIONER_JAYANTA: jayanta example_ble_mesh_provisioning_cb ESP_BLE_MESH_PROVISIONER_RECV_UNPROV_ADV_PKT_EVT
+2023-11-16 21:52:08 I (7767) PROVISIONER_JAYANTA: address: 0c8b957663b2, address type: 0, adv type: 3
+2023-11-16 21:52:08 I (7777) PROVISIONER_JAYANTA: device uuid: dddd0c8b957663b20000000000000000
+2023-11-16 21:52:08 I (7777) PROVISIONER_JAYANTA: oob info: 0, bearer: PB-ADV
+2023-11-16 21:52:08 I (7787) PROVISIONER_JAYANTA: jayanta recv_unprov_adv_pkt --> esp_ble_mesh_provisioner_add_unprov_dev
+2023-11-16 21:52:08 I (7797) PROVISIONER_JAYANTA: jayanta example_ble_mesh_provisioning_cb ESP_BLE_MESH_PROVISIONER_RECV_UNPROV_ADV_PKT_EVT
+2023-11-16 21:52:08 I (7807) PROVISIONER_JAYANTA: address: 0c8b957663b2, address type: 0, adv type: 3
+2023-11-16 21:52:08 I (7817) PROVISIONER_JAYANTA: device uuid: dddd0c8b957663b20000000000000000
+2023-11-16 21:52:08 I (7827) PROVISIONER_JAYANTA: oob info: 0, bearer: PB-ADV
+2023-11-16 21:52:08 I (7827) PROVISIONER_JAYANTA: jayanta recv_unprov_adv_pkt --> esp_ble_mesh_provisioner_add_unprov_dev
+2023-11-16 21:52:08 W (7837) BLE_MESH: Device already exists in queue
+2023-11-16 21:52:08 I (7847) PROVISIONER_JAYANTA: jayanta example_ble_mesh_provisioning_cb ESP_BLE_MESH_PROVISIONER_RECV_UNPROV_ADV_PKT_EVT
+2023-11-16 21:52:08 I (7857) PROVISIONER_JAYANTA: address: 0c8b957663b2, address type: 0, adv type: 0
+2023-11-16 21:52:08 I (7867) PROVISIONER_JAYANTA: device uuid: dddd0c8b957663b20000000000000000
+2023-11-16 21:52:08 I (7867) PROVISIONER_JAYANTA: oob info: 0, bearer: PB-GATT
+2023-11-16 21:52:08 I (7877) PROVISIONER_JAYANTA: jayanta recv_unprov_adv_pkt --> esp_ble_mesh_provisioner_add_unprov_dev
+2023-11-16 21:52:08 I (7887) PROVISIONER_JAYANTA: jayanta example_ble_mesh_provisioning_cb ESP_BLE_MESH_PROVISIONER_PROV_LINK_OPEN_EVT
+2023-11-16 21:52:08 I (7897) PROVISIONER_JAYANTA: PB-ADV link open
+2023-11-16 21:52:08 I (7907) PROVISIONER_JAYANTA: jayanta example_ble_mesh_provisioning_cb ESP_BLE_MESH_PROVISIONER_ADD_UNPROV_DEV_COMP_EVT, err_code 0
+2023-11-16 21:52:08 W (7917) BLE_MESH: Device already exists in queue
+2023-11-16 21:52:08 W (7927) BLE_MESH: Device already exists in queue
+2023-11-16 21:52:08 I (7927) PROVISIONER_JAYANTA: jayanta example_ble_mesh_provisioning_cb ESP_BLE_MESH_PROVISIONER_ADD_UNPROV_DEV_COMP_EVT, err_code -120
+2023-11-16 21:52:08 W (7937) BLE_MESH: Add device with only bearer updated
+2023-11-16 21:52:08 I (7947) PROVISIONER_JAYANTA: jayanta example_ble_mesh_provisioning_cb ESP_BLE_MESH_PROVISIONER_ADD_UNPROV_DEV_COMP_EVT, err_code -120
+2023-11-16 21:52:08 I (7957) PROVISIONER_JAYANTA: jayanta example_ble_mesh_provisioning_cb ESP_BLE_MESH_PROVISIONER_ADD_UNPROV_DEV_COMP_EVT, err_code -120
+2023-11-16 21:52:08 I (7967) PROVISIONER_JAYANTA: jayanta example_ble_mesh_provisioning_cb ESP_BLE_MESH_PROVISIONER_ADD_UNPROV_DEV_COMP_EVT, err_code -120
+2023-11-16 21:52:09 I (9737) PROVISIONER_JAYANTA: jayanta example_ble_mesh_provisioning_cb ESP_BLE_MESH_PROVISIONER_PROV_COMPLETE_EVT
+2023-11-16 21:52:10 I (9737) PROVISIONER_JAYANTA: node index: 0x0, unicast address: 0x05, element num: 1, netkey index: 0x00
+2023-11-16 21:52:10 I (9747) PROVISIONER_JAYANTA: device uuid: dddd0c8b957663b20000000000000000
+2023-11-16 21:52:10 I (9747) PROVISIONER_JAYANTA: jayanta prov_complete --> esp_ble_mesh_provisioner_set_node_name
+2023-11-16 21:52:10 I (9757) PROVISIONER_JAYANTA: jayanta prov_complete --> example_ble_mesh_store_node_info
+2023-11-16 21:52:10 I (9767) PROVISIONER_JAYANTA: jayanta prov_complete --> example_ble_mesh_get_node_info
+2023-11-16 21:52:10 I (9777) PROVISIONER_JAYANTA: jayanta prov_complete --> example_ble_mesh_set_msg_common
+2023-11-16 21:52:10 I (9787) PROVISIONER_JAYANTA: jayanta prov_complete --> esp_ble_mesh_config_client_get_state
+2023-11-16 21:52:10 I (9797) PROVISIONER_JAYANTA: jayanta example_ble_mesh_provisioning_cb ESP_BLE_MESH_PROVISIONER_SET_NODE_NAME_COMP_EVT, err_code 0
+2023-11-16 21:52:10 I (9807) PROVISIONER_JAYANTA: Node 0 name is: NODE-0
+2023-11-16 21:52:10 I (10217) PROVISIONER_JAYANTA: jayanta example_ble_mesh_config_client_cb
+2023-11-16 21:52:10 I (10217) PROVISIONER_JAYANTA: example_ble_mesh_config_client_cb, error_code = 0x00, event = 0x00, addr: 0x0005, opcode: 0x8008
+2023-11-16 21:52:10 I (10227) PROVISIONER_JAYANTA: jayanta example_ble_mesh_config_client_cb event: ESP_BLE_MESH_CFG_CLIENT_GET_STATE_EVT opcode: ESP_BLE_MESH_MODEL_OP_COMPOSITION_DATA_GET
+2023-11-16 21:52:10 I (10247) PROVISIONER_JAYANTA: jayanta composition data e502000000000a0003000000020000000110
+2023-11-16 21:52:10 I (10507) PROVISIONER_JAYANTA: jayanta example_ble_mesh_config_client_cb
+2023-11-16 21:52:10 I (10507) PROVISIONER_JAYANTA: example_ble_mesh_config_client_cb, error_code = 0x00, event = 0x01, addr: 0x0005, opcode: 0x0000
+2023-11-16 21:52:10 I (10517) PROVISIONER_JAYANTA: jayanta example_ble_mesh_config_client_cb event: ESP_BLE_MESH_CFG_CLIENT_GET_STATE_EVT opcode: ESP_BLE_MESH_MODEL_OP_APP_KEY_ADD
+2023-11-16 21:52:10 I (10637) PROVISIONER_JAYANTA: jayanta example_ble_mesh_config_client_cb
+2023-11-16 21:52:10 I (10637) PROVISIONER_JAYANTA: example_ble_mesh_config_client_cb, error_code = 0x00, event = 0x01, addr: 0x0005, opcode: 0x803d
+2023-11-16 21:52:10 I (10637) PROVISIONER_JAYANTA: jayanta example_ble_mesh_config_client_cb event: ESP_BLE_MESH_CFG_CLIENT_GET_STATE_EVT opcode: ESP_BLE_MESH_MODEL_OP_MODEL_APP_BIND
+2023-11-16 21:52:11 I (11667) PROVISIONER_JAYANTA: jayanta example_ble_mesh_provisioning_cb ESP_BLE_MESH_PROVISIONER_PROV_LINK_CLOSE_EVT
+2023-11-16 21:52:11 I (11667) PROVISIONER_JAYANTA: PB-ADV link close, reason 0x00
+2023-11-16 21:52:14 W (14667) BLE_MESH: Receive generic status message timeout
+2023-11-16 21:52:14 I (14667) PROVISIONER_JAYANTA: example_ble_mesh_generic_client_cb, error_code = 0x00, event = 0x03, addr: 0x0005, opcode: 0x8201
+2023-11-16 21:52:18 W (18687) BLE_MESH: Receive generic status message timeout
+2023-11-16 21:52:18 I (18687) PROVISIONER_JAYANTA: example_ble_mesh_generic_client_cb, error_code = 0x00, event = 0x03, addr: 0x0005, opcode: 0x8201
+2023-11-16 21:52:22 W (22697) BLE_MESH: Receive generic status message timeout
+2023-11-16 21:52:22 I (22697) PROVISIONER_JAYANTA: example_ble_mesh_generic_client_cb, error_code = 0x00, event = 0x03, addr: 0x0005, opcode: 0x8201
+2023-11-16 21:52:26 W (26717) BLE_MESH: Receive generic status message timeout
+2023-11-16 21:52:26 I (26717) PROVISIONER_JAYANTA: example_ble_mesh_generic_client_cb, error_code = 0x00, event = 0x03, addr: 0x0005, opcode: 0x8201
+2023-11-16 21:52:30 W (30737) BLE_MESH: Receive generic status message timeout
+2023-11-16 21:52:31 I (30737) PROVISIONER_JAYANTA: example_ble_mesh_generic_client_cb, error_code = 0x00, event = 0x03, addr: 0x0005, opcode: 0x8201
+
