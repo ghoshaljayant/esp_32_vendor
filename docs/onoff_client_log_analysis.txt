@@ -1,0 +1,14 @@
+
+=============================================================================================================================================  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  ADVERTISE
+2023-11-17 11:20:42 I (1216) ONOFF_CLIENT: jayanta example_ble_mesh_provisioning_cb event : ESP_BLE_MESH_PROV_REGISTER_COMP_EVT, err_code 0
+2023-11-17 11:20:42 I (1266) ONOFF_CLIENT: jayanta example_ble_mesh_provisioning_cb event : ESP_BLE_MESH_NODE_PROV_ENABLE_COMP_EVT, err_code 0
+
+=============================================================================================================================================  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  PROVISION
+2023-11-17 11:20:42 I (1366) ONOFF_CLIENT: jayanta example_ble_mesh_provisioning_cb event : ESP_BLE_MESH_NODE_PROV_LINK_OPEN_EVT, bearer PB-ADV
+2023-11-17 11:20:44 I (3286) ONOFF_CLIENT: jayanta example_ble_mesh_provisioning_cb event : ESP_BLE_MESH_NODE_PROV_COMPLETE_EVT
+2023-11-17 11:20:44 I (3536) ONOFF_CLIENT: jayanta example_ble_mesh_provisioning_cb event : ESP_BLE_MESH_NODE_PROV_LINK_CLOSE_EVT, bearer PB-ADV
+
+=============================================================================================================================================  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  CONFIGURATION
+2023-11-17 11:20:45 I (4036) ONOFF_CLIENT: jayanta example_ble_mesh_config_server_cb event : ESP_BLE_MESH_MODEL_OP_APP_KEY_ADD
+
+2023-11-17 11:20:52 I (11686) ONOFF_CLIENT: jayanta example_ble_mesh_generic_client_cb event : ESP_BLE_MESH_GENERIC_CLIENT_SET_STATE_EVT

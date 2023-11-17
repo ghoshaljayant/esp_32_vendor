@@ -1,0 +1,36 @@
+2023-11-17 11:20:41 I (636) main_task: Started on CPU0
+2023-11-17 11:20:41 I (646) main_task: Calling app_main()
+2023-11-17 11:20:41 I (646) ONOFF_CLIENT: Initializing...
+2023-11-17 11:20:41 I (646) gpio: GPIO[25]| InputEn: 0| OutputEn: 0| OpenDrain: 0| Pullup: 1| Pulldown: 0| Intr:0 
+2023-11-17 11:20:41 I (656) gpio: GPIO[26]| InputEn: 0| OutputEn: 0| OpenDrain: 0| Pullup: 1| Pulldown: 0| Intr:0 
+2023-11-17 11:20:41 I (666) gpio: GPIO[27]| InputEn: 0| OutputEn: 0| OpenDrain: 0| Pullup: 1| Pulldown: 0| Intr:0 
+2023-11-17 11:20:41 use esp timer !!!
+2023-11-17 11:20:41 E (676) esp_timer: Task is already initialized
+2023-11-17 11:20:41 I (686) gpio: GPIO[0]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 1| Pulldown: 0| Intr:3 
+2023-11-17 11:20:41 I (706) BTDM_INIT: BT controller compile version [946b762]
+2023-11-17 11:20:41 I (706) BTDM_INIT: Bluetooth MAC: e8:31:cd:d6:fe:16
+2023-11-17 11:20:41 I (716) phy_init: phy_version 4670,719f9f6,Feb 18 2021,17:07:07
+2023-11-17 11:20:42 I (1136) EXAMPLE_NVS: Open namespace done, name "mesh_example"
+2023-11-17 11:20:42 I (1216) ONOFF_CLIENT: jayanta example_ble_mesh_provisioning_cb event : ESP_BLE_MESH_PROV_REGISTER_COMP_EVT, err_code 0
+2023-11-17 11:20:42 I (1226) EXAMPLE_NVS: Restore, key "onoff_client", length 6
+2023-11-17 11:20:42 I (1226) EXAMPLE_NVS: Restore, data: 00 00 00 00 00 71 
+2023-11-17 11:20:42 I (1236) ONOFF_CLIENT: Restore, net_idx 0x0000, app_idx 0x0000, onoff 0, tid 0x71
+2023-11-17 11:20:42 I (1246) ONOFF_CLIENT: BLE Mesh Node initialized
+2023-11-17 11:20:42 I (1246) main_task: Returned from app_main()
+2023-11-17 11:20:42 I (1266) ONOFF_CLIENT: jayanta example_ble_mesh_provisioning_cb event : ESP_BLE_MESH_NODE_PROV_ENABLE_COMP_EVT, err_code 0
+2023-11-17 11:20:42 I (1366) ONOFF_CLIENT: jayanta example_ble_mesh_provisioning_cb event : ESP_BLE_MESH_NODE_PROV_LINK_OPEN_EVT, bearer PB-ADV
+2023-11-17 11:20:44 I (3286) ONOFF_CLIENT: jayanta example_ble_mesh_provisioning_cb event : ESP_BLE_MESH_NODE_PROV_COMPLETE_EVT
+2023-11-17 11:20:44 I (3286) ONOFF_CLIENT: net_idx: 0x0000, addr: 0x0005
+2023-11-17 11:20:44 I (3296) ONOFF_CLIENT: flags: 0x00, iv_index: 0x00000000
+2023-11-17 11:20:44 I (3536) ONOFF_CLIENT: jayanta example_ble_mesh_provisioning_cb event : ESP_BLE_MESH_NODE_PROV_LINK_CLOSE_EVT, bearer PB-ADV
+2023-11-17 11:20:45 I (4036) ONOFF_CLIENT: jayanta example_ble_mesh_config_server_cb event : ESP_BLE_MESH_MODEL_OP_APP_KEY_ADD
+2023-11-17 11:20:45 I (4046) ONOFF_CLIENT: net_idx 0x0000, app_idx 0x0000
+2023-11-17 11:20:45 I (4046) AppKey: 12 12 12 12 12 12 12 12 12 12 12 12 12 12 12 12 
+2023-11-17 11:20:52 I (11656) BOARD: tap cb (RELEASE)
+2023-11-17 11:20:52 E (11666) BLE_MESH: Model not bound to AppKey 0x0000
+2023-11-17 11:20:52 E (11666) BLE_MESH: Failed to send client message 0x00008203
+2023-11-17 11:20:52 I (11666) ONOFF_CLIENT: Generic client, event 1, error code -22, opcode is 0x8203
+2023-11-17 11:20:52 I (11676) EXAMPLE_NVS: Store, key "onoff_client", length 6
+2023-11-17 11:20:52 I (11676) EXAMPLE_NVS: Store, data: 00 00 00 00 01 72 
+2023-11-17 11:20:52 I (11686) ONOFF_CLIENT: jayanta example_ble_mesh_generic_client_cb event : ESP_BLE_MESH_GENERIC_CLIENT_SET_STATE_EVT
+

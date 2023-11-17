@@ -1,0 +1,65 @@
+esp_ble_mesh_register_prov_callback(example_ble_mesh_provisioning_cb);
+example_ble_mesh_provisioning_cb() --> recv_unprov_adv_pkt() --> "esp_ble_mesh_provisioner_add_unprov_dev()"
+=============================================================================================================================================  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  ADVERTISE
+2023-11-16 21:52:07 I (7667) PROVISIONER_JAYANTA: jayanta example_ble_mesh_provisioning_cb ESP_BLE_MESH_PROVISIONER_RECV_UNPROV_ADV_PKT_EVT
+2023-11-16 21:52:07 I (7677) PROVISIONER_JAYANTA: address: 0c8b957663b2, address type: 0, adv type: 3
+2023-11-16 21:52:07 I (7677) PROVISIONER_JAYANTA: device uuid: dddd0c8b957663b20000000000000000
+2023-11-16 21:52:07 I (7687) PROVISIONER_JAYANTA: oob info: 0, bearer: PB-ADV
+2023-11-16 21:52:07 I (7697) PROVISIONER_JAYANTA: jayanta recv_unprov_adv_pkt --> esp_ble_mesh_provisioner_add_unprov_dev
+2023-11-16 21:52:07 I (7707) PROVISIONER_JAYANTA: jayanta example_ble_mesh_provisioning_cb ESP_BLE_MESH_PROVISIONER_RECV_UNPROV_ADV_PKT_EVT
+2023-11-16 21:52:07 I (7717) PROVISIONER_JAYANTA: address: 0c8b957663b2, address type: 0, adv type: 3
+2023-11-16 21:52:07 I (7727) PROVISIONER_JAYANTA: device uuid: dddd0c8b957663b20000000000000000
+2023-11-16 21:52:07 I (7727) PROVISIONER_JAYANTA: oob info: 0, bearer: PB-ADV
+2023-11-16 21:52:08 I (7737) PROVISIONER_JAYANTA: jayanta recv_unprov_adv_pkt --> esp_ble_mesh_provisioner_add_unprov_dev
+2023-11-16 21:52:08 I (7757) PROVISIONER_JAYANTA: jayanta example_ble_mesh_provisioning_cb ESP_BLE_MESH_PROVISIONER_RECV_UNPROV_ADV_PKT_EVT
+2023-11-16 21:52:08 I (7767) PROVISIONER_JAYANTA: address: 0c8b957663b2, address type: 0, adv type: 3
+2023-11-16 21:52:08 I (7777) PROVISIONER_JAYANTA: device uuid: dddd0c8b957663b20000000000000000
+2023-11-16 21:52:08 I (7777) PROVISIONER_JAYANTA: oob info: 0, bearer: PB-ADV
+2023-11-16 21:52:08 I (7787) PROVISIONER_JAYANTA: jayanta recv_unprov_adv_pkt --> esp_ble_mesh_provisioner_add_unprov_dev
+2023-11-16 21:52:08 I (7797) PROVISIONER_JAYANTA: jayanta example_ble_mesh_provisioning_cb ESP_BLE_MESH_PROVISIONER_RECV_UNPROV_ADV_PKT_EVT
+2023-11-16 21:52:08 I (7807) PROVISIONER_JAYANTA: address: 0c8b957663b2, address type: 0, adv type: 3
+2023-11-16 21:52:08 I (7817) PROVISIONER_JAYANTA: device uuid: dddd0c8b957663b20000000000000000
+2023-11-16 21:52:08 I (7827) PROVISIONER_JAYANTA: oob info: 0, bearer: PB-ADV
+2023-11-16 21:52:08 I (7827) PROVISIONER_JAYANTA: jayanta recv_unprov_adv_pkt --> esp_ble_mesh_provisioner_add_unprov_dev
+2023-11-16 21:52:08 I (7847) PROVISIONER_JAYANTA: jayanta example_ble_mesh_provisioning_cb ESP_BLE_MESH_PROVISIONER_RECV_UNPROV_ADV_PKT_EVT
+2023-11-16 21:52:08 I (7857) PROVISIONER_JAYANTA: address: 0c8b957663b2, address type: 0, adv type: 0
+2023-11-16 21:52:08 I (7867) PROVISIONER_JAYANTA: device uuid: dddd0c8b957663b20000000000000000
+2023-11-16 21:52:08 I (7867) PROVISIONER_JAYANTA: oob info: 0, bearer: PB-GATT
+2023-11-16 21:52:08 I (7877) PROVISIONER_JAYANTA: jayanta recv_unprov_adv_pkt --> esp_ble_mesh_provisioner_add_unprov_dev
+=============================================================================================================================================  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  PROVISION
+
+"esp_ble_mesh_provisioner_add_unprov_dev()" triggers ESP_BLE_MESH_PROVISIONER_PROV_LINK_OPEN_EVT
+
+example_ble_mesh_provisioning_cb() receives ESP_BLE_MESH_PROVISIONER_PROV_LINK_OPEN_EVT which triggers prov_link_open()
+
+example_ble_mesh_provisioning_cb() receives ESP_BLE_MESH_PROVISIONER_ADD_UNPROV_DEV_COMP_EVT
+
+example_ble_mesh_provisioning_cb() receives ESP_BLE_MESH_PROVISIONER_PROV_COMPLETE_EVT --> prov_complete()
+
+prov_complete() --> "esp_ble_mesh_provisioner_set_node_name()" --> example_ble_mesh_provisioning_cb() receives ESP_BLE_MESH_PROVISIONER_SET_NODE_NAME_COMP_EVT
+
+=============================================================================================================================================  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  CONFIGURATION
+
+prov_complete() --> example_ble_mesh_store_node_info() --> this updates/populates the node array.
+prov_complete() --> example_ble_mesh_set_msg_common() --> this updates/populates the common.
+prov_complete() --> "esp_ble_mesh_config_client_get_state()" -->  example_ble_mesh_config_client_cb event: ESP_BLE_MESH_CFG_CLIENT_GET_STATE_EVT opcode: ESP_BLE_MESH_MODEL_OP_COMPOSITION_DATA_GET
+
+example_ble_mesh_config_client_cb event: ESP_BLE_MESH_CFG_CLIENT_GET_STATE_EVT opcode: ESP_BLE_MESH_MODEL_OP_COMPOSITION_DATA_GET
+  --> example_ble_mesh_set_msg_common()
+  --> esp_ble_mesh_config_client_set_state()
+
+example_ble_mesh_config_client_cb event: ESP_BLE_MESH_CFG_CLIENT_SET_STATE_EVT opcode: ESP_BLE_MESH_MODEL_OP_APP_KEY_ADD
+  --> example_ble_mesh_set_msg_common()
+  --> esp_ble_mesh_config_client_set_state()
+
+example_ble_mesh_config_client_cb event: ESP_BLE_MESH_CFG_CLIENT_SET_STATE_EVT opcode: ESP_BLE_MESH_MODEL_OP_MODEL_APP_BIND
+  --> example_ble_mesh_set_msg_common()
+  --> esp_ble_mesh_generic_client_get_state()
+  
+example_ble_mesh_provisioning_cb() receives ESP_BLE_MESH_PROVISIONER_PROV_LINK_CLOSE_EVT which triggers prov_link_close()
+
+example_ble_mesh_generic_client_cb() receives ESP_BLE_MESH_GENERIC_CLIENT_TIMEOUT_EVT with opcode: ESP_BLE_MESH_MODEL_OP_GEN_ONOFF_GET
+
+=============================================================================================================================================
+
+
