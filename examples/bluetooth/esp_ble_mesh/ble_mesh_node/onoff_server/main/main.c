@@ -24,17 +24,12 @@
 
 #include "board.h"
 #include "ble_mesh_example_init.h"
-#include "oled/include/oled_util.h"
 
-#define TAG "BLE_MESH_SERVER"
+#define TAG "EXAMPLE"
 
 #define CID_ESP 0x02E5
 
-SSD1306_t oled_dev;
-pthread_t oled_bt_thread;
-char *oled_bt_thread_name = "oled_bt_thread";
-
-extern struct _GPIO_state gpio_state[3];
+extern struct _led_state led_state[3];
 
 static uint8_t dev_uuid[16] = { 0xdd, 0xdd };
 
@@ -118,55 +113,32 @@ static void prov_complete(uint16_t net_idx, uint16_t addr, uint8_t flags, uint32
 {
     ESP_LOGI(TAG, "net_idx: 0x%04x, addr: 0x%04x", net_idx, addr);
     ESP_LOGI(TAG, "flags: 0x%02x, iv_index: 0x%08" PRIx32, flags, iv_index);
-    set_animation(300);
-    gpio_operation(LED_BLUE, GPIO_UNSET);
-    set_animation(OFF_OFF);
+    board_led_operation(LED_G, LED_OFF);
 }
 
-static void example_change_gpio_state(esp_ble_mesh_model_t *model,
+static void example_change_led_state(esp_ble_mesh_model_t *model,
                                      esp_ble_mesh_msg_ctx_t *ctx, uint8_t onoff)
 {
     uint16_t primary_addr = esp_ble_mesh_get_primary_element_address();
     uint8_t elem_count = esp_ble_mesh_get_element_count();
+    struct _led_state *led = NULL;
     uint8_t i;
 
-    // TODO on/off from phone is UNICAST
     if (ESP_BLE_MESH_ADDR_IS_UNICAST(ctx->recv_dst)) {
         for (i = 0; i < elem_count; i++) {
             if (ctx->recv_dst == (primary_addr + i)) {
-                ESP_LOGI(TAG, "element index %d", i);
-                if(i == 1){
-                    gpio_operation(IN1_YELLOW, onoff);
-                }
-
-                if(i == 2){
-                    gpio_operation(IN2_ORANGE, onoff);
-                }
+                led = &led_state[i];
+                board_led_operation(led->pin, onoff);
             }
         }
-
-        int y = get_gpio_status(IN1_YELLOW);
-        int x = get_gpio_status(IN2_ORANGE);
-
-        if (x && y){
-            set_animation(ON_ON);
-        }else if(!(x || y)){
-            set_animation(OFF_OFF);
-        }else{
-            if(x){
-                set_animation(ON_OFF);
-            }else{
-                set_animation(OFF_ON);
-            }
-        }
-
-
     } else if (ESP_BLE_MESH_ADDR_IS_GROUP(ctx->recv_dst)) {
         if (esp_ble_mesh_is_model_subscribed_to_group(model, ctx->recv_dst)) {
-            gpio_operation(IN1_YELLOW, onoff);
+            led = &led_state[model->element->element_addr - primary_addr];
+            board_led_operation(led->pin, onoff);
         }
     } else if (ctx->recv_dst == 0xFFFF) {
-        gpio_operation(IN1_YELLOW, onoff);
+        led = &led_state[model->element->element_addr - primary_addr];
+        board_led_operation(led->pin, onoff);
     }
 }
 
@@ -195,7 +167,7 @@ static void example_handle_gen_onoff_msg(esp_ble_mesh_model_t *model,
         }
         esp_ble_mesh_model_publish(model, ESP_BLE_MESH_MODEL_OP_GEN_ONOFF_STATUS,
             sizeof(srv->state.onoff), &srv->state.onoff, ROLE_NODE);
-        example_change_gpio_state(model, ctx, srv->state.onoff);
+        example_change_led_state(model, ctx, srv->state.onoff);
         break;
     default:
         break;
@@ -249,7 +221,8 @@ static void example_ble_mesh_generic_server_cb(esp_ble_mesh_generic_server_cb_ev
         if (param->ctx.recv_op == ESP_BLE_MESH_MODEL_OP_GEN_ONOFF_SET ||
             param->ctx.recv_op == ESP_BLE_MESH_MODEL_OP_GEN_ONOFF_SET_UNACK) {
             ESP_LOGI(TAG, "onoff 0x%02x", param->value.state_change.onoff_set.onoff);
-            example_change_gpio_state(param->model, &param->ctx, param->value.state_change.onoff_set.onoff);
+            example_change_led_state(param->model, &param->ctx, param->value.state_change.onoff_set.onoff);
+            set_self_led_on(param->value.state_change.onoff_set.onoff);
         }
         break;
     case ESP_BLE_MESH_GENERIC_SERVER_RECV_GET_MSG_EVT:
@@ -334,18 +307,13 @@ static esp_err_t ble_mesh_init(void)
 
     ESP_LOGI(TAG, "BLE Mesh Node initialized");
 
-    set_animation(100);
+    board_led_operation(LED_G, LED_ON);
 
-    gpio_operation(LED_BLUE, GPIO_SET);
     return err;
 }
 
 void app_main(void)
 {
-    #if CONFIG_SSD1306_128x64
-        oled_init(&oled_dev);
-    #endif //CONFIG_SSD1306_128x64
-    
     esp_err_t err;
 
     ESP_LOGI(TAG, "Initializing...");
@@ -371,9 +339,5 @@ void app_main(void)
     err = ble_mesh_init();
     if (err) {
         ESP_LOGE(TAG, "Bluetooth mesh init failed (err %d)", err);
-    }else{
-        #if CONFIG_SSD1306_128x64
-        pthread_create(&oled_bt_thread, NULL, init_animation, NULL);
-        #endif //CONFIG_SSD1306_128x64
     }
 }
