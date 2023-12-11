@@ -41,12 +41,16 @@ echo "Running $ESP_IDF_HOME/export.sh ..."
 source $ESP_IDF_HOME/export.sh
 source $VENDOR_HOME/scripts/tools.sh
 
+echo -e "List all the environmental variables :"
+echo -e "--------------------------------------"
 echo -e "EROOT\t\t:\t$EROOT"
 echo -e "ESP_IDF_HOME\t:\t$ESP_IDF_HOME"
 echo -e "VENDOR_HOME\t:\t$VENDOR_HOME"
 echo -e "VENDOR_PACKAGE\t:\t$VENDOR_PACKAGE"
 echo
-set_alias eroot "cd $EROOT"
+echo -e "List all the aliases :"
+echo -e "----------------------"
+set_alias esp "cd $EROOT"
 set_alias build.sh "source $VENDOR_HOME/scripts/build.sh"
 set_alias build_all.sh "source $VENDOR_HOME/scripts/build_all.sh"
 set_alias flash.sh "source $VENDOR_HOME/scripts/flash.sh"

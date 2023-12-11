@@ -24,7 +24,7 @@
 
 #include "ble_mesh_example_init.h"
 
-#define TAG "EXAMPLE"
+#define TAG "ESP_BLE_PROVISIONER"
 
 #define UNICAST_DEVICE_1    0x08
 #define UNICAST_DEVICE_2    0x05

@@ -40,6 +40,17 @@ index=0
 while IFS="," read -r path package_name
 do
   echo "$index) $package_name"
+
+  # $ESP_IDF_HOME OR $VENDOR_HOME
+  vend_path=$(echo "$path" | sed -e "s|ROOT|${VENDOR_HOME}|g")
+  esp_path=$(echo $path | sed -e "s|ROOT|${ESP_IDF_HOME}|g")
+
+  if [ -d "$vend_path" ]; then
+    path=$vend_path
+  elif [ -d "$esp_path" ]; then
+    path=$esp_path
+  fi
+
   path_list+=($path)
   (( index++ ))
   if [ $index = $ESP_DEVICE_COUNT ];then
