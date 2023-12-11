@@ -36,11 +36,24 @@ index=0
 while IFS="," read -r path package_name
 do
   path=$(eval echo "$path")
+  # $ESP_IDF_HOME OR $VENDOR_HOME
+  vend_path=$(echo "$path" | sed -e "s|ROOT|${VENDOR_HOME}|g")
+  esp_path=$(echo $path | sed -e "s|ROOT|${ESP_IDF_HOME}|g")
+
+  if [ -d "$vend_path" ]; then
+    echo "$vend_path found."
+    path=$vend_path
+  elif [ -d "$esp_path" ]; then
+    echo "$esp_path found."
+    path=$esp_path
+  fi
+  
   device_port=$(get_device_port_by_index $index)
   cd $path
   idf.py fullclean
   idf.py -p $device_port -b 115200 flash
   cd -
+
   (( index++ ))
   if [ $index = $ESP_DEVICE_COUNT ];then
     break
@@ -54,7 +67,19 @@ echo "Flashed :: $csv_file_path"
 index=0
 while IFS="," read -r path package_name
 do
+ 
   path=$(eval echo "$path")
+  # $ESP_IDF_HOME OR $VENDOR_HOME
+  vend_path=$(echo "$path" | sed -e "s|ROOT|${VENDOR_HOME}|g")
+  esp_path=$(echo $path | sed -e "s|ROOT|${ESP_IDF_HOME}|g")
+
+  if [ -d "$vend_path" ]; then
+    echo "$vend_path found."
+    path=$vend_path
+  elif [ -d "$esp_path" ]; then
+    echo "$esp_path found."
+    path=$esp_path
+  fi
   device_port=$(get_device_port_by_index $index)
   echo "$device_port  ::  $package_name"
   (( index++ ))

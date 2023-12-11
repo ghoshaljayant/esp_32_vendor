@@ -1,0 +1,80 @@
+
+        
+esp_ble_mesh_register_prov_callback(example_ble_mesh_provisioning_cb);
+example_ble_mesh_provisioning_cb()
+
+    case ESP_BLE_MESH_PROVISIONER_PROV_ENABLE_COMP_EVT:
+    case ESP_BLE_MESH_PROVISIONER_PROV_DISABLE_COMP_EVT:
+    case ESP_BLE_MESH_PROVISIONER_RECV_UNPROV_ADV_PKT_EVT:		1	
+    case ESP_BLE_MESH_PROVISIONER_PROV_LINK_OPEN_EVT:			2
+    case ESP_BLE_MESH_PROVISIONER_ADD_UNPROV_DEV_COMP_EVT:		3
+    case ESP_BLE_MESH_PROVISIONER_PROV_COMPLETE_EVT:			4
+    case ESP_BLE_MESH_PROVISIONER_PROV_LINK_CLOSE_EVT:			7
+    case ESP_BLE_MESH_PROVISIONER_SET_DEV_UUID_MATCH_COMP_EVT:
+    case ESP_BLE_MESH_PROVISIONER_SET_NODE_NAME_COMP_EVT:
+    case ESP_BLE_MESH_PROVISIONER_ADD_LOCAL_APP_KEY_COMP_EVT:
+    case ESP_BLE_MESH_PROVISIONER_BIND_APP_KEY_TO_MODEL_COMP_EVT:
+    
+esp_ble_mesh_register_config_client_callback(example_ble_mesh_config_client_cb);
+example_ble_mesh_config_client_cb()
+
+    case ESP_BLE_MESH_CFG_CLIENT_GET_STATE_EVT:				5
+        case ESP_BLE_MESH_MODEL_OP_COMPOSITION_DATA_GET:		5.1
+    case ESP_BLE_MESH_CFG_CLIENT_SET_STATE_EVT:				6
+        case ESP_BLE_MESH_MODEL_OP_APP_KEY_ADD:				6.2
+        case ESP_BLE_MESH_MODEL_OP_MODEL_APP_BIND:			6.3
+    case ESP_BLE_MESH_CFG_CLIENT_PUBLISH_EVT:
+        case ESP_BLE_MESH_MODEL_OP_COMPOSITION_DATA_STATUS:
+        case ESP_BLE_MESH_MODEL_OP_APP_KEY_STATUS:
+    case ESP_BLE_MESH_CFG_CLIENT_TIMEOUT_EVT:
+        case ESP_BLE_MESH_MODEL_OP_COMPOSITION_DATA_GET:
+        case ESP_BLE_MESH_MODEL_OP_APP_KEY_ADD:
+        case ESP_BLE_MESH_MODEL_OP_MODEL_APP_BIND:
+    
+esp_ble_mesh_register_generic_client_callback(example_ble_mesh_generic_client_cb);
+example_ble_mesh_generic_client_cb()
+
+    case ESP_BLE_MESH_GENERIC_CLIENT_GET_STATE_EVT:
+        case ESP_BLE_MESH_MODEL_OP_GEN_ONOFF_GET:
+    case ESP_BLE_MESH_GENERIC_CLIENT_SET_STATE_EVT:
+        case ESP_BLE_MESH_MODEL_OP_GEN_ONOFF_SET:
+    case ESP_BLE_MESH_GENERIC_CLIENT_PUBLISH_EVT:
+    case ESP_BLE_MESH_GENERIC_CLIENT_TIMEOUT_EVT:			8
+        case ESP_BLE_MESH_MODEL_OP_GEN_ONOFF_GET:			8.1
+        case ESP_BLE_MESH_MODEL_OP_GEN_ONOFF_SET:
+        
+client composition data
+2023-11-28 23:05:17 I (43016) EXAMPLE: example_ble_mesh_config_client_cb, error_code = 0x00, event = 0x00, addr: 0x0005, opcode: 0x8008
+2023-11-28 23:05:17 I (43026) EXAMPLE: composition data e502000000000a0003000000020000000110 , model_id = 0x3ffb
+2023-11-28 23:05:17 I (43036) EXAMPLE: composition data e502000000000a0003000000020000000110 , model_id = 0x01
+
+#define ESP_BLE_MESH_MODEL_ID_GEN_ONOFF_SRV                         0x1000
+#define ESP_BLE_MESH_MODEL_ID_GEN_ONOFF_CLI                         0x1001
+
+server		e502 0000 0000 0a00 0300 0000 0200 0000 0110
+client		e502 0000 0000 0a00 0300 0000 0200 0000 0010 0000 0100 0010 0000 0100 0010
+
+server composition data
+
+if(node->unicast == SERVER_1){
+// server
+set_state.model_app_bind.model_id = ESP_BLE_MESH_MODEL_ID_GEN_ONOFF_SRV;
+}else if(node->unicast == CLIENT_1){
+// client
+set_state.model_app_bind.model_id = ESP_BLE_MESH_MODEL_ID_GEN_ONOFF_CLI;
+}
+
+#define UNICAST_DEVICE_1    0x08
+#define UNICAST_DEVICE_2    0x05
+
+            if(node->unicast == UNICAST_DEVICE_1){
+                // server
+                ESP_LOGI(TAG, "ESP_BLE_MESH_MODEL_OP_MODEL_APP_BIND server detected");
+                set_state.model_app_bind.model_id = ESP_BLE_MESH_MODEL_ID_GEN_ONOFF_SRV;
+            }else if(node->unicast == UNICAST_DEVICE_2){
+                // client
+                ESP_LOGI(TAG, "ESP_BLE_MESH_MODEL_OP_MODEL_APP_BIND client detected");
+                set_state.model_app_bind.model_id = ESP_BLE_MESH_MODEL_ID_GEN_ONOFF_CLI;
+            }else{
+                ESP_LOGI(TAG, "ESP_BLE_MESH_MODEL_OP_MODEL_APP_BIND unknown detected");
+            }

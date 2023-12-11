@@ -1,5 +1,5 @@
 path,package_name
-$ESP_IDF_HOME/examples/bluetooth/bluedroid/ble/ble_spp_server/,ble_spp_server_demo
-$ESP_IDF_HOME/examples/bluetooth/bluedroid/ble/ble_spp_client/,spp_client_demo
-$ESP_IDF_HOME/examples/bluetooth/bluedroid/ble/ble_spp_client/,spp_client_demo
-$ESP_IDF_HOME/examples/bluetooth/bluedroid/ble/ble_spp_client/,spp_client_demo
+ROOT/examples/bluetooth/bluedroid/ble/ble_spp_server/,ble_spp_server_demo
+ROOT/examples/bluetooth/bluedroid/ble/ble_spp_client/,spp_client_demo
+ROOT/examples/bluetooth/bluedroid/ble/ble_spp_client/,spp_client_demo
+ROOT/examples/bluetooth/bluedroid/ble/ble_spp_client/,spp_client_demo
