@@ -1,6 +1,5 @@
 #! /bin/bash
 
-
 old_pwd=$(pwd)
 echo "$old_pwd"
 
@@ -17,23 +16,8 @@ while [ -L "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symli
 done
 export MY_PATH=$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )
 
-csv_file_path="$VENDOR_HOME/targets/$ESP_TARGET.csv"
-
-if [ ! -f "$csv_file_path" ];then
-  echo "Invalid target name: $ESP_TARGET"
-  return -1
-fi
-
-echo "Valid target name: $ESP_TARGET"
-
-# check if any device is connected or not
-source $MY_PATH/tools.sh
-detect_device
-if [ "$ESP_DEVICE_COUNT" = "0" ];then
-  echo "No device connected !!"
-  return -1
-fi
-
+source $CSV_SCRIPT_PATH/csv_init_.sh
+csv_init
 
 path_list=()
 index=0

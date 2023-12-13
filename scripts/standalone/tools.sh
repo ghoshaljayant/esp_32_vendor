@@ -2,6 +2,10 @@
 
 result="FAIL"
 
+
+# check if any device is connected to the host and updates
+#   - ESP_DEVICE_STATUS (NULL, SINGLE_DEVICE_CONNECTED, MULTI_DEVICE_CONNECTED)
+#   - ESP_DEVICE_COUNT (integer)
 function detect_device()
 {
     export ESP_DEVICES="NULL"
@@ -27,11 +31,13 @@ function detect_device()
     export ESP_DEVICE_COUNT="$device_index"
 }
 
+# print the list of all connected esp devices
 function esp_devices()
 {
     list_device_port_by_index
 }
 
+# print the list of all connected esp devices
 function list_device_port_by_index()
 {
     device_port_list=$(ls /dev |grep -E 'ttyACM|ttyUSB')
@@ -60,6 +66,9 @@ function get_device_port_by_index()
     fi
 }
 
+# Choose which target to build with lunch. 
+# Lunch product_name selects product_name as the product to build,
+# and stores those selections in the environment to be read by subsequent invocations of other commands.
 function lunch()
 {
     target_array=()

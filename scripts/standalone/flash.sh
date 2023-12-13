@@ -35,11 +35,7 @@ source $MY_PATH/tools.sh
 
 detect_device
 
-package_path_array=()
-for package in "${package_array[@]}"
-do
-  package_path_array+=("$VENDOR_PACKAGE/$package")
-done
+
 echo "$1"
 # run idf.py -p $DEVICE_PORT flash
 
@@ -50,34 +46,23 @@ fi
 
 
 
-requested_package_path=("$VENDOR_PACKAGE/$1")
-for package_path in "${package_path_array[@]}"
-do
+cd $package_path
+if [ "$ESP_DEVICE_COUNT" = "1" ];then
 
-  if [ "$requested_package_path" = "$package_path" ];then
+else
 
-    cd $package_path
-    if [ "$ESP_DEVICE_COUNT" = "1" ];then
-      if [ "$2" = "-m" ];then
-        echo ">> executing: idf.py -p $DEVICE_PORT flash monitor"
-        idf.py -p $DEVICE_PORT flash monitor
-      else
-        echo ">> executing: idf.py -p $DEVICE_PORT flash"
-        idf.py -p $DEVICE_PORT flash
-      fi
-    else
+  list_device_port_by_index
+  read -p 'enter the choice: ' device_port_index
+  device_port=$(get_device_port_by_index $device_port_index)
+  
+fi
 
-      list_device_port_by_index
-      read -p 'enter the choice: ' device_port_index
-      device_port=$(get_device_port_by_index $device_port_index)
-      if [ "$2" = "-m" ];then
-        echo ">> executing: idf.py -p $device_port flash monitor"
-        idf.py -p $device_port flash monitor
-      else
-        echo ">> executing: idf.py -p $device_port flash"
-        idf.py -p $device_port flash
-      fi
-    fi
-    cd -
-  fi
-done
+if [ "$2" = "-m" ];then
+  echo ">> executing: idf.py -p $device_port flash monitor"
+  idf.py -p $device_port flash monitor
+else
+  echo ">> executing: idf.py -p $device_port flash"
+  idf.py -p $device_port flash
+fi
+
+cd -

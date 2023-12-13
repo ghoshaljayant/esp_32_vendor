@@ -17,6 +17,9 @@ export ESP_IDF_HOME="$EROOT"/esp-idf
 export IDF_EXAMPLE_PACKAGE="$ESP_IDF_HOME"/examples
 export IDF_BUILD_TARGET="esp32"
 export DEVICE_PORT="/dev/ttyACM0"
+export STANDALONE_SCRIPT_PATH="$VENDOR_HOME"/scripts/standalone
+export CSV_SCRIPT_PATH="$VENDOR_HOME"/scripts/csv_scripts
+
 
 function set_alias()
 {
@@ -39,7 +42,7 @@ bash $ESP_IDF_HOME/install.sh
 
 echo "Running $ESP_IDF_HOME/export.sh ..."
 source $ESP_IDF_HOME/export.sh
-source $VENDOR_HOME/scripts/tools.sh
+source $STANDALONE_SCRIPT_PATH/tools.sh
 
 echo -e "List all the environmental variables :"
 echo -e "--------------------------------------"
@@ -50,13 +53,20 @@ echo -e "VENDOR_PACKAGE\t:\t$VENDOR_PACKAGE"
 echo
 echo -e "List all the aliases :"
 echo -e "----------------------"
+
+
+
+[[ ! -d $STANDALONE_SCRIPT_PATH ]] && 
+
+[[ ! -d $CSV_SCRIPT_PATH ]] && 
+
 set_alias esp "cd $EROOT"
-set_alias build.sh "source $VENDOR_HOME/scripts/build.sh"
-set_alias build_all.sh "source $VENDOR_HOME/scripts/build_all.sh"
-set_alias flash.sh "source $VENDOR_HOME/scripts/flash.sh"
-set_alias push.sh "source $VENDOR_HOME/scripts/push.sh"
-set_alias monitor_target "source $VENDOR_HOME/scripts/csv_monitor.sh"
-set_alias flash_target "source $VENDOR_HOME/scripts/csv_flasher.sh"
+set_alias build.sh "source $STANDALONE_SCRIPT_PATH/build.sh"
+set_alias build_all.sh "source $STANDALONE_SCRIPT_PATH/build_all.sh"
+set_alias flash.sh "source $STANDALONE_SCRIPT_PATH/flash.sh"
+set_alias push.sh "source $STANDALONE_SCRIPT_PATH/push.sh"
+set_alias monitor_target "source $CSV_SCRIPT_PATH/csv_monitor.sh"
+set_alias flash_target "source $CSV_SCRIPT_PATH/csv_flasher.sh"
 
 
 cd $old_pwd
