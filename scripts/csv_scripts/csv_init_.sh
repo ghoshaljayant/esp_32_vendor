@@ -21,7 +21,7 @@ function csv_init()
   echo "Valid target name: $ESP_TARGET"
 
   # check if any device is connected or not
-  source $MY_PATH/tools.sh
+  source $STANDALONE_SCRIPT_PATH/tools.sh
   detect_device
   if [ "$ESP_DEVICE_COUNT" = "0" ];then
     echo "No device connected !!"

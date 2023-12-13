@@ -67,6 +67,7 @@ set_alias flash.sh "source $STANDALONE_SCRIPT_PATH/flash.sh"
 set_alias push.sh "source $STANDALONE_SCRIPT_PATH/push.sh"
 set_alias monitor_targets "source $CSV_SCRIPT_PATH/csv_monitor.sh"
 set_alias flash_targets "source $CSV_SCRIPT_PATH/csv_flasher.sh"
+set_alias parse_targets "source $CSV_SCRIPT_PATH/csv_parser.sh"
 set_alias targets "cd $VENDOR_HOME/targets/"
 set_alias list_targets "lunch"
 
