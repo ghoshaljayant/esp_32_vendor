@@ -65,9 +65,10 @@ set_alias build.sh "source $STANDALONE_SCRIPT_PATH/build.sh"
 set_alias build_all.sh "source $STANDALONE_SCRIPT_PATH/build_all.sh"
 set_alias flash.sh "source $STANDALONE_SCRIPT_PATH/flash.sh"
 set_alias push.sh "source $STANDALONE_SCRIPT_PATH/push.sh"
-set_alias monitor_target "source $CSV_SCRIPT_PATH/csv_monitor.sh"
-set_alias flash_target "source $CSV_SCRIPT_PATH/csv_flasher.sh"
+set_alias monitor_targets "source $CSV_SCRIPT_PATH/csv_monitor.sh"
+set_alias flash_targets "source $CSV_SCRIPT_PATH/csv_flasher.sh"
 set_alias targets "cd $VENDOR_HOME/targets/"
+set_alias list_targets "lunch"
 
 
 cd $old_pwd
