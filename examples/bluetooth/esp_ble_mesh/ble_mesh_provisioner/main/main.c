@@ -26,8 +26,6 @@
 
 #define TAG "ESP_BLE_PROVISIONER"
 
-#define UNICAST_DEVICE_1    0x08
-#define UNICAST_DEVICE_2    0x05
 
 #define LED_OFF             0x0
 #define LED_ON              0x1
@@ -193,17 +191,15 @@ void decode_comp_data_and_get_model_ids(esp_ble_mesh_composition_head *head, esp
 
     for(i = 1; i < head->sig_models * 2; i = i + 2) {
         data->SIG_models[i/2] = mystr[i + pos_sig_base] | (mystr[i + pos_sig_base + 1] << 8);
-        
-        if(data->SIG_models[i/2] == 0x1000){
-            printf("jayanta server");
-            other_node_model_id = ESP_BLE_MESH_MODEL_ID_GEN_ONOFF_SRV;
-        }else if(data->SIG_models[i/2] == 0x1001){
-            printf("jayanta client");
-            other_node_model_id = ESP_BLE_MESH_MODEL_ID_GEN_ONOFF_CLI;
-        }else{
-            printf("%d: %4.4x\n", i/2, data->SIG_models[i/2]);
+
+        switch(data->SIG_models[i/2])
+        {
+            case ESP_BLE_MESH_MODEL_ID_GEN_ONOFF_SRV:
+            case ESP_BLE_MESH_MODEL_ID_GEN_ONOFF_CLI:
+                other_node_model_id = data->SIG_models[i/2];
+                printf("%d: %4.4x\n", i/2, data->SIG_models[i/2]);
+                break;
         }
-        
     }
 }
 

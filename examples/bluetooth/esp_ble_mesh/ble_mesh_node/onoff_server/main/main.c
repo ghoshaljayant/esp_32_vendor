@@ -25,7 +25,7 @@
 #include "board.h"
 #include "ble_mesh_example_init.h"
 
-#define TAG "EXAMPLE"
+#define TAG "BLE_MESH_SERVER"
 
 #define CID_ESP 0x02E5
 
@@ -123,20 +123,25 @@ static void example_change_led_state(esp_ble_mesh_model_t *model,
     uint8_t elem_count = esp_ble_mesh_get_element_count();
     struct _led_state *led = NULL;
     uint8_t i;
+    set_self_led_on(onoff);
 
     if (ESP_BLE_MESH_ADDR_IS_UNICAST(ctx->recv_dst)) {
+        ESP_LOGI(TAG,"unicast  ----  ---");
         for (i = 0; i < elem_count; i++) {
             if (ctx->recv_dst == (primary_addr + i)) {
                 led = &led_state[i];
                 board_led_operation(led->pin, onoff);
             }
         }
+        
     } else if (ESP_BLE_MESH_ADDR_IS_GROUP(ctx->recv_dst)) {
+        ESP_LOGI(TAG,"group  ----  ---");
         if (esp_ble_mesh_is_model_subscribed_to_group(model, ctx->recv_dst)) {
             led = &led_state[model->element->element_addr - primary_addr];
             board_led_operation(led->pin, onoff);
         }
     } else if (ctx->recv_dst == 0xFFFF) {
+        ESP_LOGI(TAG,"ffff  ----  ---");
         led = &led_state[model->element->element_addr - primary_addr];
         board_led_operation(led->pin, onoff);
     }
@@ -222,7 +227,6 @@ static void example_ble_mesh_generic_server_cb(esp_ble_mesh_generic_server_cb_ev
             param->ctx.recv_op == ESP_BLE_MESH_MODEL_OP_GEN_ONOFF_SET_UNACK) {
             ESP_LOGI(TAG, "onoff 0x%02x", param->value.state_change.onoff_set.onoff);
             example_change_led_state(param->model, &param->ctx, param->value.state_change.onoff_set.onoff);
-            set_self_led_on(param->value.state_change.onoff_set.onoff);
         }
         break;
     case ESP_BLE_MESH_GENERIC_SERVER_RECV_GET_MSG_EVT:
