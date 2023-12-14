@@ -360,6 +360,10 @@ static void recv_unprov_adv_pkt(uint8_t dev_uuid[16], uint8_t addr[BD_ADDR_LEN],
     return;
 }
 
+
+/**
+ * Provisioner callbacks 
+ */
 static void example_ble_mesh_provisioning_cb(esp_ble_mesh_prov_cb_event_t event,
                                              esp_ble_mesh_prov_cb_param_t *param)
 {
@@ -430,6 +434,10 @@ static void example_ble_mesh_provisioning_cb(esp_ble_mesh_prov_cb_event_t event,
     return;
 }
 
+
+/**
+ * Configuration model callback for fetching composition data and binding keys
+ */
 static void example_ble_mesh_config_client_cb(esp_ble_mesh_cfg_client_cb_event_t event,
                                               esp_ble_mesh_cfg_client_cb_param_t *param)
 {
@@ -491,7 +499,7 @@ static void example_ble_mesh_config_client_cb(esp_ble_mesh_cfg_client_cb_event_t
         case ESP_BLE_MESH_MODEL_OP_APP_KEY_ADD: {
             esp_ble_mesh_cfg_client_set_state_t set_state = {0};
             example_ble_mesh_set_msg_common(&common, node, config_client.model, ESP_BLE_MESH_MODEL_OP_MODEL_APP_BIND);
-            set_state.model_app_bind.element_addr = node->unicast;
+            set_state.model_app_bind.element_addr = node-> unicast;
             set_state.model_app_bind.model_app_idx = prov_key.app_idx;
             set_state.model_app_bind.model_id = other_node_model_id;
             set_state.model_app_bind.company_id = ESP_BLE_MESH_CID_NVAL;
@@ -579,6 +587,9 @@ static void example_ble_mesh_config_client_cb(esp_ble_mesh_cfg_client_cb_event_t
     }
 }
 
+/**
+ * Client on/off callback
+*/
 static void example_ble_mesh_generic_client_cb(esp_ble_mesh_generic_client_cb_event_t event,
                                                esp_ble_mesh_generic_client_cb_param_t *param)
 {
