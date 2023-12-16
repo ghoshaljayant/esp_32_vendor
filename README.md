@@ -25,3 +25,6 @@ Window Module | 0xC200 |
 Light Module | 0xC400 |
 Curtain Module | 0xC600 |
 Door Module | 0xC800 |
+Climate Module | 0xD000 |
+Entertainment Module | 0xD200 |
+DND Module | 0xD400 |
