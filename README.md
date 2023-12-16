@@ -18,9 +18,10 @@ Things to try out
 ![Domain model in PlantUML](http://www.plantuml.com/plantuml/png/TTB1IWCn40RWUvvYwBs7RdkMGiLJ1V7YeIwoc4G3wOpC9lOWlhkawKeI9hSm--tEdv_Tps7Y4CzUAL18si3g43bC3k6HTFHc1JyA0E1qD3O0uHjP2w-Ow0ZJ3Ey-7JDvTX-Vek6h-GLrMt6ymdP16cw4r_qc7GiqI6Xeq5P2smRj9BJBQPUmzqJSPdrWmW2QY8KFM5rKOYRkETRreXU7cYxjgZoLUhdaNWerI6feodzY-dQp8pJbjVvJ7Bmp6EedfseumZf-hUzk5Ix37YhgwvhgvbrL_vYZKdk3Efxz7m00)
 
 
-
-GROUP ADDRESS:
-Light Module : 0xC001
-Window Module : 0xC002
-Curtain Module : 0xC003
-Door Module : 0xC004
+Group Name | Group Address |
+--- | --- |
+Light Module | 0xC000 |
+Window Module | 0xC200 |
+Light Module | 0xC400 |
+Curtain Module | 0xC600 |
+Door Module | 0xC800 |
