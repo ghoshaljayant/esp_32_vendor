@@ -1,8 +1,8 @@
 menu "NVS Configuration"
 
-	config NVS_GROUP_ADD_KEY
+	config NVS_GROUP_ADD
 		string "ble mesh group address"
-		default "NVS_GROUP_ADDRESS"	
+		default "0xC001"	
 
 endmenu
 

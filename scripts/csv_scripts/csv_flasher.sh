@@ -38,8 +38,8 @@ do
   
   device_port=$(get_device_port_by_index $index)
   cd $path
-  idf.py fullclean &&
-  idf.py -p $device_port -b 115200 flash
+  #idf.py fullclean &&
+  idf.py -p $device_port -b 115200 flash &
   cd -
 
   (( index++ ))
