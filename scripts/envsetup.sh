@@ -12,6 +12,7 @@ done
 MY_PATH=$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )
 export VENDOR_HOME="$( dirname $MY_PATH )"
 export VENDOR_PACKAGE="$VENDOR_HOME"/packages
+export VENDOR_COMPONENTS="$VENDOR_HOME"/components
 export EROOT="$(dirname "$VENDOR_HOME")"
 export ESP_IDF_HOME="$EROOT"/esp-idf
 export IDF_EXAMPLE_PACKAGE="$ESP_IDF_HOME"/examples
@@ -50,6 +51,7 @@ echo -e "EROOT\t\t:\t$EROOT"
 echo -e "ESP_IDF_HOME\t:\t$ESP_IDF_HOME"
 echo -e "VENDOR_HOME\t:\t$VENDOR_HOME"
 echo -e "VENDOR_PACKAGE\t:\t$VENDOR_PACKAGE"
+echo -e "VENDOR_COMPONENTS\t:\t$VENDOR_COMPONENTS"
 echo
 echo -e "List all the aliases :"
 echo -e "----------------------"
