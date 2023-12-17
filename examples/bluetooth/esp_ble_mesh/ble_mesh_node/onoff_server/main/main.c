@@ -10,10 +10,13 @@
 #include <stdio.h>
 #include <string.h>
 #include <inttypes.h>
-
+#include "esp_system.h"
 #include "esp_log.h"
+#include "nvs.h"
 #include "nvs_flash.h"
-
+#include "esp_console.h"
+#include "esp_vfs_dev.h"
+#include "esp_vfs_fat.h"
 #include "esp_ble_mesh_defs.h"
 #include "esp_ble_mesh_common_api.h"
 #include "esp_ble_mesh_networking_api.h"
@@ -21,6 +24,8 @@
 #include "esp_ble_mesh_config_model_api.h"
 #include "esp_ble_mesh_generic_model_api.h"
 #include "esp_ble_mesh_local_data_operation_api.h"
+#include "cmd_system.h"
+#include "cmd_nvs.h"
 
 #include "board.h"
 #include "ble_mesh_example_init.h"
@@ -28,6 +33,7 @@
 #define TAG "BLE_MESH_SERVER"
 
 #define CID_ESP 0x02E5
+#define PROMPT_STR CONFIG_IDF_TARGET
 
 extern struct _led_state led_state[3];
 
@@ -109,13 +115,41 @@ static esp_ble_mesh_prov_t provision = {
 #endif
 };
 
+static uint16_t getuint16_val(){
+    nvs_handle_t my_handle;
+    uint16_t value = 0; // value will default to 0, if not set yet in NVS
+    esp_err_t err = nvs_open("storage", NVS_READONLY, &my_handle);
+    if (err == ESP_OK) {
+        // Read
+        ESP_LOGI(TAG, "Reading data from NVS ... ");
+        
+        
+        err = nvs_get_u16(my_handle, CONFIG_NVS_GROUP_ADD_KEY, &value);
+        switch (err) {
+            case ESP_OK:
+                ESP_LOGI(TAG, "Done\n");
+                break;
+            case ESP_ERR_NVS_NOT_FOUND:
+                ESP_LOGE(TAG, "The value is not initialized yet!\n");
+                break;
+            default :
+                ESP_LOGE(TAG, "Error (%s) reading!\n", esp_err_to_name(err));
+        }
+        // Close
+        nvs_close(my_handle);
+    } else {
+    	ESP_LOGI(TAG, "Error (%s) opening NVS handle!\n", esp_err_to_name(err));
+    }
+    return value;
+}
+
 static void prov_complete(uint16_t net_idx, uint16_t addr, uint8_t flags, uint32_t iv_index)
 {
     ESP_LOGI(TAG, "jayanta  net_idx: 0x%04x, addr: 0x%04x", net_idx, addr);
     ESP_LOGI(TAG, "flags: 0x%02x, iv_index: 0x%08" PRIx32, flags, iv_index);
     board_led_operation(LED_G, LED_OFF);
 
-    esp_err_t ret = esp_ble_mesh_model_subscribe_group_addr(addr, BLE_MESH_CID_NVAL, ESP_BLE_MESH_MODEL_ID_GEN_ONOFF_SRV, 0xC001);
+    esp_err_t ret = esp_ble_mesh_model_subscribe_group_addr(addr, BLE_MESH_CID_NVAL, ESP_BLE_MESH_MODEL_ID_GEN_ONOFF_SRV, getuint16_val());
     if (ret == ESP_OK)
     {
         ESP_LOGI(TAG, "In %s, subscribing to group address succeeded !", __func__);
@@ -340,6 +374,34 @@ void app_main(void)
         err = nvs_flash_init();
     }
     ESP_ERROR_CHECK(err);
+    /****/
+    esp_console_repl_t *repl = NULL;
+    esp_console_repl_config_t repl_config = ESP_CONSOLE_REPL_CONFIG_DEFAULT();
+    /* Prompt to be printed before each line.
+     * This can be customized, made dynamic, etc.
+     */
+    repl_config.prompt = PROMPT_STR ">";
+    repl_config.max_cmdline_length = CONFIG_CONSOLE_MAX_COMMAND_LINE_LENGTH;
+
+    /* Register commands */
+    esp_console_register_help_command();
+    register_system();
+    register_nvs();
+
+#if defined(CONFIG_ESP_CONSOLE_UART_DEFAULT) || defined(CONFIG_ESP_CONSOLE_UART_CUSTOM)
+    esp_console_dev_uart_config_t hw_config = ESP_CONSOLE_DEV_UART_CONFIG_DEFAULT();
+    ESP_ERROR_CHECK(esp_console_new_repl_uart(&hw_config, &repl_config, &repl));
+
+#elif defined(CONFIG_ESP_CONSOLE_USB_CDC)
+    esp_console_dev_usb_cdc_config_t hw_config = ESP_CONSOLE_DEV_CDC_CONFIG_DEFAULT();
+    ESP_ERROR_CHECK(esp_console_new_repl_usb_cdc(&hw_config, &repl_config, &repl));
+#else
+#error Unsupported console type
+#endif
+
+    ESP_ERROR_CHECK(esp_console_start_repl(repl));
+
+    /***/
 
     err = bluetooth_init();
     if (err) {
@@ -354,4 +416,5 @@ void app_main(void)
     if (err) {
         ESP_LOGE(TAG, "Bluetooth mesh init failed (err %d)", err);
     }
+
 }
