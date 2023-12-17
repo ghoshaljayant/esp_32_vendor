@@ -32,9 +32,6 @@ menu "Example Configuration"
         config BLE_MESH_ESP32H2_DEV
             bool "ESP32H2-DevKitC"
             depends on IDF_TARGET_ESP32H2
-        config NVS_GROUP_ADD_KEY
-            string "group address"
-            default "NVS_GROUP_ADDRESS"
         config CONSOLE_MAX_COMMAND_LINE_LENGTH
             int "Maximum command line length"
             default 1024
