@@ -32,6 +32,7 @@ menu "Example Configuration"
         config BLE_MESH_ESP32H2_DEV
             bool "ESP32H2-DevKitC"
             depends on IDF_TARGET_ESP32H2
+
     endchoice
 
 endmenu

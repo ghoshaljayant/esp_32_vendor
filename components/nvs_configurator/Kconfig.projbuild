@@ -2,7 +2,15 @@ menu "NVS Configuration"
 
 	config NVS_GROUP_ADD
 		string "ble mesh group address"
-		default "0xC001"	
-
+		default "0xC001"
+	config CONSOLE_MAX_COMMAND_LINE_LENGTH
+		int "Maximum command line length"
+		default 1024
+		help
+			This value marks the maximum length of a single command line. Once it is
+			reached, no more characters will be accepted by the console.
+	config PROMPT_STR
+		string "console prompt"
+		default "jay"
 endmenu
 
