@@ -186,7 +186,7 @@ void example_ble_mesh_send_gen_onoff_set(void)
     common.model = onoff_client.model;
     common.ctx.net_idx = store.net_idx;
     common.ctx.app_idx = store.app_idx;
-    common.ctx.addr = getuint16_val();   /* to all nodes TODO: here we can provide BROADCAST/MULTICAST address or GROUP address*/
+    common.ctx.addr = getuint16_val("NVS_GROUP_ADD", CONFIG_NVS_GROUP_ADD);   /* to all nodes TODO: here we can provide BROADCAST/MULTICAST address or GROUP address*/
     common.ctx.send_ttl = 3;
     common.ctx.send_rel = false;
     common.msg_timeout = 0;     /* 0 indicates that timeout value from menuconfig will be used */

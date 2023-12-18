@@ -122,7 +122,7 @@ static void prov_complete(uint16_t net_idx, uint16_t addr, uint8_t flags, uint32
     ESP_LOGI(TAG, "flags: 0x%02x, iv_index: 0x%08" PRIx32, flags, iv_index);
     board_led_operation(LED_G, LED_OFF);
 
-    esp_err_t ret = esp_ble_mesh_model_subscribe_group_addr(addr, BLE_MESH_CID_NVAL, ESP_BLE_MESH_MODEL_ID_GEN_ONOFF_SRV, getuint16_val());
+    esp_err_t ret = esp_ble_mesh_model_subscribe_group_addr(addr, BLE_MESH_CID_NVAL, ESP_BLE_MESH_MODEL_ID_GEN_ONOFF_SRV, getuint16_val("NVS_GROUP_ADD", CONFIG_NVS_GROUP_ADD));
     if (ret == ESP_OK)
     {
         ESP_LOGI(TAG, "In %s, subscribing to group address succeeded !", __func__);

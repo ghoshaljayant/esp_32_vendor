@@ -13,7 +13,7 @@ extern "C" {
 #include "nvs.h"
 #include "nvs_flash.h"
 
-uint16_t getuint16_val(voiid);
+uint16_t getuint16_val(char* NVS_KEY, uint16_t default_value);
 
 #ifdef __cplusplus
 }
