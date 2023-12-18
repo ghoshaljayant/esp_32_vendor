@@ -8,7 +8,6 @@ extern "C" {
 #include <stdio.h>
 #include <string.h>
 #include <inttypes.h>
-#include "esp_system.h"
 #include "esp_log.h"
 #include "nvs.h"
 #include "nvs_flash.h"

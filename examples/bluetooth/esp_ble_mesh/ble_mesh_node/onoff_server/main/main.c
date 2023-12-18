@@ -24,7 +24,6 @@
 #include "esp_ble_mesh_config_model_api.h"
 #include "esp_ble_mesh_generic_model_api.h"
 #include "esp_ble_mesh_local_data_operation_api.h"
-#include "cmd_system.h"
 #include "cmd_nvs.h"
 #include "nvs_configurator.h"
 
@@ -358,7 +357,6 @@ void app_main(void)
 
     /* Register commands */
     esp_console_register_help_command();
-    register_system();
     register_nvs();
 
 #if defined(CONFIG_ESP_CONSOLE_UART_DEFAULT) || defined(CONFIG_ESP_CONSOLE_UART_CUSTOM)
