@@ -78,40 +78,7 @@ int getint_val(char* NVS_KEY, int default_value)
         ESP_LOGI(TAG, "Reading data from NVS ... ");
         
         
-        err = nvs_get_int(my_handle, NVS_KEY, &value);
-        switch (err) {
-            case ESP_OK:
-                ESP_LOGI(TAG, "Done\n");
-                break;
-            case ESP_ERR_NVS_NOT_FOUND:
-                value = default_value;
-                ESP_LOGE(TAG, "The value is not initialized yet!\n");
-                break;
-            default :
-                value = default_value;
-                ESP_LOGE(TAG, "Error (%s) reading!\n", esp_err_to_name(err));
-        }
-        // Close
-        nvs_close(my_handle);
-    } else {
-        value = default_value;
-    	ESP_LOGI(TAG, "Error (%s) opening NVS handle!", esp_err_to_name(err));
-    }
-    ESP_LOGI(TAG, "value: %d",value);
-    return value;
-}
-
-bool getbool_val(char* NVS_KEY, bool default_value)
-{
-    nvs_handle_t my_handle;
-    bool value = 0; // value will default to 0, if not set yet in NVS
-    esp_err_t err = nvs_open("storage", NVS_READONLY, &my_handle);
-    if (err == ESP_OK) {
-        // Read
-        ESP_LOGI(TAG, "Reading data from NVS ... ");
-        
-        
-        err = nvs_get_int(my_handle, NVS_KEY, &value);
+        err = nvs_get_i64(my_handle, NVS_KEY, &value);
         switch (err) {
             case ESP_OK:
                 ESP_LOGI(TAG, "Done\n");
