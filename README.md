@@ -50,7 +50,10 @@ Supports:
 
 
 **Command used to flash the csv target in multiple esp_32 nodes**
+```sh
 flash_target
-
+```
 **Command used to monitor the csv target for multiple esp_32 nodes**
+```sh
 monitor_target
+```
