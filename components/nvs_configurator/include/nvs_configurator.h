@@ -14,6 +14,9 @@ extern "C" {
 #include "nvs_flash.h"
 
 uint16_t getuint16_val(char* NVS_KEY, uint16_t default_value);
+uint16_t getuint8_val(char* NVS_KEY, uint8_t default_value);
+uint16_t getint_val(char* NVS_KEY, int default_value);
+uint16_t getbool_val(char* NVS_KEY, bool default_value);
 
 #ifdef __cplusplus
 }
