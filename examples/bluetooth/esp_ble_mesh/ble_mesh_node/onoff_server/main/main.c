@@ -10,13 +10,11 @@
 #include <stdio.h>
 #include <string.h>
 #include <inttypes.h>
-#include "esp_system.h"
+
 #include "esp_log.h"
-#include "nvs.h"
 #include "nvs_flash.h"
+
 #include "esp_console.h"
-#include "esp_vfs_dev.h"
-#include "esp_vfs_fat.h"
 #include "esp_ble_mesh_defs.h"
 #include "esp_ble_mesh_common_api.h"
 #include "esp_ble_mesh_networking_api.h"
@@ -356,7 +354,6 @@ void app_main(void)
     repl_config.max_cmdline_length = CONFIG_CONSOLE_MAX_COMMAND_LINE_LENGTH;
 
     /* Register commands */
-    esp_console_register_help_command();
     register_nvs();
 
 #if defined(CONFIG_ESP_CONSOLE_UART_DEFAULT) || defined(CONFIG_ESP_CONSOLE_UART_CUSTOM)
