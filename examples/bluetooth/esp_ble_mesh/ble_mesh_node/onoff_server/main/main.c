@@ -150,6 +150,11 @@ static void example_change_relay_state(esp_ble_mesh_model_t *model,
         
     } else if (ESP_BLE_MESH_ADDR_IS_GROUP(ctx->recv_dst)) {
         ESP_LOGI(TAG,"group  ----  ---");
+        ESP_LOGI(TAG,"group  ---- model_idx --- 0x%02x ", model->model_idx);
+        ESP_LOGI(TAG,"group  ---- remote-address --- 0x%04x ", ctx->addr);
+        ESP_LOGI(TAG,"group  ---- recv_dst --- 0x%04x ", ctx->recv_dst);
+        ESP_LOGI(TAG,"group  ---- primary_addr --- 0x%04x ", primary_addr);
+
         if (esp_ble_mesh_is_model_subscribed_to_group(model, ctx->recv_dst)) {
             relay = &relay_state[model->element->element_addr - primary_addr];
             board_relay_operation(relay->pin, onoff);
