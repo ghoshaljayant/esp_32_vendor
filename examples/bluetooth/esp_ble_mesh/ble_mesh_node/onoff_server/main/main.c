@@ -33,7 +33,7 @@
 #define CID_ESP 0x02E5
 #define PROMPT_STR CONFIG_IDF_TARGET
 
-extern struct _led_state led_state[3];
+extern struct _relay_state relay_state[3];
 
 static uint8_t dev_uuid[16] = { 0xdd, 0xdd };
 
@@ -89,7 +89,7 @@ static esp_ble_mesh_model_t extend_model_1[] = {
 
 static esp_ble_mesh_elem_t elements[] = {
     ESP_BLE_MESH_ELEMENT(0, root_models, ESP_BLE_MESH_MODEL_NONE),
-    // ESP_BLE_MESH_ELEMENT(0, extend_model_0, ESP_BLE_MESH_MODEL_NONE),
+    ESP_BLE_MESH_ELEMENT(0, extend_model_0, ESP_BLE_MESH_MODEL_NONE),
     // ESP_BLE_MESH_ELEMENT(0, extend_model_1, ESP_BLE_MESH_MODEL_NONE),
 };
 
@@ -117,7 +117,7 @@ static void prov_complete(uint16_t net_idx, uint16_t addr, uint8_t flags, uint32
 {
     ESP_LOGI(TAG, "jayanta  net_idx: 0x%04x, addr: 0x%04x", net_idx, addr);
     ESP_LOGI(TAG, "flags: 0x%02x, iv_index: 0x%08" PRIx32, flags, iv_index);
-    board_led_operation(LED_G, LED_OFF);
+    set_self_led_on(STATE_ON);
 
     esp_err_t ret = esp_ble_mesh_model_subscribe_group_addr(addr, BLE_MESH_CID_NVAL, ESP_BLE_MESH_MODEL_ID_GEN_ONOFF_SRV, getuint16_val("NVS_GROUP_ADD", CONFIG_NVS_GROUP_ADD));
     if (ret == ESP_OK)
@@ -130,34 +130,35 @@ static void prov_complete(uint16_t net_idx, uint16_t addr, uint8_t flags, uint32
     }
 }
 
-static void example_change_led_state(esp_ble_mesh_model_t *model,
+static void example_change_relay_state(esp_ble_mesh_model_t *model,
                                      esp_ble_mesh_msg_ctx_t *ctx, uint8_t onoff)
 {
     uint16_t primary_addr = esp_ble_mesh_get_primary_element_address();
     uint8_t elem_count = esp_ble_mesh_get_element_count();
-    struct _led_state *led = NULL;
+    struct _relay_state *relay = NULL;
     uint8_t i;
-    set_self_led_on(onoff);
+    
 
     if (ESP_BLE_MESH_ADDR_IS_UNICAST(ctx->recv_dst)) {
         ESP_LOGI(TAG,"unicast  ----  ---");
         for (i = 0; i < elem_count; i++) {
             if (ctx->recv_dst == (primary_addr + i)) {
-                led = &led_state[i];
-                board_led_operation(led->pin, onoff);
+                relay = &relay_state[i];
+                board_relay_operation(relay->pin, onoff);
             }
         }
         
     } else if (ESP_BLE_MESH_ADDR_IS_GROUP(ctx->recv_dst)) {
         ESP_LOGI(TAG,"group  ----  ---");
         if (esp_ble_mesh_is_model_subscribed_to_group(model, ctx->recv_dst)) {
-            led = &led_state[model->element->element_addr - primary_addr];
-            board_led_operation(led->pin, onoff);
+            relay = &relay_state[model->element->element_addr - primary_addr];
+            board_relay_operation(relay->pin, onoff);
+            set_self_led_on(onoff);
         }
     } else if (ctx->recv_dst == 0xFFFF) {
         ESP_LOGI(TAG,"ffff  ----  ---");
-        led = &led_state[model->element->element_addr - primary_addr];
-        board_led_operation(led->pin, onoff);
+        relay = &relay_state[model->element->element_addr - primary_addr];
+        board_relay_operation(relay->pin, onoff);
     }
 }
 
@@ -186,7 +187,7 @@ static void example_handle_gen_onoff_msg(esp_ble_mesh_model_t *model,
         }
         esp_ble_mesh_model_publish(model, ESP_BLE_MESH_MODEL_OP_GEN_ONOFF_STATUS,
             sizeof(srv->state.onoff), &srv->state.onoff, ROLE_NODE);
-        example_change_led_state(model, ctx, srv->state.onoff);
+        example_change_relay_state(model, ctx, srv->state.onoff);
         break;
     default:
         break;
@@ -240,7 +241,7 @@ static void example_ble_mesh_generic_server_cb(esp_ble_mesh_generic_server_cb_ev
         if (param->ctx.recv_op == ESP_BLE_MESH_MODEL_OP_GEN_ONOFF_SET ||
             param->ctx.recv_op == ESP_BLE_MESH_MODEL_OP_GEN_ONOFF_SET_UNACK) {
             ESP_LOGI(TAG, "onoff 0x%02x", param->value.state_change.onoff_set.onoff);
-            example_change_led_state(param->model, &param->ctx, param->value.state_change.onoff_set.onoff);
+            example_change_relay_state(param->model, &param->ctx, param->value.state_change.onoff_set.onoff);
         }
         break;
     case ESP_BLE_MESH_GENERIC_SERVER_RECV_GET_MSG_EVT:
@@ -324,8 +325,6 @@ static esp_err_t ble_mesh_init(void)
     }
 
     ESP_LOGI(TAG, "BLE Mesh Node initialized");
-
-    board_led_operation(LED_G, LED_ON);
 
     return err;
 }

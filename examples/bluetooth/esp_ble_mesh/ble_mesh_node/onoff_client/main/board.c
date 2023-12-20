@@ -22,37 +22,37 @@
 
 extern void example_ble_mesh_send_gen_onoff_set(void);
 
-struct _led_state led_state[3] = {
-    { LED_OFF, LED_OFF, LED_R, "red"   },
-    { LED_OFF, LED_OFF, LED_G, "green" },
-    { LED_OFF, LED_OFF, LED_B, "blue"  },
+struct _relay_state relay_state[3] = {
+    { STATE_OFF, STATE_OFF, RELAY_1, "red"   },
+    { STATE_OFF, STATE_OFF, RELAY_2, "green" },
+    { STATE_OFF, STATE_OFF, RELAY_3, "blue"  },
 };
 
-void board_led_operation(uint8_t pin, uint8_t onoff)
+void board_relay_operation(uint8_t pin, uint8_t onoff)
 {
-    for (int i = 0; i < ARRAY_SIZE(led_state); i++) {
-        if (led_state[i].pin != pin) {
+    for (int i = 0; i < ARRAY_SIZE(relay_state); i++) {
+        if (relay_state[i].pin != pin) {
             continue;
         }
-        if (onoff == led_state[i].previous) {
+        if (onoff == relay_state[i].previous) {
             ESP_LOGW(TAG, "led %s is already %s",
-                led_state[i].name, (onoff ? "on" : "off"));
+                relay_state[i].name, (onoff ? "on" : "off"));
             return;
         }
         gpio_set_level(pin, onoff);
-        led_state[i].previous = onoff;
+        relay_state[i].previous = onoff;
         return;
     }
     ESP_LOGE(TAG, "LED is not found!");
 }
 
-static void board_led_init(void)
+static void board_relay_init(void)
 {
-    for (int i = 0; i < ARRAY_SIZE(led_state); i++) {
-        gpio_reset_pin(led_state[i].pin);
-        gpio_set_direction(led_state[i].pin, GPIO_MODE_OUTPUT);
-        gpio_set_level(led_state[i].pin, LED_OFF);
-        led_state[i].previous = LED_OFF;
+    for (int i = 0; i < ARRAY_SIZE(relay_state); i++) {
+        gpio_reset_pin(relay_state[i].pin);
+        gpio_set_direction(relay_state[i].pin, GPIO_MODE_OUTPUT);
+        gpio_set_level(relay_state[i].pin, STATE_OFF);
+        relay_state[i].previous = STATE_OFF;
     }
 }
 
@@ -73,6 +73,6 @@ static void board_button_init(void)
 
 void board_init(void)
 {
-    board_led_init();
+    board_relay_init();
     board_button_init();
 }

@@ -32,6 +32,11 @@ menu "Example Configuration"
         config BLE_MESH_ESP32H2_DEV
             bool "ESP32H2-DevKitC"
             depends on IDF_TARGET_ESP32H2
+
+        config GPIO_RELAY_COUNT
+            int "number of relays connected through gpio"
+            default 2
+            
     endchoice
 
 endmenu

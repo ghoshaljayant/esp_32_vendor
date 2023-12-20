@@ -41,7 +41,7 @@ static struct example_info_store {
 } __attribute__((packed)) store = {
     .net_idx = ESP_BLE_MESH_KEY_UNUSED,
     .app_idx = ESP_BLE_MESH_KEY_UNUSED,
-    .onoff = LED_OFF,
+    .onoff = STATE_OFF,
     .tid = 0x0,
 };
 
@@ -125,7 +125,7 @@ static void prov_complete(uint16_t net_idx, uint16_t addr, uint8_t flags, uint32
 {
     ESP_LOGI(TAG, "net_idx: 0x%04x, addr: 0x%04x", net_idx, addr);
     ESP_LOGI(TAG, "flags: 0x%02x, iv_index: 0x%08" PRIx32, flags, iv_index);
-    board_led_operation(LED_G, LED_OFF);
+    board_relay_operation(RELAY_3, STATE_OFF);
     store.net_idx = net_idx;
     /* mesh_example_info_store() shall not be invoked here, because if the device
      * is restarted and goes into a provisioned state, then the following events
@@ -175,6 +175,7 @@ static void example_ble_mesh_provisioning_cb(esp_ble_mesh_prov_cb_event_t event,
 
 void example_ble_mesh_send_gen_onoff_set(void)
 {
+    
     esp_ble_mesh_generic_client_set_state_t set = {0};
     esp_ble_mesh_client_common_param_t common = {0};
     esp_err_t err = ESP_OK;
@@ -289,8 +290,6 @@ static esp_err_t ble_mesh_init(void)
     }
 
     ESP_LOGI(TAG, "BLE Mesh Node initialized");
-
-    board_led_operation(LED_G, LED_ON);
 
     return err;
 }
