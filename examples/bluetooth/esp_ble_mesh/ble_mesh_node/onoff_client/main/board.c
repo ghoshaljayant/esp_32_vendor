@@ -75,15 +75,6 @@ static void board_relay_init(void)
     }
 }
 
-static void button_tap_cb(void* arg)
-{
-    ESP_LOGI(TAG, "tap cb (%s)", (char *)arg);
-
-    example_ble_mesh_send_gen_onoff_set();
-}
-
-
-
 #define BUTTON_TOP_CENTER   13
 
 #define BUTTON_LEFT_TOP     33
@@ -95,14 +86,20 @@ static void button_tap_cb(void* arg)
 #define BUTTON_RIGHT_BOTTOM 21
 
 struct _gpio_btn_state btn_GPIO_Array[7] = {
-    { BUTTON_TOP_CENTER,    "BUTTON_TOP_CENTER[13]"     },
-    { BUTTON_LEFT_TOP,      "BUTTON_LEFT_TOP[33]"       },
-    { BUTTON_LEFT_CENTER,   "BUTTON_LEFT_CENTER[26]"    },
-    { BUTTON_LEFT_BOTTOM,   "BUTTON_LEFT_BOTTOM[25]"    },
-    { BUTTON_RIGHT_TOP,     "BUTTON_RIGHT_TOP[27]"      },
-    { BUTTON_RIGHT_CENTER,  "BUTTON_RIGHT_CENTER[19]"   },
-    { BUTTON_RIGHT_BOTTOM,  "BUTTON_RIGHT_BOTTOM[21]"   },
+    { BUTTON_TOP_CENTER,    "BUTTON_TOP_CENTER[13]",     0xC000},
+    { BUTTON_LEFT_TOP,      "BUTTON_LEFT_TOP[33]",       0xC006},
+    { BUTTON_LEFT_CENTER,   "BUTTON_LEFT_CENTER[26]",    0xC005},
+    { BUTTON_LEFT_BOTTOM,   "BUTTON_LEFT_BOTTOM[25]",    0xC004},
+    { BUTTON_RIGHT_TOP,     "BUTTON_RIGHT_TOP[27]",      0xC003},
+    { BUTTON_RIGHT_CENTER,  "BUTTON_RIGHT_CENTER[19]",   0xC002},
+    { BUTTON_RIGHT_BOTTOM,  "BUTTON_RIGHT_BOTTOM[21]",   0xC001},
 };
+
+static void button_tap_cb(void* arg)
+{
+    ESP_LOGI(TAG, "tap cb %s", (char *)btn_GPIO_Array[(int)arg].msg);
+    example_ble_mesh_send_gen_onoff_set();
+}
 
 static void board_button_init(void)
 {
@@ -110,7 +107,7 @@ static void board_button_init(void)
     for(int index=0; index < array_length; ++index){
         button_handle_t btn_handle = iot_button_create(btn_GPIO_Array[index].pin, BUTTON_ACTIVE_LEVEL);
         if (btn_handle) {
-            iot_button_set_evt_cb(btn_handle, BUTTON_CB_RELEASE, button_tap_cb, btn_GPIO_Array[index].msg);
+            iot_button_set_evt_cb(btn_handle, BUTTON_CB_RELEASE, button_tap_cb, index);
         }
     }
 }

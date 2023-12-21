@@ -173,9 +173,8 @@ static void example_ble_mesh_provisioning_cb(esp_ble_mesh_prov_cb_event_t event,
     }
 }
 
-void example_ble_mesh_send_gen_onoff_set(void)
+void example_ble_mesh_send_gen_onoff_set()
 {
-    
     esp_ble_mesh_generic_client_set_state_t set = {0};
     esp_ble_mesh_client_common_param_t common = {0};
     esp_err_t err = ESP_OK;
@@ -230,7 +229,7 @@ static void example_ble_mesh_generic_client_cb(esp_ble_mesh_generic_client_cb_ev
         ESP_LOGI(TAG, "ESP_BLE_MESH_GENERIC_CLIENT_TIMEOUT_EVT");
         if (param->params->opcode == ESP_BLE_MESH_MODEL_OP_GEN_ONOFF_SET) {
             /* If failed to get the response of Generic OnOff Set, resend Generic OnOff Set  */
-            example_ble_mesh_send_gen_onoff_set();
+            // example_ble_mesh_send_gen_onoff_set();
         }
         break;
     default:
