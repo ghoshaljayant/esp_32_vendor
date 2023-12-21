@@ -37,7 +37,7 @@
 #define BUTTON_RIGHT_CENTER 
 #define BUTTON_RIGHT_BOTTOM 
 
-extern void example_ble_mesh_send_gen_onoff_set(void);
+extern void example_ble_mesh_send_gen_onoff_set(uint16_t address);
 
 
 
@@ -98,7 +98,7 @@ struct _gpio_btn_state btn_GPIO_Array[7] = {
 static void button_tap_cb(void* arg)
 {
     ESP_LOGI(TAG, "tap cb %s", (char *)btn_GPIO_Array[(int)arg].msg);
-    example_ble_mesh_send_gen_onoff_set();
+    example_ble_mesh_send_gen_onoff_set(btn_GPIO_Array[(int)arg].address);
 }
 
 static void board_button_init(void)

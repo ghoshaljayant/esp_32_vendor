@@ -59,4 +59,6 @@ void board_relay_operation(uint8_t pin, uint8_t onoff);
 
 void board_init(void);
 
+void get_address(uint16_t* address);
+
 #endif

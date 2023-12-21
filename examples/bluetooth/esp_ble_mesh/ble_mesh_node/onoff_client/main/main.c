@@ -173,8 +173,9 @@ static void example_ble_mesh_provisioning_cb(esp_ble_mesh_prov_cb_event_t event,
     }
 }
 
-void example_ble_mesh_send_gen_onoff_set()
+void example_ble_mesh_send_gen_onoff_set(uint16_t address)
 {
+    ESP_LOGI(TAG,"address : 0x%04x", address);
     esp_ble_mesh_generic_client_set_state_t set = {0};
     esp_ble_mesh_client_common_param_t common = {0};
     esp_err_t err = ESP_OK;
@@ -183,7 +184,7 @@ void example_ble_mesh_send_gen_onoff_set()
     common.model = onoff_client.model;
     common.ctx.net_idx = store.net_idx;
     common.ctx.app_idx = store.app_idx;
-    common.ctx.addr = getuint16_val("NVS_GROUP_ADD", CONFIG_GROUP_ADD);   /* to all nodes TODO: here we can provide BROADCAST/MULTICAST address or GROUP address*/
+    common.ctx.addr = address; /*getuint16_val("NVS_GROUP_ADD", CONFIG_GROUP_ADD);    to all nodes TODO: here we can provide BROADCAST/MULTICAST address or GROUP address*/
     common.ctx.send_ttl = 3;
     common.ctx.send_rel = false;
     common.msg_timeout = 0;     /* 0 indicates that timeout value from menuconfig will be used */
