@@ -49,6 +49,11 @@ struct _relay_state {
     char *name;
 };
 
+struct _gpio_btn_state {
+    uint8_t pin;
+    char *msg;
+};
+
 void board_relay_operation(uint8_t pin, uint8_t onoff);
 
 void board_init(void);

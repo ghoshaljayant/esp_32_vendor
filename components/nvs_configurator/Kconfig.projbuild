@@ -1,8 +1,17 @@
 menu "NVS Configuration"
 
-	config NVS_GROUP_ADD
-		string "ble mesh group address"
+	config GROUP_ADD
+		string "ble mesh common group address"
+		default "0xC000"
+	config GROUP1_ADD
+		string "ble mesh group-1 address"
 		default "0xC001"
+	config GROUP2_ADD
+		string "ble mesh group-2 address"
+		default "0xC002"
+	config GROUP3_ADD
+		string "ble mesh group-3 address"
+		default "0xC003"
 	config CONSOLE_MAX_COMMAND_LINE_LENGTH
 		int "Maximum command line length"
 		default 1024

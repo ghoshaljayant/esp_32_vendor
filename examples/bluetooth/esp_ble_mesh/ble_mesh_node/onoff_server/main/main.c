@@ -117,16 +117,23 @@ static void prov_complete(uint16_t net_idx, uint16_t addr, uint8_t flags, uint32
 {
     ESP_LOGI(TAG, "jayanta  net_idx: 0x%04x, addr: 0x%04x", net_idx, addr);
     ESP_LOGI(TAG, "flags: 0x%02x, iv_index: 0x%08" PRIx32, flags, iv_index);
-    set_self_led_on(STATE_ON);
+    
+    uint16_t group_add = getuint16_val("NVS_GROUP_ADD",CONFIG_GROUP_ADD);
+    esp_err_t ret = esp_ble_mesh_model_subscribe_group_addr(addr, BLE_MESH_CID_NVAL, ESP_BLE_MESH_MODEL_ID_GEN_ONOFF_SRV, group_add);
+    uint16_t group_add1 = getuint16_val("NVS_GROUP1_ADD",CONFIG_GROUP1_ADD);
+    esp_err_t ret1 = esp_ble_mesh_model_subscribe_group_addr(addr, BLE_MESH_CID_NVAL, ESP_BLE_MESH_MODEL_ID_GEN_ONOFF_SRV, group_add1);
+    uint16_t group_add2 = getuint16_val("NVS_GROUP2_ADD",CONFIG_GROUP2_ADD);
+    esp_err_t ret2 = esp_ble_mesh_model_subscribe_group_addr(addr, BLE_MESH_CID_NVAL, ESP_BLE_MESH_MODEL_ID_GEN_ONOFF_SRV, group_add2);
+    uint16_t group_add3 = getuint16_val("NVS_GROUP3_ADD",CONFIG_GROUP3_ADD);
+    esp_err_t ret3 = esp_ble_mesh_model_subscribe_group_addr(addr, BLE_MESH_CID_NVAL, ESP_BLE_MESH_MODEL_ID_GEN_ONOFF_SRV, group_add3);
 
-    esp_err_t ret = esp_ble_mesh_model_subscribe_group_addr(addr, BLE_MESH_CID_NVAL, ESP_BLE_MESH_MODEL_ID_GEN_ONOFF_SRV, getuint16_val("NVS_GROUP_ADD", CONFIG_NVS_GROUP_ADD));
-    if (ret == ESP_OK)
-    {
-        ESP_LOGI(TAG, "In %s, subscribing to group address succeeded !", __func__);
-    }
-    else
-    {
-        ESP_LOGE(TAG, "In %s, subscribing to group address failed !", __func__);
+    if (ret && ret1 && ret2 && ret3 != ESP_OK){
+        ESP_LOGE(TAG, "In %s, subscribing to group address 0x%04x %s !", __func__, group_add,  ret  == ESP_OK ? "succeded":"failed");
+        ESP_LOGE(TAG, "In %s, subscribing to group address 0x%04x %s !", __func__, group_add1, ret1 == ESP_OK ? "succeded":"failed");
+        ESP_LOGE(TAG, "In %s, subscribing to group address 0x%04x %s !", __func__, group_add2, ret2 == ESP_OK ? "succeded":"failed");
+        ESP_LOGE(TAG, "In %s, subscribing to group address 0x%04x %s !", __func__, group_add3, ret3 == ESP_OK ? "succeded":"failed");
+    }else{
+        set_self_led_on(STATE_ON);
     }
 }
 
@@ -141,6 +148,10 @@ static void example_change_relay_state(esp_ble_mesh_model_t *model,
 
     if (ESP_BLE_MESH_ADDR_IS_UNICAST(ctx->recv_dst)) {
         ESP_LOGI(TAG,"unicast  ----  ---");
+        ESP_LOGI(TAG,"unicast  ---- model_idx --- 0x%02x ", model->model_idx);
+        ESP_LOGI(TAG,"unicast  ---- remote-address --- 0x%04x ", ctx->addr);
+        ESP_LOGI(TAG,"unicast  ---- recv_dst --- 0x%04x ", ctx->recv_dst);
+        ESP_LOGI(TAG,"unicast  ---- primary_addr --- 0x%04x ", primary_addr);
         for (i = 0; i < elem_count; i++) {
             if (ctx->recv_dst == (primary_addr + i)) {
                 relay = &relay_state[i];

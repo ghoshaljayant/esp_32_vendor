@@ -16,11 +16,30 @@
 #include "board.h"
 
 #define TAG "BOARD"
-
-#define BUTTON_IO_NUM           0
+//4 13 14 16 17 18 21 
 #define BUTTON_ACTIVE_LEVEL     0
+#define BUTTON_IO_NUM       13
+#define BUTTON1_IO_NUM      14
+#define BUTTON2_IO_NUM      27
+#define BUTTON3_IO_NUM      26
+#define BUTTON4_IO_NUM      25
+#define BUTTON5_IO_NUM      33
+#define BUTTON6_IO_NUM      12
+
+
+#define BUTTON_TOP_CENTER   13
+
+#define BUTTON_LEFT_TOP     33
+#define BUTTON_LEFT_CENTER  26
+#define BUTTON_LEFT_BOTTOM  25
+
+#define BUTTON_RIGHT_TOP    27
+#define BUTTON_RIGHT_CENTER 
+#define BUTTON_RIGHT_BOTTOM 
 
 extern void example_ble_mesh_send_gen_onoff_set(void);
+
+
 
 struct _relay_state relay_state[3] = {
     { STATE_OFF, STATE_OFF, RELAY_1, "red"   },
@@ -63,11 +82,36 @@ static void button_tap_cb(void* arg)
     example_ble_mesh_send_gen_onoff_set();
 }
 
+
+
+#define BUTTON_TOP_CENTER   13
+
+#define BUTTON_LEFT_TOP     33
+#define BUTTON_LEFT_CENTER  26
+#define BUTTON_LEFT_BOTTOM  25
+
+#define BUTTON_RIGHT_TOP    27
+#define BUTTON_RIGHT_CENTER 19
+#define BUTTON_RIGHT_BOTTOM 21
+
+struct _gpio_btn_state btn_GPIO_Array[7] = {
+    { BUTTON_TOP_CENTER,    "BUTTON_TOP_CENTER[13]"     },
+    { BUTTON_LEFT_TOP,      "BUTTON_LEFT_TOP[33]"       },
+    { BUTTON_LEFT_CENTER,   "BUTTON_LEFT_CENTER[26]"    },
+    { BUTTON_LEFT_BOTTOM,   "BUTTON_LEFT_BOTTOM[25]"    },
+    { BUTTON_RIGHT_TOP,     "BUTTON_RIGHT_TOP[27]"      },
+    { BUTTON_RIGHT_CENTER,  "BUTTON_RIGHT_CENTER[19]"   },
+    { BUTTON_RIGHT_BOTTOM,  "BUTTON_RIGHT_BOTTOM[21]"   },
+};
+
 static void board_button_init(void)
 {
-    button_handle_t btn_handle = iot_button_create(BUTTON_IO_NUM, BUTTON_ACTIVE_LEVEL);
-    if (btn_handle) {
-        iot_button_set_evt_cb(btn_handle, BUTTON_CB_RELEASE, button_tap_cb, "RELEASE");
+    size_t array_length = 7;
+    for(int index=0; index < array_length; ++index){
+        button_handle_t btn_handle = iot_button_create(btn_GPIO_Array[index].pin, BUTTON_ACTIVE_LEVEL);
+        if (btn_handle) {
+            iot_button_set_evt_cb(btn_handle, BUTTON_CB_RELEASE, button_tap_cb, btn_GPIO_Array[index].msg);
+        }
     }
 }
 
