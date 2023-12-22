@@ -1,0 +1,3 @@
+path,package_name
+ROOT/examples/bluetooth/esp_ble_mesh/ble_mesh_provisioner_client/,ble_mesh_provisioner_client
+ROOT/examples/bluetooth/esp_ble_mesh/ble_mesh_node/onoff_server/,onoff_server

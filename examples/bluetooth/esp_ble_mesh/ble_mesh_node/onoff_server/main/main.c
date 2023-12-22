@@ -113,28 +113,55 @@ static esp_ble_mesh_prov_t provision = {
 #endif
 };
 
+struct ble_mesh_group_address{
+    uint16_t default_address;
+    uint16_t config_address;
+    char* NVS_KEY_NAME;
+};
+
+struct ble_mesh_group_address address_array[7]={
+    {0xC000, 0xC000,  "NVS_GROUP_ADD"     },
+    {0xC001, 0xC000, "NVS_GROUP1_ADD"    },
+    {0xC002, 0xC000, "NVS_GROUP2_ADD"    },
+    {0xC003, 0xC000, "NVS_GROUP3_ADD"    },
+    {0xC004, 0xC000, "NVS_GROUP4_ADD"    },
+    {0xC005, 0xC000, "NVS_GROUP5_ADD"    },
+    {0xC006, 0xC000, "NVS_GROUP6_ADD"    },
+};
+
 static void prov_complete(uint16_t net_idx, uint16_t addr, uint8_t flags, uint32_t iv_index)
 {
-    ESP_LOGI(TAG, "jayanta  net_idx: 0x%04x, addr: 0x%04x", net_idx, addr);
+    ESP_LOGI(TAG, "net_idx: 0x%04x, addr: 0x%04x", net_idx, addr);
     ESP_LOGI(TAG, "flags: 0x%02x, iv_index: 0x%08" PRIx32, flags, iv_index);
-    
-    uint16_t group_add = getuint16_val("NVS_GROUP_ADD",CONFIG_GROUP_ADD);
-    esp_err_t ret = esp_ble_mesh_model_subscribe_group_addr(addr, BLE_MESH_CID_NVAL, ESP_BLE_MESH_MODEL_ID_GEN_ONOFF_SRV, group_add);
-    uint16_t group_add1 = getuint16_val("NVS_GROUP1_ADD",CONFIG_GROUP1_ADD);
-    esp_err_t ret1 = esp_ble_mesh_model_subscribe_group_addr(addr, BLE_MESH_CID_NVAL, ESP_BLE_MESH_MODEL_ID_GEN_ONOFF_SRV, group_add1);
-    uint16_t group_add2 = getuint16_val("NVS_GROUP2_ADD",CONFIG_GROUP2_ADD);
-    esp_err_t ret2 = esp_ble_mesh_model_subscribe_group_addr(addr, BLE_MESH_CID_NVAL, ESP_BLE_MESH_MODEL_ID_GEN_ONOFF_SRV, group_add2);
-    uint16_t group_add3 = getuint16_val("NVS_GROUP3_ADD",CONFIG_GROUP3_ADD);
-    esp_err_t ret3 = esp_ble_mesh_model_subscribe_group_addr(addr, BLE_MESH_CID_NVAL, ESP_BLE_MESH_MODEL_ID_GEN_ONOFF_SRV, group_add3);
 
-    if (ret && ret1 && ret2 && ret3 != ESP_OK){
-        ESP_LOGE(TAG, "In %s, subscribing to group address 0x%04x %s !", __func__, group_add,  ret  == ESP_OK ? "succeded":"failed");
-        ESP_LOGE(TAG, "In %s, subscribing to group address 0x%04x %s !", __func__, group_add1, ret1 == ESP_OK ? "succeded":"failed");
-        ESP_LOGE(TAG, "In %s, subscribing to group address 0x%04x %s !", __func__, group_add2, ret2 == ESP_OK ? "succeded":"failed");
-        ESP_LOGE(TAG, "In %s, subscribing to group address 0x%04x %s !", __func__, group_add3, ret3 == ESP_OK ? "succeded":"failed");
-    }else{
-        set_self_led_on(STATE_ON);
+    for(int index = 0; index < 7; ++index){
+        uint16_t group_add = address_array[index].default_address;
+        esp_err_t ret = esp_ble_mesh_model_subscribe_group_addr(addr, BLE_MESH_CID_NVAL, ESP_BLE_MESH_MODEL_ID_GEN_ONOFF_SRV, group_add);
+        if (ret == ESP_OK){
+            ESP_LOGI(TAG, "In %s, subscribing to group address 0x%04x succeded !", __func__, group_add);
+        }else{
+            ESP_LOGE(TAG, "In %s, subscribing to group address 0x%04x failed !", __func__, group_add);
+        }
     }
+    
+    // uint16_t group_add = 0xC000;//getuint16_val("NVS_GROUP_ADD",CONFIG_GROUP_ADD);
+    // esp_err_t ret = esp_ble_mesh_model_subscribe_group_addr(addr, BLE_MESH_CID_NVAL, ESP_BLE_MESH_MODEL_ID_GEN_ONOFF_SRV, group_add);
+    // uint16_t group_add1 = 0xC001; //getuint16_val("NVS_GROUP1_ADD",CONFIG_GROUP1_ADD);
+    // esp_err_t ret1 = esp_ble_mesh_model_subscribe_group_addr(addr, BLE_MESH_CID_NVAL, ESP_BLE_MESH_MODEL_ID_GEN_ONOFF_SRV, group_add1);
+    // uint16_t group_add2 = 0xC002; //getuint16_val("NVS_GROUP2_ADD",CONFIG_GROUP2_ADD);
+    // esp_err_t ret2 = esp_ble_mesh_model_subscribe_group_addr(addr, BLE_MESH_CID_NVAL, ESP_BLE_MESH_MODEL_ID_GEN_ONOFF_SRV, group_add2);
+    // uint16_t group_add3 = 0xC003; //getuint16_val("NVS_GROUP3_ADD",CONFIG_GROUP3_ADD);
+    // esp_err_t ret3 = esp_ble_mesh_model_subscribe_group_addr(addr, BLE_MESH_CID_NVAL, ESP_BLE_MESH_MODEL_ID_GEN_ONOFF_SRV, group_add3);
+
+    // if (ret && ret1 && ret2 && ret3 != ESP_OK){
+    //     ESP_LOGE(TAG, "In %s, subscribing to group address 0x%04x %s !", __func__, group_add,  ret  == ESP_OK ? "succeded":"failed");
+    //     ESP_LOGE(TAG, "In %s, subscribing to group address 0x%04x %s !", __func__, group_add1, ret1 == ESP_OK ? "succeded":"failed");
+    //     ESP_LOGE(TAG, "In %s, subscribing to group address 0x%04x %s !", __func__, group_add2, ret2 == ESP_OK ? "succeded":"failed");
+    //     ESP_LOGE(TAG, "In %s, subscribing to group address 0x%04x %s !", __func__, group_add3, ret3 == ESP_OK ? "succeded":"failed");
+    // }else{
+        
+    // }
+    set_self_led_on(STATE_ON);
 }
 
 static void example_change_relay_state(esp_ble_mesh_model_t *model,
