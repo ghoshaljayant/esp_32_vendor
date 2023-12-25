@@ -32,16 +32,13 @@
 
 #define TAG "ESP_BLE_PROVISIONER"
 
+#define CID_ESP 0x02E5
 
 #define LED_OFF             0x0
 #define LED_ON              0x1
-
-#define CID_ESP             0x02E5
-
 #define PROV_OWN_ADDR       0x0001
 
-static nvs_handle_t NVS_HANDLE;
-static const char * NVS_KEY = "onoff_client";
+
 
 #define MSG_SEND_TTL        3
 #define MSG_SEND_REL        false
@@ -53,7 +50,7 @@ static const char * NVS_KEY = "onoff_client";
 #define APP_KEY_IDX         0x0000
 #define APP_KEY_OCTET       0x12
 
-static uint8_t dev_uuid[16];
+static uint8_t dev_uuid[16] = { 0xdd, 0xdd };
 
 static struct example_info_store {
     uint16_t net_idx;   /* NetKey Index */
@@ -66,6 +63,9 @@ static struct example_info_store {
     .onoff = STATE_OFF,
     .tid = 0x0,
 };
+
+static nvs_handle_t NVS_HANDLE;
+static const char * NVS_KEY = "onoff_client";
 
 int device_count = 0;
 uint16_t other_node_model_id;
@@ -112,6 +112,8 @@ static esp_ble_mesh_cfg_srv_t config_server = {
     .net_transmit = ESP_BLE_MESH_TRANSMIT(2, 20),
     .relay_retransmit = ESP_BLE_MESH_TRANSMIT(2, 20),
 };
+
+ESP_BLE_MESH_MODEL_PUB_DEFINE(onoff_cli_pub, 2 + 1, ROLE_NODE);
 
 static esp_ble_mesh_model_t root_models[] = {
     ESP_BLE_MESH_MODEL_CFG_SRV(&config_server),
@@ -762,6 +764,37 @@ static void example_ble_mesh_generic_client_cb(esp_ble_mesh_generic_client_cb_ev
     }
 }
 
+static void example_ble_mesh_config_server_cb(esp_ble_mesh_cfg_server_cb_event_t event,
+                                              esp_ble_mesh_cfg_server_cb_param_t *param)
+{
+    if (event == ESP_BLE_MESH_CFG_SERVER_STATE_CHANGE_EVT) {
+        switch (param->ctx.recv_op) {
+        case ESP_BLE_MESH_MODEL_OP_APP_KEY_ADD:
+            ESP_LOGI(TAG, "ESP_BLE_MESH_MODEL_OP_APP_KEY_ADD");
+            ESP_LOGI(TAG, "net_idx 0x%04x, app_idx 0x%04x",
+                param->value.state_change.appkey_add.net_idx,
+                param->value.state_change.appkey_add.app_idx);
+            ESP_LOG_BUFFER_HEX("AppKey", param->value.state_change.appkey_add.app_key, 16);
+            break;
+        case ESP_BLE_MESH_MODEL_OP_MODEL_APP_BIND:
+            ESP_LOGI(TAG, "ESP_BLE_MESH_MODEL_OP_MODEL_APP_BIND");
+            ESP_LOGI(TAG, "elem_addr 0x%04x, app_idx 0x%04x, cid 0x%04x, mod_id 0x%04x",
+                param->value.state_change.mod_app_bind.element_addr,
+                param->value.state_change.mod_app_bind.app_idx,
+                param->value.state_change.mod_app_bind.company_id,
+                param->value.state_change.mod_app_bind.model_id);
+            if (param->value.state_change.mod_app_bind.company_id == 0xFFFF &&
+                param->value.state_change.mod_app_bind.model_id == ESP_BLE_MESH_MODEL_ID_GEN_ONOFF_CLI) {
+                store.app_idx = param->value.state_change.mod_app_bind.app_idx;
+                mesh_example_info_store(); /* Store proper mesh example info */
+            }
+            break;
+        default:
+            break;
+        }
+    }
+}
+
 static esp_err_t ble_mesh_init(void)
 {
     uint8_t match[2] = {0xdd, 0xdd};
@@ -774,6 +807,7 @@ static esp_err_t ble_mesh_init(void)
     esp_ble_mesh_register_prov_callback(example_ble_mesh_provisioning_cb);
     esp_ble_mesh_register_config_client_callback(example_ble_mesh_config_client_cb);
     esp_ble_mesh_register_generic_client_callback(example_ble_mesh_generic_client_cb);
+    //esp_ble_mesh_register_config_server_callback(example_ble_mesh_config_server_cb);
 
     err = esp_ble_mesh_init(&provision, &composition);
     if (err != ESP_OK) {
@@ -809,6 +843,7 @@ void app_main(void)
     esp_err_t err;
 
     ESP_LOGI(TAG, "Initializing...");
+
     board_init();
 
     err = nvs_flash_init();
@@ -817,7 +852,6 @@ void app_main(void)
         err = nvs_flash_init();
     }
     ESP_ERROR_CHECK(err);
-
     /****/
     esp_console_repl_t *repl = NULL;
     esp_console_repl_config_t repl_config = ESP_CONSOLE_REPL_CONFIG_DEFAULT();
@@ -844,7 +878,6 @@ void app_main(void)
     ESP_ERROR_CHECK(esp_console_start_repl(repl));
 
     /***/
-
     err = bluetooth_init();
     if (err) {
         ESP_LOGE(TAG, "esp32_bluetooth_init failed (err %d)", err);
@@ -856,7 +889,6 @@ void app_main(void)
     if (err) {
         return;
     }
-
 
     ble_mesh_get_dev_uuid(dev_uuid);
 

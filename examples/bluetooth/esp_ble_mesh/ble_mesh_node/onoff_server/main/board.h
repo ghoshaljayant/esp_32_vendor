@@ -13,29 +13,47 @@
 #include "driver/gpio.h"
 
 #if defined(CONFIG_BLE_MESH_ESP_WROOM_32)
-#define RELAY_1 GPIO_NUM_16
-#define RELAY_2 GPIO_NUM_4
-#define RELAY_3 GPIO_NUM_27
+#define RELAY_1 GPIO_NUM_26
+#define RELAY_2 GPIO_NUM_25
+#define RELAY_3 GPIO_NUM_33
+#define RELAY_4 GPIO_NUM_32
+#define RELAY_5 GPIO_NUM_19
+#define RELAY_6 GPIO_NUM_21
 #elif defined(CONFIG_BLE_MESH_ESP_WROVER)
 #define RELAY_1 GPIO_NUM_0
 #define RELAY_2 GPIO_NUM_2
 #define RELAY_3 GPIO_NUM_4
+#define RELAY_4 GPIO_NUM_32
+#define RELAY_5 GPIO_NUM_19
+#define RELAY_6 GPIO_NUM_21
 #elif defined(CONFIG_BLE_MESH_ESP32C3_DEV)
 #define RELAY_1 GPIO_NUM_8
 #define RELAY_2 GPIO_NUM_8
 #define RELAY_3 GPIO_NUM_8
+#define RELAY_4 GPIO_NUM_32
+#define RELAY_5 GPIO_NUM_19
+#define RELAY_6 GPIO_NUM_21
 #elif defined(CONFIG_BLE_MESH_ESP32S3_DEV)
 #define RELAY_1 GPIO_NUM_47
 #define RELAY_2 GPIO_NUM_47
 #define RELAY_3 GPIO_NUM_47
+#define RELAY_4 GPIO_NUM_32
+#define RELAY_5 GPIO_NUM_19
+#define RELAY_6 GPIO_NUM_21
 #elif defined(CONFIG_BLE_MESH_ESP32C6_DEV)
 #define RELAY_1 GPIO_NUM_8
 #define RELAY_2 GPIO_NUM_8
 #define RELAY_3 GPIO_NUM_8
+#define RELAY_4 GPIO_NUM_32
+#define RELAY_5 GPIO_NUM_19
+#define RELAY_6 GPIO_NUM_21
 #elif defined(CONFIG_BLE_MESH_ESP32H2_DEV)
 #define RELAY_1 GPIO_NUM_8
 #define RELAY_2 GPIO_NUM_8
 #define RELAY_3 GPIO_NUM_8
+#define RELAY_4 GPIO_NUM_32
+#define RELAY_5 GPIO_NUM_19
+#define RELAY_6 GPIO_NUM_21
 #endif
 
 #define STATE_ON  1

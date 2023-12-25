@@ -12,14 +12,24 @@
 #include "driver/gpio.h"
 #include "esp_log.h"
 #include "board.h"
+#include "iot_button.h"
+
 
 #define TAG "BOARD"
 
+#define BUTTON_IO_NUM           0
+#define BUTTON_ACTIVE_LEVEL     0
+
+
 struct _relay_state relay_state[3] = {
     { STATE_OFF, STATE_OFF, RELAY_1, "relay1"   },
-    { STATE_OFF, STATE_OFF, RELAY_2, "relay2" },
-    { STATE_OFF, STATE_OFF, RELAY_3, "relay3"  },
+    { STATE_OFF, STATE_OFF, RELAY_2, "relay2"   },
+    { STATE_OFF, STATE_OFF, RELAY_3, "relay3"   },
+    { STATE_OFF, STATE_OFF, RELAY_4, "relay4"   },
+    { STATE_OFF, STATE_OFF, RELAY_5, "relay5"   },
+    { STATE_OFF, STATE_OFF, RELAY_6, "relay6"   },
 };
+
 
 void board_relay_operation(uint8_t pin, uint8_t onoff)
 {
@@ -65,6 +75,13 @@ bool get_gpio_onoff(uint8_t pin)
     return gpio_get_level(pin);
 }
 
+static void button_tap_cb(void* arg)
+{
+    ESP_LOGI(TAG, "tap cb (%s)", (char *)arg);
+
+}
+
+
 static void board_relay_init(void)
 {
     int count = CONFIG_GPIO_RELAY_COUNT;
@@ -76,8 +93,18 @@ static void board_relay_init(void)
     }
 }
 
+static void board_button_init(void)
+{
+    button_handle_t btn_handle = iot_button_create(BUTTON_IO_NUM, BUTTON_ACTIVE_LEVEL);
+    if (btn_handle) {
+        iot_button_set_evt_cb(btn_handle, BUTTON_CB_RELEASE, button_tap_cb, "RELEASE");
+    }
+}
+
+
 static void board_led_init(void)
 {
+    board_button_init();
     gpio_reset_pin(GPIO_NUM_2);
     gpio_set_direction(GPIO_NUM_2, GPIO_MODE_OUTPUT);
 }
