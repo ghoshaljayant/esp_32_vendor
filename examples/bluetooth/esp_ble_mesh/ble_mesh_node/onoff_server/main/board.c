@@ -38,7 +38,7 @@ void board_relay_operation(uint8_t pin, uint8_t onoff)
         if (relay_state[i].pin != pin) {
             continue;
         }
-        if (onoff == relay_state[i].previous) {
+        if (onoff == relay_state[i].current) {
             ESP_LOGW(TAG, "realy %s is already %s",
                      relay_state[i].name, (onoff ? "on" : "off"));
             return;
@@ -46,7 +46,8 @@ void board_relay_operation(uint8_t pin, uint8_t onoff)
         ESP_LOGI(TAG, "changing state of %s to %s",
                     relay_state[i].name, (onoff ? "on" : "off"));
         gpio_set_level(pin, onoff);
-        relay_state[i].previous = onoff;
+        relay_state[i].current = onoff;
+        relay_state[i].previous = (onoff == STATE_ON ? STATE_OFF : STATE_ON);
         return;
     }
 
@@ -97,7 +98,10 @@ bool get_gpio_onoff(uint8_t pin)
 static void button_tap_cb(void* arg)
 {
     ESP_LOGI(TAG, "tap cb (%s)", (char *)arg);
-    toggle_board_relay_operation(relay_state[0].pin);
+
+    for(int i =0; i < CONFIG_GPIO_RELAY_COUNT; ++i){
+        toggle_board_relay_operation(relay_state[i].pin);
+    }
 }
 
 
