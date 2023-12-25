@@ -108,6 +108,7 @@ static void button_tap_cb(void* arg)
 static void board_relay_init(void)
 {
     for (int i = 0; i < CONFIG_GPIO_RELAY_COUNT; i++) {
+        ESP_LOGI(TAG, "%s : Initializing gpio relay for pin no: 0x%02x", __func__, relay_state[i].pin);
         gpio_reset_pin(relay_state[i].pin);
         gpio_set_direction(relay_state[i].pin, GPIO_MODE_OUTPUT);
         gpio_set_level(relay_state[i].pin, STATE_OFF);
