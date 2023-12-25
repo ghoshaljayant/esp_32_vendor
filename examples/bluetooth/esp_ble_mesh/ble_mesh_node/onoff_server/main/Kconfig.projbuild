@@ -35,7 +35,7 @@ menu "Example Configuration"
 
         config GPIO_RELAY_COUNT
             int "number of relays connected through gpio"
-            default 2
+            default 6
             
     endchoice
 

@@ -20,8 +20,9 @@
 #define BUTTON_IO_NUM           0
 #define BUTTON_ACTIVE_LEVEL     0
 
+extern void relay_onoff_set(uint8_t pin, uint8_t onoff);
 
-struct _relay_state relay_state[3] = {
+struct _relay_state relay_state[CONFIG_GPIO_RELAY_COUNT] = {
     { STATE_OFF, STATE_OFF, RELAY_1, "relay1"   },
     { STATE_OFF, STATE_OFF, RELAY_2, "relay2"   },
     { STATE_OFF, STATE_OFF, RELAY_3, "relay3"   },
@@ -33,7 +34,7 @@ struct _relay_state relay_state[3] = {
 
 void board_relay_operation(uint8_t pin, uint8_t onoff)
 {
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < CONFIG_GPIO_RELAY_COUNT; ++i) {
         if (relay_state[i].pin != pin) {
             continue;
         }
@@ -46,6 +47,24 @@ void board_relay_operation(uint8_t pin, uint8_t onoff)
                     relay_state[i].name, (onoff ? "on" : "off"));
         gpio_set_level(pin, onoff);
         relay_state[i].previous = onoff;
+        return;
+    }
+
+    ESP_LOGE(TAG, "relay is not found!");
+}
+
+void toggle_board_relay_operation(uint8_t pin)
+{
+    for (int i = 0; i < CONFIG_GPIO_RELAY_COUNT; ++i) {
+        if (relay_state[i].pin != pin) {
+            continue;
+        }
+        if (relay_state[i].current == STATE_ON) {
+            board_relay_operation(pin, STATE_OFF);
+            return;
+        }else{
+            board_relay_operation(pin, STATE_ON);
+        }
         return;
     }
 
@@ -78,14 +97,13 @@ bool get_gpio_onoff(uint8_t pin)
 static void button_tap_cb(void* arg)
 {
     ESP_LOGI(TAG, "tap cb (%s)", (char *)arg);
-
+    toggle_board_relay_operation(relay_state[0].pin);
 }
 
 
 static void board_relay_init(void)
 {
-    int count = CONFIG_GPIO_RELAY_COUNT;
-    for (int i = 0; i < count; i++) {
+    for (int i = 0; i < CONFIG_GPIO_RELAY_COUNT; i++) {
         gpio_reset_pin(relay_state[i].pin);
         gpio_set_direction(relay_state[i].pin, GPIO_MODE_OUTPUT);
         gpio_set_level(relay_state[i].pin, STATE_OFF);

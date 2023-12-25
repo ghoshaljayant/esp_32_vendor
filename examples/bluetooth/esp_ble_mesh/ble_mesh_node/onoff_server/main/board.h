@@ -67,6 +67,7 @@ struct _relay_state {
 };
 
 void board_relay_operation(uint8_t pin, uint8_t onoff);
+void toggle_board_relay_operation(uint8_t pin);
 
 void board_init(void);
 

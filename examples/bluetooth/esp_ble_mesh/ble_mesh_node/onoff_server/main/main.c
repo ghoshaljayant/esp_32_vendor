@@ -129,6 +129,11 @@ struct ble_mesh_group_address address_array[7]={
     {0xC006, 0xC000, "NVS_GROUP6_ADD"    },
 };
 
+void relay_onoff_set(uint8_t pin, uint8_t onoff)
+{
+    board_relay_operation(pin, onoff);
+}
+
 static void prov_complete(uint16_t net_idx, uint16_t addr, uint8_t flags, uint32_t iv_index)
 {
     ESP_LOGI(TAG, "net_idx: 0x%04x, addr: 0x%04x", net_idx, addr);
