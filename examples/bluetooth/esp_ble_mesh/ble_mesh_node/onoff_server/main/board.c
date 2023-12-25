@@ -23,12 +23,12 @@
 extern void relay_onoff_set(uint8_t pin, uint8_t onoff);
 
 struct _relay_state relay_state[CONFIG_GPIO_RELAY_COUNT] = {
-    { STATE_OFF, STATE_OFF, RELAY_1, "relay1"   },
-    { STATE_OFF, STATE_OFF, RELAY_2, "relay2"   },
-    { STATE_OFF, STATE_OFF, RELAY_3, "relay3"   },
-    { STATE_OFF, STATE_OFF, RELAY_4, "relay4"   },
-    { STATE_OFF, STATE_OFF, RELAY_5, "relay5"   },
-    { STATE_OFF, STATE_OFF, RELAY_6, "relay6"   },
+    { STATE_OFF, STATE_OFF, RELAY_1, "relay1", 0xC000   },
+    { STATE_OFF, STATE_OFF, RELAY_2, "relay2", 0xC001   },
+    { STATE_OFF, STATE_OFF, RELAY_3, "relay3", 0xC002   },
+    { STATE_OFF, STATE_OFF, RELAY_4, "relay4", 0xC003   },
+    { STATE_OFF, STATE_OFF, RELAY_5, "relay5", 0xC004   },
+    { STATE_OFF, STATE_OFF, RELAY_6, "relay6", 0xC005   },
 };
 
 
@@ -126,14 +126,14 @@ static void board_button_init(void)
 
 
 static void board_led_init(void)
-{
-    board_button_init();
+{    
     gpio_reset_pin(GPIO_NUM_2);
     gpio_set_direction(GPIO_NUM_2, GPIO_MODE_OUTPUT);
 }
 
 void board_init(void)
 {
+    board_button_init();
     board_relay_init();
     board_led_init();
 }

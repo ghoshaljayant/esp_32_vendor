@@ -55,6 +55,9 @@ struct _gpio_btn_state {
     uint16_t address;
 };
 
+void set_self_led_on(uint8_t onoff);
+
+bool is_self_led_on();
 void board_relay_operation(uint8_t pin, uint8_t onoff);
 
 void board_init(void);

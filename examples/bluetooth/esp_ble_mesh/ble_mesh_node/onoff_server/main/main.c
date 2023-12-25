@@ -148,24 +148,6 @@ static void prov_complete(uint16_t net_idx, uint16_t addr, uint8_t flags, uint32
             ESP_LOGE(TAG, "In %s, subscribing to group address 0x%04x failed !", __func__, group_add);
         }
     }
-    
-    // uint16_t group_add = 0xC000;//getuint16_val("NVS_GROUP_ADD",CONFIG_GROUP_ADD);
-    // esp_err_t ret = esp_ble_mesh_model_subscribe_group_addr(addr, BLE_MESH_CID_NVAL, ESP_BLE_MESH_MODEL_ID_GEN_ONOFF_SRV, group_add);
-    // uint16_t group_add1 = 0xC001; //getuint16_val("NVS_GROUP1_ADD",CONFIG_GROUP1_ADD);
-    // esp_err_t ret1 = esp_ble_mesh_model_subscribe_group_addr(addr, BLE_MESH_CID_NVAL, ESP_BLE_MESH_MODEL_ID_GEN_ONOFF_SRV, group_add1);
-    // uint16_t group_add2 = 0xC002; //getuint16_val("NVS_GROUP2_ADD",CONFIG_GROUP2_ADD);
-    // esp_err_t ret2 = esp_ble_mesh_model_subscribe_group_addr(addr, BLE_MESH_CID_NVAL, ESP_BLE_MESH_MODEL_ID_GEN_ONOFF_SRV, group_add2);
-    // uint16_t group_add3 = 0xC003; //getuint16_val("NVS_GROUP3_ADD",CONFIG_GROUP3_ADD);
-    // esp_err_t ret3 = esp_ble_mesh_model_subscribe_group_addr(addr, BLE_MESH_CID_NVAL, ESP_BLE_MESH_MODEL_ID_GEN_ONOFF_SRV, group_add3);
-
-    // if (ret && ret1 && ret2 && ret3 != ESP_OK){
-    //     ESP_LOGE(TAG, "In %s, subscribing to group address 0x%04x %s !", __func__, group_add,  ret  == ESP_OK ? "succeded":"failed");
-    //     ESP_LOGE(TAG, "In %s, subscribing to group address 0x%04x %s !", __func__, group_add1, ret1 == ESP_OK ? "succeded":"failed");
-    //     ESP_LOGE(TAG, "In %s, subscribing to group address 0x%04x %s !", __func__, group_add2, ret2 == ESP_OK ? "succeded":"failed");
-    //     ESP_LOGE(TAG, "In %s, subscribing to group address 0x%04x %s !", __func__, group_add3, ret3 == ESP_OK ? "succeded":"failed");
-    // }else{
-        
-    // }
     set_self_led_on(STATE_ON);
 }
 
@@ -199,9 +181,12 @@ static void example_change_relay_state(esp_ble_mesh_model_t *model,
         ESP_LOGI(TAG,"group  ---- primary_addr --- 0x%04x ", primary_addr);
 
         if (esp_ble_mesh_is_model_subscribed_to_group(model, ctx->recv_dst)) {
-            relay = &relay_state[model->element->element_addr - primary_addr];
-            board_relay_operation(relay->pin, onoff);
-            set_self_led_on(onoff);
+            for(int relay_index = 0; relay_index < 7 ; ++relay_index){
+                if(relay_state[relay_index].address == ctx->recv_dst){
+                    toggle_board_relay_operation(relay_state[relay_index].pin);
+                    break;
+                }
+            }
         }
     } else if (ctx->recv_dst == 0xFFFF) {
         ESP_LOGI(TAG,"ffff  ----  ---");
