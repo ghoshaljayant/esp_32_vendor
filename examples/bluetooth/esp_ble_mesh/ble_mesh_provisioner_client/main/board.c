@@ -75,6 +75,17 @@ static void board_relay_init(void)
     }
 }
 
+void set_self_led_on(uint8_t onoff)
+{
+    ESP_LOGI(TAG, "set_self_led_on 0x%02x", onoff);
+    gpio_set_level(GPIO_NUM_2, onoff);
+}
+
+bool is_self_led_on()
+{
+    return gpio_get_level(GPIO_NUM_2) == 1 ? true : false;
+}
+
 #define BUTTON_TOP_CENTER   13
 
 #define BUTTON_LEFT_TOP     33
@@ -97,12 +108,16 @@ struct _gpio_btn_state btn_GPIO_Array[7] = {
 
 static void button_tap_cb(void* arg)
 {
-    ESP_LOGI(TAG, "tap cb %s", (char *)btn_GPIO_Array[(int)arg].msg);
-    example_ble_mesh_send_gen_onoff_set(btn_GPIO_Array[(int)arg].address);
+    int btn_index = (int)arg;
+    ESP_LOGI(TAG, "tap cb %s", (char *)btn_GPIO_Array[btn_index].msg);
+    example_ble_mesh_send_gen_onoff_set(btn_GPIO_Array[btn_index].address);
 }
 
 static void board_button_init(void)
 {
+    // initializing in-built board button
+    iot_button_set_evt_cb(iot_button_create(0, BUTTON_ACTIVE_LEVEL), BUTTON_CB_RELEASE, button_tap_cb, 2);
+
     size_t array_length = 7;
     for(int index=0; index < array_length; ++index){
         button_handle_t btn_handle = iot_button_create(btn_GPIO_Array[index].pin, BUTTON_ACTIVE_LEVEL);
@@ -112,8 +127,15 @@ static void board_button_init(void)
     }
 }
 
+static void board_led_init(void)
+{    
+    gpio_reset_pin(GPIO_NUM_2);
+    gpio_set_direction(GPIO_NUM_2, GPIO_MODE_OUTPUT);
+}
+
 void board_init(void)
 {
     board_relay_init();
     board_button_init();
+    board_led_init();
 }
