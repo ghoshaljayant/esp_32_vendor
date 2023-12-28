@@ -309,7 +309,9 @@ void app_main(void)
         err = nvs_flash_init();
     }
     ESP_ERROR_CHECK(err);
-    /****/
+
+    /**Registering console support START**/
+    
     esp_console_repl_t *repl = NULL;
     esp_console_repl_config_t repl_config = ESP_CONSOLE_REPL_CONFIG_DEFAULT();
     /* Prompt to be printed before each line.
@@ -334,7 +336,8 @@ void app_main(void)
 
     ESP_ERROR_CHECK(esp_console_start_repl(repl));
 
-    /***/
+    /**Registering console support END**/
+
     err = bluetooth_init();
     if (err) {
         ESP_LOGE(TAG, "esp32_bluetooth_init failed (err %d)", err);

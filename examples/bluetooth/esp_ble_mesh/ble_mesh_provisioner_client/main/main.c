@@ -118,7 +118,7 @@ ESP_BLE_MESH_MODEL_PUB_DEFINE(onoff_cli_pub, 2 + 1, ROLE_NODE);
 static esp_ble_mesh_model_t root_models[] = {
     ESP_BLE_MESH_MODEL_CFG_SRV(&config_server),
     ESP_BLE_MESH_MODEL_CFG_CLI(&config_client),
-    ESP_BLE_MESH_MODEL_GEN_ONOFF_CLI(NULL, &onoff_client),
+    ESP_BLE_MESH_MODEL_GEN_ONOFF_CLI(&onoff_cli_pub, &onoff_client),
 };
 
 static esp_ble_mesh_elem_t elements[] = {
@@ -807,7 +807,7 @@ static esp_err_t ble_mesh_init(void)
     esp_ble_mesh_register_prov_callback(example_ble_mesh_provisioning_cb);
     esp_ble_mesh_register_config_client_callback(example_ble_mesh_config_client_cb);
     esp_ble_mesh_register_generic_client_callback(example_ble_mesh_generic_client_cb);
-    esp_ble_mesh_register_config_server_callback(example_ble_mesh_config_server_cb);
+    // esp_ble_mesh_register_config_server_callback(example_ble_mesh_config_server_cb);
 
     err = esp_ble_mesh_init(&provision, &composition);
     if (err != ESP_OK) {
@@ -836,10 +836,6 @@ static esp_err_t ble_mesh_init(void)
     ESP_LOGI(TAG, "BLE Mesh Provisioner initialized");
 
     return err;
-}
-
-void self_provision(){
-
 }
 
 void app_main(void)
@@ -901,9 +897,5 @@ void app_main(void)
     if (err) {
         ESP_LOGE(TAG, "Bluetooth mesh init failed (err %d)", err);
     }
-
-#if CONFIG_BLE_MESH_NODE && CONFIG_BLE_MESH_PROVISIONER
-    self_provision();
-#endif
 
 }
