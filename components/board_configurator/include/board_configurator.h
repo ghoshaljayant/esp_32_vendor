@@ -11,7 +11,6 @@
 #define _BOARD_H_
 
 #include "driver/gpio.h"
-#include "esp_ble_mesh_defs.h"
 
 #if defined(CONFIG_BLE_MESH_ESP_WROOM_32)
 #define BUTTON_TOP_CENTER   GPIO_NUM_13
