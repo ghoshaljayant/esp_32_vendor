@@ -23,7 +23,7 @@
 #include "cmd_nvs.h"
 #include "nvs_configurator.h"
 
-#include "board.h"
+#include "board_configurator.h"
 #include "ble_mesh_example_init.h"
 #include "ble_mesh_example_nvs.h"
 
@@ -174,7 +174,12 @@ static void example_ble_mesh_provisioning_cb(esp_ble_mesh_prov_cb_event_t event,
     }
 }
 
-void example_ble_mesh_send_gen_onoff_set(uint16_t address)
+
+void board_configurator_relay_send_gen_onoff_set(uint8_t pin, uint8_t onoff)
+{
+}
+
+void board_configurator_ble_mesh_send_gen_onoff_set(uint16_t address)
 {
     ESP_LOGI(TAG,"address : 0x%04x", address);
     esp_ble_mesh_generic_client_set_state_t set = {0};

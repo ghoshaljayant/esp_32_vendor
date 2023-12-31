@@ -25,7 +25,7 @@
 #include "cmd_nvs.h"
 #include "nvs_configurator.h"
 
-#include "board.h"
+#include "board_configurator.h"
 #include "ble_mesh_example_init.h"
 
 #define TAG "BLE_MESH_SERVER"
@@ -129,9 +129,14 @@ struct ble_mesh_group_address address_array[7]={
     {0xC006, 0xC000, "NVS_GROUP6_ADD"    },
 };
 
-void relay_onoff_set(uint8_t pin, uint8_t onoff)
+void board_configurator_relay_send_gen_onoff_set(uint8_t pin, uint8_t onoff)
 {
     board_relay_operation(pin, onoff);
+}
+
+void board_configurator_ble_mesh_send_gen_onoff_set(uint16_t address)
+{
+    
 }
 
 static void prov_complete(uint16_t net_idx, uint16_t addr, uint8_t flags, uint32_t iv_index)
