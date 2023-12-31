@@ -1,0 +1,3 @@
+path,package_name
+ROOT/examples/bluetooth/esp_ble_mesh/ble_mesh_vendor_model/vendor_server/,vendor_server
+ROOT/examples/bluetooth/esp_ble_mesh/ble_mesh_vendor_model/vendor_client/,vendor_client
