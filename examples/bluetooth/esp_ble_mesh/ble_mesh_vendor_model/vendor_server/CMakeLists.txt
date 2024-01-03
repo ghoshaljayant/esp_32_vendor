@@ -2,7 +2,8 @@
 # in this exact order for cmake to work correctly
 cmake_minimum_required(VERSION 3.16)
 
-set(EXTRA_COMPONENT_DIRS $ENV{IDF_PATH}/examples/bluetooth/esp_ble_mesh/common_components/example_init)
+set(EXTRA_COMPONENT_DIRS $ENV{IDF_PATH}/examples/bluetooth/esp_ble_mesh/common_components/example_init
+                         $ENV{VENDOR_COMPONENTS}/board_configurator)
 
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
 project(vendor_server)
