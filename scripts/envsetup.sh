@@ -63,7 +63,6 @@ echo -e "----------------------"
 [[ ! -d $CSV_SCRIPT_PATH ]] && 
 
 set_alias esp "cd $EROOT"
-set_alias examples "cd $IDF_EXAMPLE_PACKAGE"
 set_alias build.sh "source $STANDALONE_SCRIPT_PATH/build.sh"
 set_alias build_all.sh "source $STANDALONE_SCRIPT_PATH/build_all.sh"
 set_alias flash.sh "source $STANDALONE_SCRIPT_PATH/flash.sh"
