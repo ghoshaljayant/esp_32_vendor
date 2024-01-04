@@ -24,6 +24,7 @@
 #include "esp_ble_mesh_local_data_operation_api.h"
 #include "cmd_nvs.h"
 #include "nvs_configurator.h"
+#include "board_configurator.h"
 
 #include "ble_mesh_example_init.h"
 
