@@ -27,6 +27,7 @@
 #include "board_configurator.h"
 
 #include "ble_mesh_example_init.h"
+#include "ble_mesh_example_nvs.h"
 
 #define TAG "ESP_BLE_PROVISIONER"
 
@@ -48,7 +49,22 @@
 #define APP_KEY_IDX         0x0000
 #define APP_KEY_OCTET       0x12
 
+static nvs_handle_t NVS_HANDLE;
+static const char * NVS_KEY = "onoff_client";
+
 static uint8_t dev_uuid[16];
+
+static struct example_info_store {
+    uint16_t net_idx;   /* NetKey Index */
+    uint16_t app_idx;   /* AppKey Index */
+    uint8_t  onoff;     /* Remote OnOff */
+    uint8_t  tid;       /* Message TID */
+} __attribute__((packed)) store = {
+    .net_idx = ESP_BLE_MESH_KEY_UNUSED,
+    .app_idx = ESP_BLE_MESH_KEY_UNUSED,
+    .onoff = STATE_OFF,
+    .tid = 0x0,
+};
 
 int device_count = 0;
 uint16_t other_node_model_id;
@@ -96,10 +112,12 @@ static esp_ble_mesh_cfg_srv_t config_server = {
     .relay_retransmit = ESP_BLE_MESH_TRANSMIT(2, 20),
 };
 
+ESP_BLE_MESH_MODEL_PUB_DEFINE(onoff_cli_pub, 2 + 1, ROLE_PROVISIONER);
+
 static esp_ble_mesh_model_t root_models[] = {
     ESP_BLE_MESH_MODEL_CFG_SRV(&config_server),
     ESP_BLE_MESH_MODEL_CFG_CLI(&config_client),
-    ESP_BLE_MESH_MODEL_GEN_ONOFF_CLI(NULL, &onoff_client),
+    ESP_BLE_MESH_MODEL_GEN_ONOFF_CLI(&onoff_cli_pub, &onoff_client),
 };
 
 static esp_ble_mesh_elem_t elements[] = {
@@ -153,6 +171,11 @@ typedef struct {
 
 esp_ble_mesh_composition_head head = {0};
 esp_ble_mesh_composition_decode data = {0};
+
+static void mesh_example_info_store(void)
+{
+    ble_mesh_nvs_store(NVS_HANDLE, NVS_KEY, &store, sizeof(store));
+}
 
 uint8_t* hexStringToUint8Array(const char* hexString, size_t* arraySize) {
     size_t len = strlen(hexString);
@@ -438,6 +461,43 @@ static void example_ble_mesh_provisioning_cb(esp_ble_mesh_prov_cb_event_t event,
     return;
 }
 
+
+void board_configurator_relay_send_gen_onoff_set(uint8_t pin, uint8_t onoff)
+{
+}
+
+void board_configurator_ble_mesh_send_gen_onoff_set(uint16_t address)
+{
+    ESP_LOGI(TAG,"address : 0x%04x", address);
+
+
+    esp_ble_mesh_generic_client_set_state_t set = {0};
+    esp_ble_mesh_client_common_param_t common = {0};
+    esp_err_t err = ESP_OK;
+
+    common.opcode = ESP_BLE_MESH_MODEL_OP_GEN_ONOFF_SET_UNACK;
+    common.model = onoff_client.model;
+
+    common.ctx.net_idx = prov_key.net_idx;
+    common.ctx.app_idx = prov_key.app_idx;
+
+    common.ctx.addr = address; /*getuint16_val("NVS_GROUP_ADD", CONFIG_GROUP_ADD);    to all nodes TODO: here we can provide BROADCAST/MULTICAST address or GROUP address*/
+    common.ctx.send_ttl = 3;
+    common.ctx.send_rel = false;
+    common.msg_timeout = 0;     /* 0 indicates that timeout value from menuconfig will be used */
+    common.msg_role = ROLE_PROVISIONER;
+
+    set.onoff_set.op_en = false;
+    set.onoff_set.onoff = 0;
+    set.onoff_set.tid = store.tid++;
+
+    err = esp_ble_mesh_generic_client_set_state(&common, &set);
+    if (err) {
+        ESP_LOGE(TAG, "Send Generic OnOff Set Unack failed");
+        return;
+    }
+
+}
 
 /**
  * Configuration model callback for fetching composition data and binding keys
@@ -782,6 +842,8 @@ void app_main(void)
     }
 
     ble_mesh_get_dev_uuid(dev_uuid);
+
+    board_init();
 
     /* Initialize the Bluetooth Mesh Subsystem */
     err = ble_mesh_init();

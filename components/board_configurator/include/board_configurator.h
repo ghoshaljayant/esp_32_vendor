@@ -12,6 +12,7 @@
 
 #include "driver/gpio.h"
 
+#define BUTTON_INBUILT_BOARD   0
 #define BUTTON_TOP_CENTER   GPIO_NUM_13
 #define BUTTON_LEFT_TOP     GPIO_NUM_33
 #define BUTTON_LEFT_CENTER  GPIO_NUM_26

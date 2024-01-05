@@ -43,6 +43,8 @@ struct _gpio_btn_state btn_GPIO_Array[8] = {
     { BUTTON_RIGHT_BOTTOM,  "BUTTON_RIGHT_BOTTOM",   0xC001},
 };
 
+struct _gpio_btn_state btn_board_inbuilt  = { BUTTON_INBUILT_BOARD,    "BOARD_BUTTON",     0xC001};
+
 void board_relay_operation(uint8_t pin, uint8_t onoff)
 {
     for (int i = 0; i < 8; ++i) {
@@ -97,7 +99,14 @@ bool is_self_led_on()
 static void button_tap_cb(void* arg)
 {
     ESP_LOGI(TAG, "tap cb %s", (char *)btn_GPIO_Array[(int)arg].msg);
-    board_configurator_ble_mesh_send_gen_onoff_set(btn_GPIO_Array[(int)arg].address);
+
+    int index = (int)arg;
+
+    if(index != -1){
+        board_configurator_ble_mesh_send_gen_onoff_set(btn_GPIO_Array[(int)arg].address);
+    }else{
+        board_configurator_ble_mesh_send_gen_onoff_set(btn_board_inbuilt.address);
+    }
 }
 
 static void board_relay_init(void)
@@ -119,6 +128,11 @@ static void board_button_init(void)
         if (btn_handle) {
             iot_button_set_evt_cb(btn_handle, BUTTON_CB_RELEASE, button_tap_cb, index);
         }
+    }
+
+    button_handle_t btn_handle = iot_button_create(btn_board_inbuilt.pin, BUTTON_ACTIVE_LEVEL);
+    if (btn_handle) {
+        iot_button_set_evt_cb(btn_handle, BUTTON_CB_RELEASE, button_tap_cb, -1);
     }
 }
 
