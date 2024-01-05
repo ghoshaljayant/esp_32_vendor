@@ -54,4 +54,6 @@ bool get_gpio_onoff(uint8_t pin);
 void set_self_led_on(uint8_t onoff);
 bool is_self_led_on();
 void board_init(void);
+void board_button_init(void);
+void board_relay_init(void);
 #endif

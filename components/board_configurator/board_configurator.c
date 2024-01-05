@@ -109,7 +109,7 @@ static void button_tap_cb(void* arg)
     }
 }
 
-static void board_relay_init(void)
+void board_relay_init(void)
 {
     for (int i = 0; i < 8; i++) {
         ESP_LOGI(TAG, "%s : Initializing gpio relay for pin no: 0x%02x", __func__, relay_state[i].pin);
@@ -120,7 +120,7 @@ static void board_relay_init(void)
     }
 }
 
-static void board_button_init(void)
+void board_button_init(void)
 {
     size_t array_length = 7;
     for(int index=0; index < array_length; ++index){
@@ -129,14 +129,17 @@ static void board_button_init(void)
             iot_button_set_evt_cb(btn_handle, BUTTON_CB_RELEASE, button_tap_cb, index);
         }
     }
+}
 
+static void board_self_button_init(void)
+{
     button_handle_t btn_handle = iot_button_create(btn_board_inbuilt.pin, BUTTON_ACTIVE_LEVEL);
     if (btn_handle) {
         iot_button_set_evt_cb(btn_handle, BUTTON_CB_RELEASE, button_tap_cb, -1);
     }
 }
 
-static void board_led_init(void)
+static void board_self_led_init(void)
 {    
     gpio_reset_pin(GPIO_NUM_2);
     gpio_set_direction(GPIO_NUM_2, GPIO_MODE_OUTPUT);
@@ -144,7 +147,6 @@ static void board_led_init(void)
 
 void board_init(void)
 {
-    board_relay_init();
-    board_button_init();
-    board_led_init();
+    board_self_button_init();
+    board_self_led_init();
 }

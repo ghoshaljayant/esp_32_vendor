@@ -374,6 +374,7 @@ void app_main(void)
     ESP_LOGI(TAG, "Initializing...");
 
     board_init();
+    board_relay_init();
 
     err = nvs_flash_init();
     if (err == ESP_ERR_NVS_NO_FREE_PAGES) {
