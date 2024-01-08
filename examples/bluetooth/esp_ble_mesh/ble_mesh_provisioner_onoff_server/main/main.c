@@ -14,16 +14,23 @@
 #include "esp_log.h"
 #include "nvs_flash.h"
 
+#include "esp_console.h"
 #include "esp_ble_mesh_defs.h"
 #include "esp_ble_mesh_common_api.h"
 #include "esp_ble_mesh_provisioning_api.h"
 #include "esp_ble_mesh_networking_api.h"
 #include "esp_ble_mesh_config_model_api.h"
 #include "esp_ble_mesh_generic_model_api.h"
+#include "esp_ble_mesh_local_data_operation_api.h"
+#include "cmd_nvs.h"
+#include "nvs_configurator.h"
+#include "board_configurator.h"
 
 #include "ble_mesh_example_init.h"
+#include "ble_mesh_example_nvs.h"
 
-#define TAG "EXAMPLE"
+#define TAG "ESP_BLE_PROVISIONER"
+
 
 #define LED_OFF             0x0
 #define LED_ON              0x1
@@ -33,6 +40,7 @@
 #define PROV_OWN_ADDR       0x0001
 
 #define MSG_SEND_TTL        3
+#define MSG_SEND_REL        false
 #define MSG_TIMEOUT         0
 #define MSG_ROLE            ROLE_PROVISIONER
 
@@ -42,7 +50,9 @@
 #define APP_KEY_OCTET       0x12
 
 static uint8_t dev_uuid[16];
-static uint8_t node_uuid[16] = { 0xdd, 0xdd };
+
+int device_count = 0;
+uint16_t other_node_model_id;
 
 typedef struct {
     uint8_t  uuid[16];
@@ -104,7 +114,6 @@ static esp_ble_mesh_comp_t composition = {
 };
 
 static esp_ble_mesh_prov_t provision = {
-    .uuid                = node_uuid,
     .prov_uuid           = dev_uuid,
     .prov_unicast_addr   = PROV_OWN_ADDR,
     .prov_start_address  = 0x0005,
@@ -116,6 +125,88 @@ static esp_ble_mesh_prov_t provision = {
     .flags               = 0x00,
     .iv_index            = 0x00,
 };
+
+typedef struct {
+    int16_t cid;
+    int16_t pid;
+    int16_t vid;
+    int16_t crpl;
+    int16_t features;
+    int16_t all_models;
+    uint8_t sig_models;
+    uint8_t vnd_models;
+} esp_ble_mesh_composition_head;
+
+typedef struct {
+    uint16_t model_id;
+    uint16_t vendor_id;
+} tsModel;
+
+typedef struct {
+    // reserve space for up to 20 SIG models
+    uint16_t SIG_models[20];
+    uint8_t numSIGModels;
+
+    // reserve space for up to 4 vendor models
+    tsModel Vendor_models[4];
+    uint8_t numVendorModels;
+} esp_ble_mesh_composition_decode;
+
+esp_ble_mesh_composition_head head = {0};
+esp_ble_mesh_composition_decode data = {0};
+
+uint8_t* hexStringToUint8Array(const char* hexString, size_t* arraySize) {
+    size_t len = strlen(hexString);
+
+    // Check if the length of the hexadecimal string is even
+    if (len % 2 != 0) {
+        // Handle invalid input (odd-length hex string)
+        fprintf(stderr, "Invalid hex string length.\n");
+        return NULL;
+    }
+
+    *arraySize = len / 2; // Each pair of hex characters corresponds to one byte
+
+    // Allocate memory for the uint8_t array
+    uint8_t* uintArray = (uint8_t*)malloc(*arraySize * sizeof(uint8_t));
+
+    if (uintArray == NULL) {
+        // Handle memory allocation failure
+        fprintf(stderr, "Memory allocation failed.\n");
+        return NULL;
+    }
+
+    // Convert each pair of hex characters to a uint8_t value
+    for (size_t i = 0; i < *arraySize; ++i) {
+        sscanf(hexString + 2 * i, "%2hhX", &uintArray[i]);
+    }
+
+    return uintArray;
+}
+
+
+void decode_comp_data_and_get_model_ids(esp_ble_mesh_composition_head *head, esp_ble_mesh_composition_decode *data, uint8_t *mystr, int size)
+{
+    int pos_sig_base;
+    int i;
+
+    memcpy(head, mystr, sizeof(*head));
+
+    pos_sig_base = sizeof(*head) - 1;
+
+    for(i = 1; i < head->sig_models * 2; i = i + 2) {
+        data->SIG_models[i/2] = mystr[i + pos_sig_base] | (mystr[i + pos_sig_base + 1] << 8);
+
+        switch(data->SIG_models[i/2])
+        {
+            case ESP_BLE_MESH_MODEL_ID_GEN_ONOFF_SRV:
+            case ESP_BLE_MESH_MODEL_ID_GEN_ONOFF_CLI:
+                other_node_model_id = data->SIG_models[i/2];
+                printf("%d: %4.4x\n", i/2, data->SIG_models[i/2]);
+                break;
+        }
+    }
+}
 
 static esp_err_t example_ble_mesh_store_node_info(const uint8_t uuid[16], uint16_t unicast,
                                                   uint8_t elem_num, uint8_t onoff_state)
@@ -182,10 +273,9 @@ static esp_err_t example_ble_mesh_set_msg_common(esp_ble_mesh_client_common_para
     common->ctx.app_idx = prov_key.app_idx;
     common->ctx.addr = node->unicast;
     common->ctx.send_ttl = MSG_SEND_TTL;
+    common->ctx.send_rel = MSG_SEND_REL;
     common->msg_timeout = MSG_TIMEOUT;
-#if ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(5, 2, 0)
     common->msg_role = MSG_ROLE;
-#endif
 
     return ESP_OK;
 }
@@ -229,7 +319,6 @@ static esp_err_t prov_complete(int node_idx, const esp_ble_mesh_octet16_t uuid,
         ESP_LOGE(TAG, "%s: Send config comp data get failed", __func__);
         return ESP_FAIL;
     }
-
     return ESP_OK;
 }
 
@@ -276,6 +365,10 @@ static void recv_unprov_adv_pkt(uint8_t dev_uuid[16], uint8_t addr[BD_ADDR_LEN],
     return;
 }
 
+
+/**
+ * Provisioner callbacks 
+ */
 static void example_ble_mesh_provisioning_cb(esp_ble_mesh_prov_cb_event_t event,
                                              esp_ble_mesh_prov_cb_param_t *param)
 {
@@ -346,6 +439,18 @@ static void example_ble_mesh_provisioning_cb(esp_ble_mesh_prov_cb_event_t event,
     return;
 }
 
+
+void board_configurator_relay_send_gen_onoff_set(uint8_t pin, uint8_t onoff)
+{
+}
+
+void board_configurator_ble_mesh_send_gen_onoff_set(uint16_t address)
+{
+}
+
+/**
+ * Configuration model callback for fetching composition data and binding keys
+ */
 static void example_ble_mesh_config_client_cb(esp_ble_mesh_cfg_client_cb_event_t event,
                                               esp_ble_mesh_cfg_client_cb_param_t *param)
 {
@@ -376,8 +481,16 @@ static void example_ble_mesh_config_client_cb(esp_ble_mesh_cfg_client_cb_event_t
     case ESP_BLE_MESH_CFG_CLIENT_GET_STATE_EVT:
         switch (opcode) {
         case ESP_BLE_MESH_MODEL_OP_COMPOSITION_DATA_GET: {
+            
             ESP_LOGI(TAG, "composition data %s", bt_hex(param->status_cb.comp_data_status.composition_data->data,
                      param->status_cb.comp_data_status.composition_data->len));
+
+            size_t arraySize;
+            uint8_t* uintArray = hexStringToUint8Array(bt_hex(param->status_cb.comp_data_status.composition_data->data,
+                     param->status_cb.comp_data_status.composition_data->len), &arraySize);
+
+            decode_comp_data_and_get_model_ids(&head, &data, uintArray, sizeof(uintArray));
+            
             esp_ble_mesh_cfg_client_set_state_t set_state = {0};
             example_ble_mesh_set_msg_common(&common, node, config_client.model, ESP_BLE_MESH_MODEL_OP_APP_KEY_ADD);
             set_state.app_key_add.net_idx = prov_key.net_idx;
@@ -399,15 +512,16 @@ static void example_ble_mesh_config_client_cb(esp_ble_mesh_cfg_client_cb_event_t
         case ESP_BLE_MESH_MODEL_OP_APP_KEY_ADD: {
             esp_ble_mesh_cfg_client_set_state_t set_state = {0};
             example_ble_mesh_set_msg_common(&common, node, config_client.model, ESP_BLE_MESH_MODEL_OP_MODEL_APP_BIND);
-            set_state.model_app_bind.element_addr = node->unicast;
+            set_state.model_app_bind.element_addr = node-> unicast;
             set_state.model_app_bind.model_app_idx = prov_key.app_idx;
-            set_state.model_app_bind.model_id = ESP_BLE_MESH_MODEL_ID_GEN_ONOFF_SRV;
+            set_state.model_app_bind.model_id = other_node_model_id;
             set_state.model_app_bind.company_id = ESP_BLE_MESH_CID_NVAL;
             err = esp_ble_mesh_config_client_set_state(&common, &set_state);
             if (err) {
                 ESP_LOGE(TAG, "%s: Config Model App Bind failed", __func__);
                 return;
             }
+            
             break;
         }
         case ESP_BLE_MESH_MODEL_OP_MODEL_APP_BIND: {
@@ -486,6 +600,9 @@ static void example_ble_mesh_config_client_cb(esp_ble_mesh_cfg_client_cb_event_t
     }
 }
 
+/**
+ * Client on/off callback
+*/
 static void example_ble_mesh_generic_client_cb(esp_ble_mesh_generic_client_cb_event_t event,
                                                esp_ble_mesh_generic_client_cb_param_t *param)
 {
@@ -640,6 +757,33 @@ void app_main(void)
     }
     ESP_ERROR_CHECK(err);
 
+    /****/
+    esp_console_repl_t *repl = NULL;
+    esp_console_repl_config_t repl_config = ESP_CONSOLE_REPL_CONFIG_DEFAULT();
+    /* Prompt to be printed before each line.
+     * This can be customized, made dynamic, etc.
+     */
+    repl_config.prompt = CONFIG_PROMPT_STR ">";
+    repl_config.max_cmdline_length = CONFIG_CONSOLE_MAX_COMMAND_LINE_LENGTH;
+
+    /* Register commands */
+    register_nvs();
+
+#if defined(CONFIG_ESP_CONSOLE_UART_DEFAULT) || defined(CONFIG_ESP_CONSOLE_UART_CUSTOM)
+    esp_console_dev_uart_config_t hw_config = ESP_CONSOLE_DEV_UART_CONFIG_DEFAULT();
+    ESP_ERROR_CHECK(esp_console_new_repl_uart(&hw_config, &repl_config, &repl));
+
+#elif defined(CONFIG_ESP_CONSOLE_USB_CDC)
+    esp_console_dev_usb_cdc_config_t hw_config = ESP_CONSOLE_DEV_CDC_CONFIG_DEFAULT();
+    ESP_ERROR_CHECK(esp_console_new_repl_usb_cdc(&hw_config, &repl_config, &repl));
+#else
+#error Unsupported console type
+#endif
+
+    ESP_ERROR_CHECK(esp_console_start_repl(repl));
+
+    /***/
+
     err = bluetooth_init();
     if (err) {
         ESP_LOGE(TAG, "esp32_bluetooth_init failed (err %d)", err);
@@ -647,6 +791,9 @@ void app_main(void)
     }
 
     ble_mesh_get_dev_uuid(dev_uuid);
+
+    board_init();
+    board_relay_init();
 
     /* Initialize the Bluetooth Mesh Subsystem */
     err = ble_mesh_init();
